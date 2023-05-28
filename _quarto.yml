@@ -1,0 +1,65 @@
+project:
+  type: book
+
+book:
+  title: "Guía práctica para la aplicación de CRISP-DM en R"
+  subtitle: "Calidad del aire en la ciudad de Madrid"
+  author:
+    - Gema Fernández-Avilés
+    - Michal Kinel
+  date: today
+  description: |
+    Este libro ofrece una guía práctica para la aplicación de CRISP-DM (Cross-Industry Standard Process for Data Mining), un modelo de proceso de minería de datos de estándar abierto, en el análisis de datos espaciales sobre contaminación atmosférica. Centrado en el uso del lenguaje de programación R y el IDE RStudio, este libro pretende proporcionar a los lectores las herramientas necesarias para llevar a cabo análisis de datos robustos y reproducibles.
+  cover-image: cover.png
+  chapters:
+    - index.qmd
+    - chapters/001-Introduccion.qmd
+    - chapters/002-Fundamentos-CRISP-DM.qmd
+    - chapters/003-Preparacion-entorno-trabajo.qmd
+    - chapters/004-Comprension-negocio-datos.qmd
+    - chapters/005-Preparacion-datos.qmd
+    - chapters/006-modelado.qmd
+    - chapters/007-Evaluacion-validacion.qmd
+    - chapters/008-Despliegue-conclusiones.qmd
+  
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    header-includes: |
+      <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/lato" type="text/css"/>
+      <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/roboto" type="text/css"/>
+    mainfont: LatoRegular
+    monofont: RobotoRegular
+
+  pdf:
+    documentclass: scrreprt
+    cover-image: cover.png
+    mainfont: Lato
+    monofont: Roboto
+
+editor: source
+
+language:
+  label:
+    fig: 'Figura '
+    tab: 'Tabla '
+    eq: 'Ecuación '
+    thm: 'Teorema '
+    lem: 'Lema '
+    cor: 'Corolario '
+    prp: 'Proposición '
+    cnj: 'Conjetura '
+    def: 'Definición '
+    exm: 'Ejemplo '
+    exr: 'Ejercicio '
+    hyp: 'Hipótesis '
+    proof: 'Prueba. '
+    remark: 'Observación. '
+    solution: 'Solución. '
+  ui:
+    chapter_name: 'Capítulo '
+    appendix_name: 'Anexo '
+

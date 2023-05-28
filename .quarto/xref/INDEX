@@ -1,0 +1,29 @@
+{
+  "index.qmd": {
+    "index.html": "6acb762b"
+  },
+  "intro.qmd": {
+    "intro.html": "9f71bcf6"
+  },
+  "summary.qmd": {
+    "summary.html": "2c6706d5"
+  },
+  "references.qmd": {
+    "references.html": "3351cd8a"
+  },
+  "chapters/001-Motivation.qmd": {
+    "001-Motivation.html": "04e30d75"
+  },
+  "chapters/002-Rstudio.qmd": {
+    "002-Rstudio.html": "83d3a927"
+  },
+  "chapters/003-tidy.qmd": {
+    "003-tidy.html": "8ce6eecf"
+  },
+  "chapters/004-Rmarkdown.qmd": {
+    "004-Rmarkdown.html": "ca144943"
+  },
+  "chapters/005-case-study.qmd": {
+    "005-case-study.html": "213aaf23"
+  }
+}

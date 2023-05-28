@@ -1,0 +1,24 @@
+# Prologo {#prologo .unnumbered}
+
+En los últimos años, la cantidad de datos generados en todo el mundo ha crecido exponencialmente, abriendo un mundo de posibilidades para extraer conocimientos y tomar decisiones con conocimiento de causa. En este contexto, la minería de datos se ha convertido en una disciplina fundamental para descubrir patrones, tendencias y relaciones ocultas en grandes conjuntos de datos.
+
+Este libro ofrece una guía práctica para la aplicación de CRISP-DM (Cross-Industry Standard Process for Data Mining), un modelo de proceso de minería de datos de estándar abierto, en el análisis de datos espaciales sobre contaminación atmosférica. Centrado en el uso del lenguaje de programación R y el IDE RStudio, este libro pretende proporcionar a los lectores las herramientas necesarias para llevar a cabo análisis de datos robustos y reproducibles.
+
+El enfoque teórico-práctico adoptado en este libro permitirá a los lectores adquirir los conocimientos fundamentales para aplicar eficazmente las técnicas de minería de datos en el contexto de la contaminación atmosférica. Desde la comprensión de los fundamentos de CRISP-DM hasta la aplicación de modelos predictivos y la validación de los resultados, cada paso del proceso se aborda de forma clara y concisa.
+
+Uno de los puntos fuertes de esta obra es su énfasis en la reproducibilidad y la gobernanza de los datos. Se ofrecen ejemplos prácticos en R y RStudio que permiten a los lectores aplicar los conceptos teóricos y seguir el proceso de análisis de forma rigurosa y transparente. Además, se aborda el despliegue de los resultados a través de diferentes enfoques, como el desarrollo de una ShinyApp o la generación de informes reproducibles.
+
+En definitiva, este libro pretende ser una guía accesible y práctica para los interesados en la aplicación de CRISP-DM y la minería de datos espaciales en el contexto de la contaminación atmosférica. Esperamos que este libro proporcione las herramientas necesarias para comprender, analizar y abordar los retos de la calidad del aire, y que inspire a los lectores a seguir explorando nuevas aplicaciones y enfoques en este ámbito en constante evolución.
+
+¡Bienvenidos a este apasionante viaje de descubrimiento y análisis de datos sobre contaminación atmosférica utilizando CRISP-DM y el potente lenguaje de programación R!
+
+[Dra. Gema Fernández-Avilés](https://blog.uclm.es/gemafaviles/)
+[Michal Kinel](https://www.linkedin.com/in/michal-kinel/?originalSubdomain=es)
+
+
+
+## Licencia y copyright
+
+Guía práctica para la aplicación de CRISP-DM en R© 2023 de [Gema Fernández-Avilés](https://blog.uclm.es/gemafaviles/) y [Michal Kinel](https://www.linkedin.com/in/michal-kinel/?originalSubdomain=es) está licenciado bajo una [licencia de Creative Commons Reconocimiento-NoComercial-CompartirIgual 4.0 Internacional](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+
+Todos los logotipos y marcas comerciales que puedan aparecer en este texto son propiedad de sus respectivos dueños y se incluyen en este texto únicamente con fines didácticos.
