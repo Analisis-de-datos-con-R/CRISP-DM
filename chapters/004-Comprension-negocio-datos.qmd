@@ -1,1 +1,58 @@
 
+En este capítulo, se abordará la fase de comprensión del negocio y los datos dentro del proceso CRISP-DM. Se describirán las actividades y técnicas clave para comprender el contexto del negocio y los datos de contaminación del aire. Además, se proporcionarán ejemplos prácticos utilizando R y RStudio.
+
+## Comprensión del negocio
+
+En esta sección, se explicará la importancia de comprender el contexto del negocio y los objetivos del análisis de datos de contaminación del aire. Se describirán las actividades clave, como la identificación de los interesados, la comprensión de los problemas y desafíos relacionados con la contaminación del aire, y la definición de los objetivos y requisitos del proyecto.
+
+Identificación de los interesados:
+
+  - Identificar las partes interesadas clave, como las agencias gubernamentales, las organizaciones medioambientales y
+  la comunidad local.
+  - Comprender sus necesidades, preocupaciones y expectativas en relación con la calidad del aire.
+
+Comprensión de los problemas y desafíos:
+    - Analizar los problemas y desafíos asociados con la contaminación del aire, como la identificación de fuentes de   
+    contaminantes, la evaluación de los impactos en la salud humana y el medio ambiente, y la formulación de políticas y     regulaciones.
+Definición de los objetivos y requisitos:
+  - Establecer los objetivos específicos del análisis de datos, como predecir los niveles de contaminación, identificar
+  áreas de alto riesgo o evaluar la efectividad de medidas de control.
+  - Determinar los requisitos de datos, como la disponibilidad de datos espaciales de calidad, datos meteorológicos y
+  datos demográficos.
+
+## Comprensión de los datos {#comprension}
+
+En esta sección, se explorará la comprensión de los datos de contaminación del aire y se mostrarán técnicas y herramientas para analizar y visualizar los datos espaciales. Se destacará la importancia de evaluar la calidad de los datos y se proporcionarán ejemplos prácticos en R y RStudio.
+
+  - Exploración de los datos:
+    - Analizar la estructura de los datos, como las variables disponibles y sus tipos.
+    - Realizar resúmenes estadísticos y análisis exploratorios, como la identificación de valores atípicos y la
+    distribución de los datos.
+  - Visualización de los datos espaciales:
+    - Crear gráficos y mapas para visualizar la distribución espacial de la contaminación del aire.
+    - Utilizar técnicas de visualización interactiva, como la creación de mapas interactivos y paneles de control.
+  - Evaluación de la calidad de los datos:
+    - Evaluar la calidad de los datos, como la integridad espacial, la consistencia y la completitud.
+    - Tratar los valores faltantes y los valores atípicos de manera apropiada.
+
+
+```
+# Carga de la librería sf para el manejo de datos espaciales
+library(sf)
+
+# Lectura de datos espaciales de contaminación del aire en formato shapefile
+air_pollution <- st_read("datos_contaminacion.shp")
+
+# Resumen estadístico de los datos
+summary(air_pollution)
+
+# Visualización de la distribución espacial de la contaminación del aire
+plot(air_pollution)
+
+# Creación de un mapa interactivo utilizando la librería leaflet
+library(leaflet)
+
+leaflet() %>%
+  addTiles() %>%
+  addMarkers(data = air_pollution, ~longitude, ~latitude, popup = ~pollution_level)
+```

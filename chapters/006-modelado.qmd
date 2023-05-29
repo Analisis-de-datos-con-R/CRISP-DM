@@ -1,1 +1,54 @@
 
+# Modelado {#modelado}
+
+En este capítulo, se abordará la fase de modelado dentro del proceso CRISP-DM. Se describirán las técnicas y enfoques utilizados para construir modelos predictivos y descriptivos a partir de los datos de contaminación del aire. Además, se proporcionarán ejemplos prácticos utilizando R y RStudio.
+
+## Selección de técnicas de modelado
+
+En esta sección, se discutirá la selección de las técnicas de modelado adecuadas para el análisis de datos de contaminación del aire. Se destacarán las siguientes consideraciones:
+
+  - Objetivos del análisis: Identificar si el objetivo es la predicción, clasificación, agrupación u otra tarea específica.
+  - Naturaleza de los datos: Evaluar la estructura de los datos, la presencia de variables dependientes e independientes, y si se trata de datos espaciales o no.
+  - Disponibilidad de datos: Considerar la cantidad y calidad de los datos disponibles, así como los recursos computacionales y el tiempo requerido para entrenar los modelos.
+  - Conocimiento del dominio: Utilizar el conocimiento experto en contaminación del aire para seleccionar técnicas relevantes y realizar ajustes apropiados.
+
+## Técnicas de modelado
+
+En esta sección, se presentarán diferentes técnicas de modelado que pueden ser aplicadas al análisis de datos de contaminación del aire. Se proporcionarán ejemplos prácticos utilizando R y RStudio.
+
+  - Regresión lineal: Utilizada para modelar la relación entre variables dependientes e independientes y predecir los niveles de contaminación del aire.
+  - Kriging: Un método de interpolación espacial utilizado para estimar valores de contaminación en ubicaciones no muestreadas, basado en la variabilidad espacial de los datos.
+  
+Ejemplo de Kriging en R:
+
+```r
+# Carga de la librería gstat para el Kriging
+library(gstat)
+
+# Creación del objeto de datos espaciales
+air_pollution_sp <- st_as_sf(air_pollution_clean)
+
+# Ajuste del modelo de Kriging
+krige_model <- gstat::krige(pollution_level ~ 1, locations = air_pollution_sp, newdata = new_locations)
+
+# Visualización de los resultados del Kriging
+plot(krige_model)
+```
+
+- Interpolación por distancia inversa (IDW): Otro método de interpolación espacial que asigna valores de contaminación a ubicaciones no muestreadas basándose en la inversa de la distancia ponderada a los puntos de muestra.
+Ejemplo de Interpolación por distancia inversa en R:
+
+```r
+# Carga de la librería gstat para la interpolación por distancia inversa
+library(gstat)
+
+# Creación del objeto de datos espaciales
+air_pollution_sp <- st_as_sf(air_pollution_clean)
+
+# Ajuste del modelo de Interpolación por distancia inversa
+idw_model <- gstat::idw(pollution_level ~ 1, locations = air_pollution_sp, newdata = new_locations)
+
+# Visualización de los resultados de la interpolación por distancia inversa
+plot(idw_model)
+
+```

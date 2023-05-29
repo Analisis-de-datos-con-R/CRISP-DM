@@ -1,1 +1,36 @@
+# Preparación del entorno de trabajo {#prepentorno}
 
+En este capítulo, se abordará la preparación del entorno de trabajo necesario para realizar el análisis de datos espaciales de contaminación del aire utilizando R y RStudio. Se describirá la instalación de R y RStudio, así como la configuración de las librerías y paquetes necesarios para el análisis.
+
+## Instalación de R y RStudio
+Se proporcionarán instrucciones detalladas sobre cómo instalar R y RStudio en diferentes sistemas operativos, como Windows, macOS y Linux. Se explicará el proceso paso a paso y se destacarán los enlaces de descarga y recursos adicionales para obtener más información.
+
+## Configuración de librerías y paquetes
+Se presentará una lista de las librerías y paquetes necesarios para el análisis de datos espaciales de contaminación del aire en R. Se describirá cómo instalar y cargar estas librerías en el entorno de RStudio, y se ofrecerán ejemplos de código para mostrar su utilización.
+
+Algunas de las librerías y paquetes relevantes pueden incluir:
+
+  - sf: Para el manejo y análisis de datos espaciales.
+  - dplyr y tidyr: Para la manipulación y transformación de datos.
+  - ggplot2 y leaflet: Para la visualización de datos espaciales y mapas interactivos.
+  - caret: Para la selección de modelos y técnicas de modelado.
+  - spatialreg: Para el modelado espacial y la regresión espacial.
+
+## Ejemplos prácticos en R y RStudio
+Se proporcionarán ejemplos prácticos de cómo instalar R y RStudio en diferentes sistemas operativos. Además, se mostrará cómo instalar y cargar las librerías y paquetes necesarios para el análisis de datos espaciales de contaminación del aire.
+
+```r
+# Instalación de la librería sf
+install.packages("sf")
+
+# Instalación de la librería dplyr
+install.packages("dplyr")
+
+# Carga de la librería sf
+library(sf)
+
+# Carga de la librería dplyr
+library(dplyr)
+```
+
+Se proporcionarán ejemplos adicionales de cómo utilizar estas librerías y paquetes en el análisis de datos espaciales de contaminación del aire, como la importación y manipulación de conjuntos de datos espaciales, la visualización de mapas y la realización de análisis estadísticos.

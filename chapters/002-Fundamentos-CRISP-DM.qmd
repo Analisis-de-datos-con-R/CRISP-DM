@@ -22,7 +22,9 @@ En este apartado, se explicará cómo se puede adaptar el modelo CRISP-DM al an�
 
 Identificación de los objetivos y requisitos del análisis. Análisis del dominio de la contaminación del aire y sus impactos.
 
-::: {.tip, title = "Ejemplo"}
+:::{.callout-tip}
+## Ejemplo
+
 Análisis de las regulaciones y normativas relacionadas con la calidad del aire en diferentes regiones.
 :::
 
@@ -40,6 +42,11 @@ Una vez identificadas las preguntas clave, se podemos definir los objetivos y cr
 Es importante tener en cuenta que los objetivos deben ser específicos, medibles y realistas. También deben estar alineados con los objetivos empresariales o 
 publicos para proporcionar valor añadido.
 
+
+-----
+
+REPASAR DESDE AQUI
+
 ### Comprensión de los datos
 
 La etapa de “Comprensión de los datos” es el segundo paso en el proceso de CRISP-DM. En esta etapa, se debe recopilar y familiarizarse con los datos disponibles para el análisis. Esto incluye la identificación de la calidad de los datos y cualquier problema potencial que pueda afectar el análisis.
@@ -47,7 +54,9 @@ La etapa de “Comprensión de los datos” es el segundo paso en el proceso de 
 Exploración y visualización de los datos espaciales de contaminación.
 Análisis de la calidad de los datos y la integridad espacial. Además, hay que tener en cuenta que los datos se recogen como series temporales, esto es, con una periodicidad temporal determinada, por lo que se trata de datos espaciotemporales.
 
-:::{.tip title = "Librerías a tener en cuenta"}
+:::{.callout-note}
+## Librerías a tener en cuenta
+
 El paquete integrado de `tidyverse` es un buen aliado en esta tarea, ya que recoge las librerías para lectura, transformación y represantación de los datos. Las librerías a tener en cuenta son:
 
   - Lectura: `reader`,
@@ -60,19 +69,19 @@ El paquete integrado de `tidyverse` es un buen aliado en esta tarea, ya que reco
 
 En el caso de un análisis del primer paso es la obteción y carga de los datos. Una vez que se obtienen los datos descargando de una API pública o diréctamente desde la web se procede con la lectura de los mismos por medio de librerías como `readr` o `data.table`, por ejemplo:
 
-`
+```r
 library(readr)
 datos <- read_csv("datos_contaminacion.csv")
-`
+```
 Una vez cargados los datos en R, las funciones como `summary()` y `str()` sirven para obtener información sobre la estructura y contenido de los datos, siguiendo con el ejemplo anterior:
 
-`
+```r
 summary(datos)
 str(datos)
-`
+```
 Una vez que se comprende la estructura de los datos y sus características el siguiente paso es visualizarlos. Una visualización sencilla sería:
 
-`
+```r
 library(dplyr)
 library(ggplot2)
 
@@ -81,95 +90,152 @@ datos %>%
   summarise(media_contaminacion = mean(particulas_pm25, na.rm = TRUE)) %>%
   ggplot(aes(x = day, y = media_contaminacion)) +
   geom_line()
-
-`
+```
   
   
-- Preparación de los datos:
+### Preparación de los datos
 
 Limpieza y transformación de los datos espaciales.
-Integración de datos adicionales, como datos meteorológicos o de uso del suelo.
-Ejemplo en R: Preprocesamiento de los datos de contaminación del aire para eliminar valores atípicos y datos faltantes utilizando librerías como dplyr y tidyr.
+
+:::{.callout-tip}
+## Ejemplo
+
+Preprocesamiento de los datos de contaminación del aire para eliminar valores atípicos y datos faltantes utilizando librerías como dplyr y tidyr.
+
+:::
+
+
 La etapa de “Preparación de los datos” es el tercer paso en el proceso de CRISP-DM. En esta etapa, debemos limpiar y transformar los datos para su análisis. Esto puede incluir la selección de variables relevantes, la eliminación de valores faltantes o atípicos y la transformación de variables.
 
 En el caso de un análisis de datos espaciales sobre la contaminación del aire utilizando R y RStudio, podríamos utilizar librerías como dplyr y tidyr para llevar a cabo estas tareas. Por ejemplo, si queremos seleccionar solo las variables relevantes para nuestro análisis, podríamos utilizar el siguiente código:
 
+```r
 library(dplyr)
 
 datos_seleccionados <- datos %>%
   select(area, fecha, contaminacion)
+```
+
 Si queremos eliminar valores faltantes o atípicos, podríamos utilizar funciones como filter y is.na. Por ejemplo:
 
+```r
 datos_limpio <- datos_seleccionados %>%
   filter(!is.na(contaminacion)) %>%
   filter(contaminacion >= 0)
+```
+  
 Si queremos transformar variables, podríamos utilizar funciones como mutate y ifelse. Por ejemplo, si queremos crear una nueva variable que indique si el nivel de contaminación del aire es alto o bajo, podríamos utilizar el siguiente código:
 
+```r
 datos_transformados <- datos_limpio %>%
   mutate(nivel_contaminacion = ifelse(contaminacion > 50, "Alto", "Bajo"))
-- Modelado:
+```
+  
+### Modelado
 
 Selección y aplicación de técnicas de modelado adecuadas para el análisis de datos espaciales de contaminación.
 Construcción y entrenamiento de modelos predictivos.
-Ejemplo en R: Implementación de un modelo de regresión espacial para predecir la concentración de contaminantes en diferentes ubicaciones utilizando la librería spatialreg.
+
+:::{.callout-tip}
+## Ejemplo
+
+Implementación de un modelo de regresión espacial para predecir la concentración de contaminantes en diferentes ubicaciones utilizando la librería spatialreg
+
+:::
+
+
 La librería gstat para llevar a cabo una interpolación por distancia inversa. Por ejemplo:
 
+```r
 idw_model <- idw(formula = contaminacion ~ 1, data = datos_train, newdata = datos_test)
+```
 
 Una vez que hemos ajustado nuestros modelos, podemos evaluar su rendimiento utilizando técnicas como la validación cruzada. Por ejemplo:
 
+```r
 kriging_cv <- krige.cv(contaminacion ~ 1, datos_train, model = kriging_model)
 mean((kriging_cv$residual)^2)
-- Evaluación:
+```
+
+## Evaluación
 
 Evaluación de la precisión y el rendimiento de los modelos desarrollados.
 Utilización de métricas y técnicas de validación cruzada.
-Ejemplo en R: Evaluación de un modelo de predicción de contaminación utilizando métricas como el error cuadrado medio y la validación cruzada.
+
+
+
+:::{.callout-tip}
+## Ejemplo
+
+Evaluación de un modelo de predicción de contaminación utilizando métricas como el error cuadrado medio y la validación cruzada.
+:::
+
 La etapa de “Evaluación” es el quinto paso en el proceso de CRISP-DM. En esta etapa, debemos evaluar los resultados del modelado y seleccionar el modelo final. Esto puede incluir la comparación de diferentes modelos y la validación cruzada para evaluar su rendimiento.
 
 En el caso de un análisis de datos sobre la contaminación del aire utilizando R, podríamos utilizar diferentes técnicas para evaluar el rendimiento de nuestros modelos. Por ejemplo, si hemos ajustado un modelo de regresión, podríamos utilizar medidas como el error cuadrático medio (MSE) o el coeficiente de determinación (R^2) para evaluar su rendimiento. Por ejemplo:
 
+```r
 modelo <- lm(contaminacion ~ fecha + area, data = datos_train)
 predicciones <- predict(modelo, newdata = datos_test)
 mse <- mean((predicciones - datos_test$contaminacion)^2)
 r2 <- summary(modelo)$r.squared
+```
 
 Si hemos ajustado un modelo de series temporales, podríamos utilizar medidas como el error cuadrático medio (MSE) o el error absoluto medio (MAE) para evaluar su rendimiento. Por ejemplo:
 
+```r
 library(forecast)
 
 modelo <- auto.arima(datos_train$contaminacion)
 predicciones <- forecast(modelo, h = length(datos_test$contaminacion))$mean
 mse <- mean((predicciones - datos_test$contaminacion)^2)
 mae <- mean(abs(predicciones - datos_test$contaminacion))
+```
+
 También podemos utilizar técnicas como la validación cruzada para evaluar el rendimiento de nuestros modelos. Por ejemplo:
 
+```r
 cv_resultados <- cv.glm(datos_train, modelo, K = 10)
 mean(cv_resultados$delta)
+```
 
-Despliegue:
+### Despliegue
+
 Presentación de los resultados del análisis de manera clara y comprensible.
 Comunicación de los hallazgos y recomendaciones.
-Ejemplo en R: Generación de gráficos y visualizaciones para comunicar los resultados del análisis utilizando librerías como ggplot2 y shiny.
+
+::: {.callout-tip}
+## Ejemplo
+
+Generación de gráficos y visualizaciones para comunicar los resultados del análisis utilizando librerías como ggplot2 y shiny.
+
+:::
+
 La etapa de “Implementación” es el sexto y último paso en el proceso de CRISP-DM. En esta etapa, debemos implementar el modelo seleccionado y seguir sus resultados. Esto puede incluir la generación de informes y visualizaciones para comunicar los resultados del análisis.
 
 En el caso de un análisis de datos sobre la contaminación del aire utilizando R, podríamos utilizar diferentes técnicas para implementar y comunicar los resultados de nuestros modelos. Por ejemplo, si hemos ajustado un modelo de regresión, podríamos utilizar funciones como predict para generar predicciones con nuestro modelo y librerías como ggplot2 para visualizar los resultados. Por ejemplo:
 
+
+```r
 predicciones <- predict(modelo, newdata = datos_test)
 datos_test$predicciones <- predicciones
 
 ggplot(datos_test, aes(x = fecha, y = contaminacion)) +
   geom_point() +
   geom_line(aes(y = predicciones), color = "red")
+```
 
 
 Si hemos ajustado un modelo de series temporales, podríamos utilizar funciones como forecast para generar predicciones con nuestro modelo y librerías como ggplot2 para visualizar los resultados. Por ejemplo:
 
+```r
 predicciones <- forecast(modelo, h = length(datos_test$contaminacion))
 datos_test$predicciones <- predicciones$mean
 
 ggplot(datos_test, aes(x = fecha, y = contaminacion)) +
   geom_point() +
   geom_line(aes(y = predicciones), color = "red")
+```
+  
 
 También podemos generar informes y visualizaciones para comunicar los resultados de nuestro análisis a otras personas. Por ejemplo, podríamos utilizar librerías como rmarkdown o shiny para crear informes dinámicos o aplicaciones interactivas que muestren los resultados de nuestro análisis.

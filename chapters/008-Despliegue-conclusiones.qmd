@@ -1,1 +1,55 @@
+# Despliegue y conclusiones {#desp}
 
+En este capítulo final, se abordará la fase de despliegue y se ofrecerán conclusiones basadas en los resultados obtenidos durante el análisis de los datos de contaminación del aire utilizando CRISP-DM. Además, se proporcionarán ejemplos prácticos de diferentes formas de despliegue utilizando R y RStudio, como la creación de una ShinyApp, un bot de Twitter o informes reproducibles.
+
+## Despliegue de resultados
+
+En esta sección, se explorarán diferentes métodos para desplegar los resultados del análisis de datos de contaminación del aire.
+
+Estos métodos incluyen:
+
+  - Creación de una ShinyApp: Utilizando el paquete Shiny, se puede construir una aplicación interactiva que permita a los usuarios explorar y visualizar los datos de contaminación del aire, así como interactuar con los modelos y los resultados obtenidos.
+  - Implementación de un bot de Twitter: Utilizando paquetes como rtweet, es posible desarrollar un bot de Twitter que publique actualizaciones y resultados relacionados con la contaminación del aire, lo que permite difundir la información de manera efectiva.
+  - Informes reproducibles: Utilizando RMarkdown y RStudio, se pueden crear informes reproducibles que combinen el código, los resultados y las visualizaciones en un documento HTML, PDF u otro formato, lo que facilita la comunicación y la presentación de los hallazgos del análisis.
+
+
+Ejemplo de creación de una ShinyApp en R:
+
+```r
+# Carga de la librería shiny
+library(shiny)
+
+# Definición de la interfaz de la ShinyApp
+ui <- fluidPage(
+  titlePanel("Análisis de Contaminación del Aire"),
+  sidebarLayout(
+    sidebarPanel(
+      # Aquí se pueden agregar controles para interactuar con los datos y modelos
+    ),
+    mainPanel(
+      # Aquí se pueden mostrar las visualizaciones y los resultados obtenidos
+    )
+  )
+)
+
+# Definición de la lógica de la ShinyApp
+server <- function(input, output) {
+  # Aquí se puede incluir el código para cargar los datos, entrenar modelos, etc.
+}
+
+# Creación de la ShinyApp
+shinyApp(ui = ui, server = server)
+
+```
+
+
+## Conclusiones
+En esta sección, se presentarán las conclusiones finales basadas en los resultados y hallazgos obtenidos durante el análisis de datos de contaminación del aire utilizando CRISP-DM. Se destacarán los puntos clave del estudio, las implicaciones prácticas y las recomendaciones para futuras investigaciones.
+
+Las conclusiones pueden incluir:
+
+  - Identificación de patrones y tendencias en los datos de contaminación del aire.
+  - Evaluación de la eficacia de los modelos utilizados y su capacidad para predecir los niveles de contaminación.
+  - Recomendaciones para la mejora de la calidad del aire y la reducción de la contaminación.
+  - Importancia de la reproducibilidad y gobernanza del dato en el análisis de datos espaciales sobre la contaminación del aire.
+  - Aplicabilidad de las técnicas y enfoques utilizados en otros estudios sobre la polución del aire y la contaminación.

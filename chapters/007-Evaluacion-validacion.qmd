@@ -1,1 +1,65 @@
+# Evaluación y validación {#evalvali}
 
+En este capítulo, se abordará la fase de evaluación y validación dentro del proceso CRISP-DM. Se describirán las técnicas y enfoques utilizados para evaluar y validar los modelos construidos a partir de los datos de contaminación del aire. Además, se proporcionarán ejemplos prácticos utilizando R y RStudio.
+
+## Métricas de evaluación de modelos
+En esta sección, se discutirán las métricas y técnicas utilizadas para evaluar la precisión y el rendimiento de los modelos construidos en el análisis de contaminación del aire. Se destacarán las siguientes métricas:
+
+  - Error cuadrático medio (ECM): Mide la diferencia cuadrada promedio entre los valores predichos y los valores reales de contaminación del aire.
+  - Error absoluto medio (EAM): Calcula la diferencia promedio entre los valores predichos y los valores reales de contaminación del aire.
+  - Coeficiente de determinación (R^2): Proporciona una medida de cuánta variabilidad en los datos de contaminación del aire es explicada por el modelo.
+  - Índices de bondad de ajuste específicos del modelo utilizado, como el error de predicción promedio (RMSE) para modelos de kriging y la interpolación por distancia inversa.
+
+## Validación cruzada
+
+En esta sección, se explicará el concepto de validación cruzada y cómo se puede aplicar en el análisis de datos de contaminación del aire. La validación cruzada es una técnica que permite evaluar el rendimiento del modelo utilizando múltiples conjuntos de datos de entrenamiento y prueba.
+
+  - Validación cruzada de k-fold: Divide los datos en k subconjuntos (folds), donde cada subconjunto se utiliza como conjunto de prueba y el resto como conjunto de entrenamiento. Se repite el proceso k veces y se promedian los resultados.
+  - Validación cruzada dejando uno fuera (LOOCV): Utiliza un único punto de datos como conjunto de prueba y el resto como conjunto de entrenamiento. Este proceso se repite para todos los puntos de datos y se obtiene un promedio de los resultados.
+
+Ejemplo de validación cruzada en R:
+
+```r
+# Carga de la librería caret para la validación cruzada
+library(caret)
+
+# Creación del objeto de control para la validación cruzada
+ctrl <- trainControl(method = "cv", number = 5)
+
+# Entrenamiento y evaluación del modelo de kriging utilizando validación cruzada
+krige_model_cv <- train(pollution_level ~ ., data = air_pollution_train, method = "krige",
+                        trControl = ctrl)
+
+# Evaluación de las métricas de rendimiento del modelo
+krige_model_cv$results
+```
+
+## Validación de modelos de interpolación
+
+En esta subsección, se abordará la validación de los modelos de interpolación utilizados en el análisis de contaminación del aire, como el kriging y la interpolación por distancia inversa.
+
+  - Validación de modelos de kriging: Se evalúa el rendimiento del modelo de kriging utilizando métricas como el RMSE (Root Mean Square Error) para comparar los valores predichos con los valores reales de contaminación del aire.
+
+  - Validación de la interpolación por distancia inversa: Se utiliza la misma métrica RMSE para evaluar el rendimiento del modelo de interpolación por distancia inversa y comparar los valores predichos con los valores reales de contaminación del aire.
+
+Ejemplo de validación de modelos de interpolación en R:
+
+```r
+# Carga de la librería gstat para el kriging y la interpolación por distancia inversa
+library(gstat)
+
+# Ajuste del modelo de kriging
+krige_model <- gstat::krige(pollution_level ~ 1, locations = air_pollution_train)
+
+# Evaluación del rendimiento del modelo de kriging
+krige_predictions <- predict(krige_model, locations = air_pollution_test)
+krige_rmse <- sqrt(mean((krige_predictions - air_pollution_test$pollution_level)^2))
+
+# Ajuste del modelo de interpolación por distancia inversa
+idw_model <- gstat::idw(pollution_level ~ 1, locations = air_pollution_train)
+
+# Evaluación del rendimiento del modelo de interpolación por distancia inversa
+idw_predictions <- predict(idw_model, locations = air_pollution_test)
+idw_rmse <- sqrt(mean((idw_predictions - air_pollution_test$pollution_level)^2))
+
+```

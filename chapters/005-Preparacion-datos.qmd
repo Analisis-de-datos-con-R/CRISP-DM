@@ -1,1 +1,53 @@
+# Preparación de los datos {#prepdatos}
+
+En este capítulo, se abordará la fase de preparación de los datos dentro del proceso CRISP-DM. Se describirán las técnicas y procesos para limpiar, transformar y preparar los datos de contaminación del aire para su posterior análisis. Se proporcionarán ejemplos prácticos utilizando R y RStudio.
+
+## Limpieza de datos
+
+En esta sección, se explorarán las técnicas y métodos para limpiar los datos de contaminación del aire y abordar los problemas de calidad, como los valores faltantes, los valores atípicos y los errores de medición. Se describirán las siguientes actividades:
+
+  - Tratamiento de valores faltantes:
+    - Identificar y manejar los valores faltantes en los datos.
+    - Imputar o eliminar los valores faltantes de manera adecuada.
+  - Detección y manejo de valores atípicos:
+    - Identificar y analizar los valores atípicos en los datos de contaminación del aire.
+    - Evaluar si los valores atípicos son errores de medición o representan información relevante.
+  - Resolución de errores de medición:
+    - Identificar y corregir los errores de medición en los datos, como mediciones inconsistentes o fuera de rango.
+    - Utilizar técnicas estadísticas y conocimiento del dominio para abordar los errores de medición.
+
+
+## Transformación de datos
+
+En esta sección, se explorarán las técnicas y métodos para transformar los datos de contaminación del aire y prepararlos para el análisis. Se describirán las siguientes actividades:
+
+  - Normalización de variables:
+    - Estandarizar o normalizar las variables de los datos de contaminación del aire para que tengan una escala comparable.
+    - Utilizar técnicas como la estandarización z-score o la normalización min-max.
+  - Codificación de variables categóricas:
+    - Convertir las variables categóricas en variables numéricas o factores adecuados para su análisis.
+    - Utilizar técnicas como la codificación one-hot o la codificación de etiquetas.
+  - Agregación y transformación de variables:
+- Agregar o calcular nuevas variables a partir de las variables existentes, como calcular promedios, sumas o tasas de - contaminación.
+- Realizar transformaciones matemáticas o logarítmicas en las variables para mejorar su distribución o interpretación.
+
+Ejemplo en R:
+
+```r
+# Tratamiento de valores faltantes
+air_pollution_clean <- na.omit(air_pollution)
+
+# Detección y manejo de valores atípicos
+outliers <- boxplot(air_pollution_clean$pollution_level, plot = FALSE)$out
+air_pollution_clean <- air_pollution_clean[!air_pollution_clean$pollution_level %in% outliers, ]
+
+# Normalización de variables
+air_pollution_clean$pollution_level_normalized <- scale(air_pollution_clean$pollution_level)
+
+# Codificación de variables categóricas
+air_pollution_clean$city_category <- as.factor(air_pollution_clean$city)
+
+# Agregación y transformación de variables
+air_pollution_agg <- aggregate(pollution_level ~ year, data = air_pollution_clean, FUN = mean)
+```
 
