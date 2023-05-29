@@ -28,7 +28,7 @@ En cada capítulo, se abordarán de manera detallada los pasos correspondientes 
 
 ### Reproducibilidad y gobernanza de datos
 
-La reproducibilidad y la gobernanza del dato son aspectos relevantes a tener en cuenta en cualquier análisis de datos. La reproducibilidad se refiere a la capacidad de replicar los resultados de un análisis utilizando los mismos datos y métodos. La gobernanza del dato se refiere al conjunto de políticas y prácticas que garantizan la calidad, seguridad y privacidad de los datos.
+La reproducibilidad y la gobernanza del dato son aspectos relevantes a tener en cuenta en cualquier análisis de datos. La reproducibilidad \index{reproducibilidad} se refiere a la capacidad de replicar los resultados de un análisis utilizando los mismos datos y métodos. La gobernanza del dato \index{gobernanza del dato} se refiere al conjunto de políticas y prácticas que garantizan la calidad, seguridad y privacidad de los datos.
 
 En el caso de un análisis de datos sobre la contaminación del aire utilizando R, podemos tomar varias medidas para garantizar la reproducibilidad y la gobernanza del dato. Algunas de estas medidas podrían incluir:
 
