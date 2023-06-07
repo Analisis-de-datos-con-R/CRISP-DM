@@ -2,27 +2,28 @@ project:
   type: book
 
 book:
-  title: "Guía práctica para la aplicación de CRISP-DM en R"
-  subtitle: "Calidad del aire en la ciudad de Madrid"
+  title: "Introducción al análisis estadístico de datos con R"
+  subtitle: "Modelización de la calidad del aire en la ciudad de Madrid con la metodología CRISP-DM"
   author:
     - Gema Fernández-Avilés
     - Michal Kinel
   date: today
   description: |
-    Este libro ofrece una guía práctica para la aplicación de CRISP-DM (Cross-Industry Standard Process for Data Mining), un modelo de proceso de minería de datos de estándar abierto, en el análisis de datos espaciales sobre contaminación atmosférica. Centrado en el uso del lenguaje de programación R y el IDE RStudio, este libro pretende proporcionar a los lectores las herramientas necesarias para llevar a cabo análisis de datos robustos y reproducibles.
-  cover-image: cover.png
+    Este libro ofrece una guía práctica para el análisis de datos con el software estdístico R mediante 
+    la aplicación de la metodología CRISP-DM (Cross-Industry Standard Process for Data Mining), 
+    un modelo de proceso de minería de datos de estándar abierto. 
+    El análisis de datos se lleva a cabo con un caso de uso real, la modelización de la calidad del aire
+    en la ciudad de Madrid. Centrado en el uso del lenguaje de programación R y el IDE RStudio, 
+    este libro pretende proporcionar a los lectores las herramientas necesarias para llevar 
+    a cabo análisis de datos robustos y reproducibles.
+  cover-image: cover2.png
   chapters:
     - index.qmd
-    - chapters/001-Introduccion.qmd
-    - chapters/002-Fundamentos-CRISP-DM.qmd
-    - chapters/003-Preparacion-entorno-trabajo.qmd
-    - chapters/004-Comprension-negocio-datos.qmd
-    - chapters/005-Preparacion-datos.qmd
-    - chapters/006-modelado.qmd
-    - chapters/007-Evaluacion-validacion.qmd
-    - chapters/008-Despliegue-conclusiones.qmd
-  
-
+    - 001-Introduccion.qmd
+    - 002-toolkit-ciencia-datos.qmd
+    - 003-crispdm-air-madrid.qmd
+  appendices:
+    - 00a-pre-curso.qmd
 bibliography: references.bib
 
 format:
@@ -36,7 +37,7 @@ format:
 
   pdf:
     documentclass: scrreprt
-    cover-image: cover.png
+    cover-image: cover2.png
     mainfont: Lato
     monofont: Roboto
 

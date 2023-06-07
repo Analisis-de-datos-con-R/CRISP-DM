@@ -1,0 +1,535 @@
+# Análisis de datos de contaminación del aire en la ciudad de Madid
+
+:::{.callout-warning}
+### Objetivo {-}
+
++ Proporcionar un caso de uso real para el análisis de datos con **R**.
+
++ Mostrar como implementar un análisis de ciencia de datos con la metodología CRISP-DM 
+
+:::
+
+
+
+## Entendimiento del negocio {#compren-negocio}
+
+
+Es el primer paso en el proceso de **CRISP-DM** y es fundamental para llevar a cabo un análisis de datos. En esta etapa, se debe definir claramente los objetivos y criterios de cumplimiento del estudio desde la perspectiva de valor añadido para la empresa o entidad pública.
+
+:::{.callout-tip}
+### Comprensión de los problemas y desafíos {-}
+
+  - Analizar los problemas y desafíos asociados con la contaminación del aire, como la identificación de fuentes de   
+    contaminantes, la evaluación de los impactos en la salud humana y el medio ambiente, y la formulación de políticas y     regulaciones.
+Definición de los objetivos y requisitos:
+  - Establecer los objetivos específicos del análisis de datos, como predecir los niveles de contaminación, identificar
+  áreas de alto riesgo o evaluar la efectividad de medidas de control.
+  - Determinar los requisitos de datos, como la disponibilidad de datos espaciales de calidad, datos meteorológicos y datos demográficos..
+:::
+
+
+Se puede comenzar por identificar las preguntas clave que se consideren clave para el análisis, por ejemplo:
+
+  - ¿Cuáles son las áreas con mayor nivel de contaminación del aire?
+  - ¿Qué factores contribuyen a la contaminación del aire en estas áreas?
+  - ¿Cómo ha evolucionado la contaminación del aire en estas áreas a lo largo
+  del tiempo?
+  
+  
+Una vez identificadas las preguntas clave, se podemos definir los objetivos y criterios de éxito para el análisis. Por ejemplo, **el objetivo principal del análisis es proporcionar mapas de predicción de calidad del aire para todo el municipio de Madrid**.
+
+Es importante tener en cuenta que los objetivos deben ser específicos, medibles y realistas. También deben estar alineados con los objetivos empresariales o públicos para proporcionar valor añadido.
+
+
+
+
+
+## Comprensión de los datos {#compren-datos}
+
+:::{.callout-tip}
+Esta fase abarca las siguientes tareas:
+
+  - Exploración de los datos:
+    - Analizar la estructura de los datos, como las variables disponibles y sus tipos.
+    - Realizar resúmenes estadísticos y análisis exploratorios, como la identificación de valores atípicos y la
+    distribución de los datos.
+  
+  - Visualización de los datos espaciales:
+    - Crear gráficos y mapas para visualizar la distribución espacial de la contaminación del aire.
+    - Utilizar técnicas de visualización interactiva, como la creación de mapas interactivos y paneles de control.
+  
+  - Evaluación de la calidad de los datos:
+    - Evaluar la calidad de los datos, como la integridad espacial, la consistencia y la completitud.
+    - Tratar los valores faltantes y los valores atípicos de manera apropiada.
+    
+:::
+
+
+:::{.callout-note}
+### Librerías y funciones en R {-}
+
+El paquete integrado de `tidyverse` es un buen aliado en esta tarea, ya que recoge las librerías para lectura, transformación y representación de los datos. Las librerías a tener en cuenta son:
+
+  - Lectura: `reader`.
+  - Manejo de datos: `dplyr`.
+  - Datos temporales: `lubridate`.
+  - Datos espaciales: `sf`, `terra`. 
+  - Visualización: `ggplot2`, `leaflet`.
+:::
+
+En el caso de un análisis del primer paso es la obtención y carga de los datos. Una vez que se obtienen los datos descargando de una API pública o diréctamente desde la web se procede con la lectura de los mismos por medio de librerías como `readr` o `data.table`, por ejemplo:
+
+
+**AQUÍ HABRÍA QUE HACER UN BREVE RESUMEN, A MODO DE ESQUEMA, AUNQUE NO SE EJECUTE, DE CÓMO LOS DATOS ESTAN EN LA WEB DEL AYUNTAMIENTO, SE HACE WEBSCRAPING, SE PROCESAN, ... Y FINALMENTE SE GUARDAN CON PROMEDIO DIARIO EN dt_daily_mean_2011**
+
+
+```{r lee-data}
+library(readr)
+air_mad <- readr::read_rds("data/dt_daily_mean_2011.RDS")
+```
+
+```{r}
+class(air_mad)
+head(air_mad)
+```
+
+Para ver la dimensión de la tabla de datos:
+```{r dim-data}
+dim(air_mad)
+```
+
+
+
+
+Una vez cargados los datos en **R**, las funciones como `summary()` y `str()` sirven para obtener información sobre la estructura y contenido de los datos, siguiendo con el ejemplo anterior:
+
+DESCRIBIR BREVEMENTE ALGUNO DE ESTOS RESULTADOS
+
+```{r str-data}
+summary(air_mad)
+str(air_mad)
+skimr::skim(air_mad)
+```
+
+NOTA IMPORTANTE:
+
+Además, existen paquetes como DataExplorer y dlookr que generan informes automáticos con los principales descriptivos.
+
+
+DECIR QUE UNO DE LOS MÁS PRBLEMÁTICOS ES EL NOX y el PM10 Y NOS CENTRAMOS EN ESTOS DOS.
+
+HACER UN PRIMER PLOT PARA INTRODUCIR LOS GRÁFIOS, uno con cada polutan, 
+
+```
+ggplot 
+```
+
+
+¿Cómo han evolucionado la concentración de contaminantes en la ciudad de Madrid?
+Con las funciones del Tidyverse represente la evolución de todos los contaminantes medidos por las estaciones de monitoreo de la ciudad de Madrid en el periodo (2011-2022).
+
+
+```{r }
+#| eval: false
+plot_air_mad <- air_mad |>
+  group_by(fecha, nom_mag) |>
+  summarise(media_estaciones = mean(daily_mean, na.rm = TRUE)) |>
+  ggplot(aes(x = fecha, y = media_estaciones)) +
+  geom_line() +
+  geom_smooth() +
+  facet_wrap( ~ nom_mag, scales = "free_y", ncol = 2)
+
+plot_air_mad
+
+```
+
+
+
+DECIR QUE PARA ANLIZAR LA CALIDAD, EN ESTA FASE SE HACE ALGÚN EXAMEN DE LOS POLUTANS MÁS IMPORTANTES PERO QEU NOS VAMOS A CENTRARA EN UNO
+
+
+
+
+
+  
+## Preparación de los datos {#prep-datos}
+
+En esta fase se  abordan la limpieza y transformación de los datos de contaminación del aire para su posterior análisis.
+
+
+
+
+En esta sección, se explorarán las técnicas y métodos para limpiar los datos de contaminación del aire y abordar los problemas de calidad, como los valores faltantes, los valores atípicos y los errores de medición. Se describirán las siguientes actividades:
+
+:::{.callout-tip}
+### Limpieza de datos {-}
+
+  - Tratamiento de valores faltantes:
+    - Identificar y manejar los valores faltantes en los datos.
+    - Imputar o eliminar los valores faltantes de manera adecuada.
+    
+  - Detección y manejo de valores atípicos:
+    - Identificar y analizar los valores atípicos en los datos de contaminación del aire.
+    - Evaluar si los valores atípicos son errores de medición o representan información relevante.
+  
+  - Resolución de errores de medición:
+    - Identificar y corregir los errores de medición en los datos, 
+      como mediciones inconsistentes o fuera de rango.
+    - Utilizar técnicas estadísticas y conocimiento del dominio para abordar los errores de medición.
+    
+    
+### Transformación de datos {-}
+
+  - Normalización de variables:
+    - Estandarizar o normalizar las variables de los datos de contaminación del aire para que tengan una escala comparable.
+    - Utilizar técnicas como la estandarización z-score o la normalización min-max.
+
+  - Codificación de variables categóricas:
+    - Convertir las variables categóricas en variables numéricas o factores adecuados para su análisis.
+    - Utilizar técnicas como la codificación one-hot o la codificación de etiquetas.
+  
+  - Agregación y transformación de variables:
+    - Agregar o calcular nuevas variables a partir de las variables existentes, como calcular promedios, sumas o tasas de contaminación.
+    - Realizar transformaciones matemáticas o logarítmicas en las variables para mejorar su distribución o interpretación.
+:::
+
+:::{.callout-note}
+### Librarías y funciones en R {-}
+
+  - Manipulación de datos (valores atípicos y datos faltantes): `dplyr`
+  - Manipulación de datos a lo ancho y largo: `tidir`
+:::
+
+
+AQUÍ TODO EL **feature engineering** y el **exploratorio**
+
+hacer anova aquí o en modelización 
+
+
+```r
+# Tratamiento de valores faltantes
+air_pollution_clean <- na.omit(air_pollution)
+
+# Detección y manejo de valores atípicos
+outliers <- boxplot(air_pollution_clean$pollution_level, plot = FALSE)$out
+air_pollution_clean <- air_pollution_clean[!air_pollution_clean$pollution_level %in% outliers, ]
+
+# Normalización de variables
+air_pollution_clean$pollution_level_normalized <- scale(air_pollution_clean$pollution_level)
+
+# Codificación de variables categóricas
+air_pollution_clean$city_category <- as.factor(air_pollution_clean$city)
+
+# Agregación y transformación de variables
+air_pollution_agg <- aggregate(pollution_level ~ year, data = air_pollution_clean, FUN = mean)
+```
+
+
+En el caso de un análisis de datos espaciales sobre la contaminación del aire utilizando R y RStudio, podríamos utilizar librerías como dplyr y tidyr para llevar a cabo estas tareas. Por ejemplo, si queremos seleccionar solo las variables relevantes para nuestro análisis, podríamos utilizar el siguiente código:
+
+```r
+library(dplyr)
+
+datos_seleccionados <- datos %>%
+  select(area, fecha, contaminacion)
+```
+
+Si queremos eliminar valores faltantes o atípicos, podríamos utilizar funciones como filter y is.na. Por ejemplo:
+
+```r
+datos_limpio <- datos_seleccionados %>%
+  filter(!is.na(contaminacion)) %>%
+  filter(contaminacion >= 0)
+```
+  
+Si queremos transformar variables, podríamos utilizar funciones como mutate y ifelse. Por ejemplo, si queremos crear una nueva variable que indique si el nivel de contaminación del aire es alto o bajo, podríamos utilizar el siguiente código:
+
+```r
+datos_transformados <- datos_limpio %>%
+  mutate(nivel_contaminacion = ifelse(contaminacion > 50, "Alto", "Bajo"))
+```
+  
+
+
+
+
+
+## Modelado {#modelado}
+
+
+:::{.callout-tip}
+### Selección de técnicas de modelado {-}
+
+  - Objetivos del análisis: Identificar si el objetivo es la predicción, clasificación, agrupación u otra tarea específica.
+  - Naturaleza de los datos: Evaluar la estructura de los datos, la presencia de variables dependientes e independientes, y si se trata de datos espaciales o no.
+  - Disponibilidad de datos: Considerar la cantidad y calidad de los datos disponibles, así como los recursos computacionales y el tiempo requerido para entrenar los modelos.
+  - Conocimiento del dominio: Utilizar el conocimiento experto en contaminación del aire para seleccionar técnicas relevantes y realizar ajustes apropiados.
+:::
+
+
+
+
+:::{.callout-note}
+### librarías y funciones en R {-}
+
+  - `lm` y `glm`: Regresión lineal: Utilizada para modelar la relación entre variables dependientes e independientes y predecir los niveles de contaminación del aire.
+  - `gstat` y `geoR`: Kriging: Un método de interpolación espacial utilizado para estimar valores de contaminación en ubicaciones no muestreadas, basado en la variabilidad espacial de los datos.
+::: 
+
+
+**SE PUEDE HACER UN KRIGING Y COMPARAR CON IDW COMO EN EL EJEMPLO DE CLIMAEMET QUE TE PASÉ, EL PROBLEMA ES QEU NO QUEDA MUY LUCIDO PORQUE COMO HAY POCAS ESTACIONES DE MONITOREO ES DIFÍCIAL CAPTAR LA DEPENDENCIA ESPACIAL**
+  
+Ejemplo de Kriging en R:
+
+```r
+# Carga de la librería gstat para el Kriging
+library(gstat)
+
+# Creación del objeto de datos espaciales
+air_pollution_sp <- st_as_sf(air_pollution_clean)
+
+# Ajuste del modelo de Kriging
+krige_model <- gstat::krige(pollution_level ~ 1, locations = air_pollution_sp, newdata = new_locations)
+
+# Visualización de los resultados del Kriging
+plot(krige_model)
+```
+
+- Interpolación por distancia inversa (IDW): Otro método de interpolación espacial que asigna valores de contaminación a ubicaciones no muestreadas basándose en la inversa de la distancia ponderada a los puntos de muestra.
+Ejemplo de Interpolación por distancia inversa en R:
+
+```r
+# Carga de la librería gstat para la interpolación por distancia inversa
+library(gstat)
+
+# Creación del objeto de datos espaciales
+air_pollution_sp <- st_as_sf(air_pollution_clean)
+
+# Ajuste del modelo de Interpolación por distancia inversa
+idw_model <- gstat::idw(pollution_level ~ 1, locations = air_pollution_sp, newdata = new_locations)
+
+# Visualización de los resultados de la interpolación por distancia inversa
+plot(idw_model)
+
+```
+
+
+
+
+La librería gstat para llevar a cabo una interpolación por distancia inversa. Por ejemplo:
+
+```r
+idw_model <- idw(formula = contaminacion ~ 1, data = datos_train, newdata = datos_test)
+```
+
+Una vez que hemos ajustado nuestros modelos, podemos evaluar su rendimiento utilizando técnicas como la validación cruzada. Por ejemplo:
+
+```r
+kriging_cv <- krige.cv(contaminacion ~ 1, datos_train, model = kriging_model)
+mean((kriging_cv$residual)^2)
+```
+
+
+
+
+
+## Evaluación {#eval-vali}
+
+
+:::{.callout-tip}
+### Métricas de evaluación de modelos {-}
+
+  - Validación cruzada de k-fold: Divide los datos en k subconjuntos (folds), donde cada subconjunto se utiliza como conjunto de prueba y el resto como conjunto de entrenamiento. Se repite el proceso k veces y se promedian los resultados.
+  
+  - Validación cruzada dejando uno fuera (LOOCV): Utiliza un único punto de datos como conjunto de prueba y el resto como conjunto de entrenamiento. Este proceso se repite para todos los puntos de datos y se obtiene un promedio de los resultados.
+  
+  
+  - Error cuadrático medio (ECM): Mide la diferencia cuadrada promedio entre los valores predichos y los valores reales de contaminación del aire.
+  - Error absoluto medio (EAM): Calcula la diferencia promedio entre los valores predichos y los valores reales de contaminación del aire.
+  - Coeficiente de determinación (R^2): Proporciona una medida de cuánta variabilidad en los datos de contaminación del aire es explicada por el modelo.
+  - Índices de bondad de ajuste específicos del modelo utilizado, como el error de predicción promedio (RMSE) para modelos de kriging y la interpolación por distancia inversa ponderada.
+
+:::
+
+
+:::{.callout-note}
+### Librarías y funciones en R {-}
+
+- gstat::xxx
+
+- geoR::
+
+  - Validación de modelos de kriging: Se evalúa el rendimiento del modelo de kriging utilizando métricas como el RMSE (Root Mean Square Error) para comparar los valores predichos con los valores reales de contaminación del aire.
+
+  - Validación de la interpolación por distancia inversa: Se utiliza la misma métrica RMSE para evaluar el rendimiento del modelo de interpolación por distancia inversa y comparar los valores predichos con los valores reales de contaminación del aire.
+:::
+
+
+
+
+Ejemplo de validación de modelos de interpolación en R:
+
+
+
+```r
+# Carga de la librería caret para la validación cruzada
+library(caret)
+
+# Creación del objeto de control para la validación cruzada
+ctrl <- trainControl(method = "cv", number = 5)
+
+# Entrenamiento y evaluación del modelo de kriging utilizando validación cruzada
+krige_model_cv <- train(pollution_level ~ ., data = air_pollution_train, method = "krige",
+                        trControl = ctrl)
+
+# Evaluación de las métricas de rendimiento del modelo
+krige_model_cv$results
+```
+
+
+```r
+# Carga de la librería gstat para el kriging y la interpolación por distancia inversa
+library(gstat)
+
+# Ajuste del modelo de kriging
+krige_model <- gstat::krige(pollution_level ~ 1, locations = air_pollution_train)
+
+# Evaluación del rendimiento del modelo de kriging
+krige_predictions <- predict(krige_model, locations = air_pollution_test)
+krige_rmse <- sqrt(mean((krige_predictions - air_pollution_test$pollution_level)^2))
+
+# Ajuste del modelo de interpolación por distancia inversa
+idw_model <- gstat::idw(pollution_level ~ 1, locations = air_pollution_train)
+
+# Evaluación del rendimiento del modelo de interpolación por distancia inversa
+idw_predictions <- predict(idw_model, locations = air_pollution_test)
+idw_rmse <- sqrt(mean((idw_predictions - air_pollution_test$pollution_level)^2))
+
+```
+
+
+
+
+Evaluación de la precisión y el rendimiento de los modelos desarrollados.
+Utilización de métricas y técnicas de validación cruzada.
+
+
+
+
+En el caso de un análisis de datos sobre la contaminación del aire utilizando R, podríamos utilizar diferentes técnicas para evaluar el rendimiento de nuestros modelos. Por ejemplo, si hemos ajustado un modelo de regresión, podríamos utilizar medidas como el error cuadrático medio (MSE) o el coeficiente de determinación (R^2) para evaluar su rendimiento. Por ejemplo:
+
+```r
+modelo <- lm(contaminacion ~ fecha + area, data = datos_train)
+predicciones <- predict(modelo, newdata = datos_test)
+mse <- mean((predicciones - datos_test$contaminacion)^2)
+r2 <- summary(modelo)$r.squared
+```
+
+Si hemos ajustado un modelo de series temporales, podríamos utilizar medidas como el error cuadrático medio (MSE) o el error absoluto medio (MAE) para evaluar su rendimiento. Por ejemplo:
+
+```r
+library(forecast)
+
+modelo <- auto.arima(datos_train$contaminacion)
+predicciones <- forecast(modelo, h = length(datos_test$contaminacion))$mean
+mse <- mean((predicciones - datos_test$contaminacion)^2)
+mae <- mean(abs(predicciones - datos_test$contaminacion))
+```
+
+También podemos utilizar técnicas como la validación cruzada para evaluar el rendimiento de nuestros modelos. Por ejemplo:
+
+```r
+cv_resultados <- cv.glm(datos_train, modelo, K = 10)
+mean(cv_resultados$delta)
+```
+
+
+SE PUEDE ENFOCAR TAMBIEN DE FORMA ALTERNATIVA COMO UNA PREDICCION TEMPORAL, VER.
+
+SE PUEDE PONER UN EJEMPLO CON TIDYMODELS...
+
+
+
+## Despliegue {#despliegue}
+
+:::{.callout-tip}
+### Despliegue de resultados {-}
+
+  - Creación de una ShinyApp: Utilizando el paquete Shiny, se puede construir una aplicación interactiva que permita a los usuarios explorar y visualizar los datos de contaminación del aire, así como interactuar con los modelos y los resultados obtenidos.
+  - Implementación de un bot de Twitter: Utilizando paquetes como rtweet, es posible desarrollar un bot de Twitter que publique actualizaciones y resultados relacionados con la contaminación del aire, lo que permite difundir la información de manera efectiva.
+  - Informes reproducibles: Utilizando RMarkdown y RStudio, se pueden crear informes reproducibles que combinen el código, los resultados y las visualizaciones en un documento HTML, PDF u otro formato, lo que facilita la comunicación y la presentación de los hallazgos del análisis.
+:::
+
+
+:::{.callout-note}
+### Librarías y funciones en R {-}
+
+- shyni
+
+- flexdasboard
+:::
+
+Ejemplo de creación de una ShinyApp en R:
+
+```r
+# Carga de la librería shiny
+library(shiny)
+
+# Definición de la interfaz de la ShinyApp
+ui <- fluidPage(
+  titlePanel("Análisis de Contaminación del Aire"),
+  sidebarLayout(
+    sidebarPanel(
+      # Aquí se pueden agregar controles para interactuar con los datos y modelos
+    ),
+    mainPanel(
+      # Aquí se pueden mostrar las visualizaciones y los resultados obtenidos
+    )
+  )
+)
+
+# Definición de la lógica de la ShinyApp
+server <- function(input, output) {
+  # Aquí se puede incluir el código para cargar los datos, entrenar modelos, etc.
+}
+
+# Creación de la ShinyApp
+shinyApp(ui = ui, server = server)
+
+```
+
+
+Presentación de los resultados del análisis de manera clara y comprensible.
+Comunicación de los hallazgos y recomendaciones.
+
+
+
+La etapa de “Implementación” es el sexto y último paso en el proceso de CRISP-DM. En esta etapa, debemos implementar el modelo seleccionado y seguir sus resultados. Esto puede incluir la generación de informes y visualizaciones para comunicar los resultados del análisis.
+
+En el caso de un análisis de datos sobre la contaminación del aire utilizando R, podríamos utilizar diferentes técnicas para implementar y comunicar los resultados de nuestros modelos. Por ejemplo, si hemos ajustado un modelo de regresión, podríamos utilizar funciones como predict para generar predicciones con nuestro modelo y librerías como ggplot2 para visualizar los resultados. Por ejemplo:
+
+
+```r
+predicciones <- predict(modelo, newdata = datos_test)
+datos_test$predicciones <- predicciones
+
+ggplot(datos_test, aes(x = fecha, y = contaminacion)) +
+  geom_point() +
+  geom_line(aes(y = predicciones), color = "red")
+```
+
+
+Si hemos ajustado un modelo de series temporales, podríamos utilizar funciones como forecast para generar predicciones con nuestro modelo y librerías como ggplot2 para visualizar los resultados. Por ejemplo:
+
+```r
+predicciones <- forecast(modelo, h = length(datos_test$contaminacion))
+datos_test$predicciones <- predicciones$mean
+
+ggplot(datos_test, aes(x = fecha, y = contaminacion)) +
+  geom_point() +
+  geom_line(aes(y = predicciones), color = "red")
+```
+  
+
+También podemos generar informes y visualizaciones para comunicar los resultados de nuestro análisis a otras personas. Por ejemplo, podríamos utilizar librerías como rmarkdown o shiny para crear informes dinámicos o aplicaciones interactivas que muestren los resultados de nuestro análisis.
+

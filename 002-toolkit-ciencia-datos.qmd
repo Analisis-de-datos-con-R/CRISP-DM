@@ -1,0 +1,799 @@
+#  Toolkit para la ciencia de datos {#toolkit}
+
+:::{.callout-warning}
+### Objetivos {-}
+
+- Instalar el software **R** y su IDE (Entorno de Desarrollo Integrado) **RStudio**.
+
+- Informes reproducibles, quarto, githbum
+
+- Conocer los fundamentos del modelo **CRISP-DM** (Cross Industry Standard Process for Data Mining)  
+
+:::
+
+
+## R y RStudio
+
+### Instalación de R y RStudio
+
+**R** es un entorno de software libre para la computación estadística y
+los gráficos. Se compila y ejecuta en una amplia variedad de plataformas
+UNIX, Windows y MacOS. Las fuentes, los binarios y la documentación de R
+pueden obtenerse a través de CRAN[^rstudio-1]. Para descargar **R** elija
+su espejo CRAN preferido en
+[www.r-project.org](https://www.r-project.org/).
+
+[^rstudio-1]: La "Comprehensive R Archive Network" (CRAN) es una
+    colección de sitios que contienen material idéntico, consistente en
+    la(s) distribución(es) de R, las extensiones aportadas, la
+    documentación para R y los binarios. El sitio principal de CRAN en
+    la WU (Wirtschaftsuniversität Wien) en Austria puede encontrarse en
+    la URL <https://CRAN.R-project.org/> y se refleja diariamente en
+    muchos sitios de todo el mundo.
+
+**RStudio** es un entorno de desarrollo integrado (IDE) para R. Incluye
+una consola, un editor que resalta la sintaxis y admite la ejecución
+directa del código, así como herramientas para el trazado, el historial,
+la depuración y la gestión del espacio de trabajo.
+
+RStudio está disponible en ediciones comerciales y de código abierto y
+se ejecuta en el escritorio (Windows, Mac y Linux) o en un navegador
+conectado a RStudio Server o RStudio Workbench (Debian/Ubuntu, Red
+Hat/CentOS y SUSE Linux), está disponible en
+[www.rstudio.com](https://www.rstudio.com/).
+
+
+:::{.callout-note}
+El orden es importante:
+
+1. Instale R
+
+2. Instale RStudio.
+:::
+
+
+Compruebe que tiene instalados estos iconos. Tal y como se indica en la Fig. XXX abra RStudio
+
+
+```{r 002-panrstudio2, echo=FALSE, out.width='60%', fig.align='center', fig.cap='Iconos de R y RStudio'}
+knitr::include_graphics("img/02-open-rstudio.png")
+```
+
+
+
+
+
+### Interfaz de RStudio (TODO)
+
+Al abrir el programa se observan los cuatro paneles que se muetran en la Fig. XX
+
+-   **Sripts**:
+
+- **Consola**: contiene la Consola, Terminal y los Jobs
+
+-   **Entorno**: contiene el
+    Environment, History, conexiones y git entre otros
+
+-   **Files, Plots, Packages, Help y Viewer**
+
+Cuando abrimos un script nuevo, éste se abrirá en la parte superior
+izquierda. La posición de los paneles se puede personalizar al gusto del
+usuario, al igual que la apariencia del IDE.
+
+```{r 002-panrstudio, echo=FALSE, out.width='60%', fig.align='center', fig.cap='Paneles de RStudio'}
+knitr::include_graphics(here::here("img/02-rstudio-layout.png"))
+```
+
+
+:::{.callout-note}
+*Nota:*
+
+la posición relativa y el contenido de cada panel pueden personalizarse
+desde el menú: Tools \> Global Options \> Pane Layout
+:::
+
+
+### Instalación los paquetes
+
+Los paquetes son adiciones modulares al software R que añaden
+funcionalidad en forma de nuevas funciones, conjuntos de datos
+incluidos, documentación, etc. El repositorio estándar de paquetes R El
+"Comprehensive R Archive Network" (CRAN). 
+
+Copie el siguiente comando en la consola de R: 
+```{r , eval=FALSE}
+install.packages("tidyverse")
+```
+
+:::{.callout-note}
+Los paquetes se instalan una única vez y se leen cada vez que se utilizan.
+:::
+
+Alternativamente, use el panel de Paquetes en RStudio para hacer la
+instalación con la interfaz gráfica.
+
+:::{.callout-note}
+[**CRAN Task Views**](https://cran.r-project.org/web/views/):
+
+Ofrecen un breve resumen de los paquetes incluidos. 
+:::
+
+
+
+
+### Proyectos
+
+
+Ser organizado desde el principio es uno de los mejores hábitos que
+podemos desarrollar y esto se consigue trabajando con proyectos.
+Un proyecto de R agrupa todo los ficheros de tu trabajo en una carpeta de forma que
+se facilita su manejo, el trabajo colaborativo y su reproducibilida.
+
+(TODO) rEPASAR ESTO
+
+:::{.callout-note}
+*Crear un proyecto Quarto de R:*
+
+Desde el menú: File \> New Project y luego elija:
+
+-   Nuevo Directorio
+
+-   Proyecto Vacío
+
+-   Elija un nombre para el directorio, por ejemplo aprender-R
+
+-   Haga clic en Crear Proyecto
+:::
+
+
+(TODO) CAMBIA LA IMAGEN A ESTA ESTRUCTURA QUE ES LA QUE HEMOS DEFINIDO, con estas carpetas más sencillas. Se pueden poner unos emojis para las carpetitas y para el libro. https://github.com/hadley/emo#emoji
+¿te gusta?
+
+- **data**  `r emo::ji("folder")`: para los datos.
+
+- **img** `r emo::ji("folder")`: para las imágenes.
+
+
+- **src**:  contriene los *scripts* de R que para llevar a cabo las
+distintas tareas del análisis. Se recomienda dividir en distintos
+*scripts* las tareas que utilizan sets de datos distintos o que tengan
+una finalidad muy marcada.
+
+-  **output** se guardarán los resultados
+finales de nuestro análisis.
+
+-  **README.md** debe contener
+la información básica sobre el proyecto, la compatibilidad, los inputs
+que necesita, los outputs que genera y un resumen de flujo del trabajo.
+Ésto ayudará a cualquiera a comprender mejor cómo es nuestro proyecto.
+
+Una de las estructuras más comunes es la siguiente:
+
+```{r proyecto, echo=FALSE, fig.align='center'}
+knitr::include_graphics(here::here("img/02-estructura_proyecto.png"))
+```
+
+
+:::{.callout-note}
+Los distintos scripts se pueden ejecutar desde otros scripts.
+Para ello se utiliza la función `source()`
+:::
+
+### Trabajar con un script de R (TODO)
+
+Para comenzar a escribir un *script* nuevo nos dirigimos a File \> New
+File \> R Script. 
+
+Si creamos un proyecto quarto mejor un quarto document o y así luego compilamo todo o mejor un Rnotebook, depende de cómo sea el proyecto, no?? para hacerlo luego con ellos exactamente igual.
+
+
+Y REMITIR AL LIBRO R4DS porque es imposible explicar todo, 
+
+
+El editor es un editor de texto plano (sin negritas ni cursivas) pero
+ofrece un código de colores del texto dependiendo de lo que se escriba
+(resaltado de sintaxis).
+
+Aunque el código que escribimos ahora mismo tiene sentido para nosotros,
+puede que no sea obvio para otros o incluso para nosotros mismos en el
+futuro. Por lo tanto, es extremadamente útil comentar el *script* con
+información adicional para hacer más claro el proceso. Para añadir un
+comentario, simplemente hay que poner `#` al comienzo de la linea y lo
+que escribamos no será ejecutado.
+
+Los comandos que se escriben dentro del *script* pueden ser ejecutados
+usando el atajo de teclado `Ctrl + Enter` (en Macs, `Cmd + Enter`). Esto
+ejecutará el comando en la línea actual (indicado por el cursor) o todos
+los comandos en el texto actualmente seleccionado. Esta acción enviará
+el texto seleccionado a la consola R que ejecutará los comandos.
+
+Finalmente, a la hora de escribir código en R debemos recordar que se
+trate de un lenguaje y como tal debemos ser consistentes con la
+estructura del script, la forma en la que llamamos nuestras variables y
+funciones. Para comenzar con un buen pie lo más conveniente es usar las
+buenas prácticas diseñadas por programadores expertos. Para ello lo
+mejor es aplicar una guía de estilo, cuyo objetivo es hacer que nuestro
+código R sea más fácil de leer, compartir y verificar. Una de las
+mejores guías es [The tidyverse style
+guide](https://style.tidyverse.org/index.html).
+
+
+
+
+## El ecosistema `tidyverse` {#tidy}
+
+```{r tidy-logo, echo=FALSE, out.width='20%'}
+knitr::include_graphics(here::here("img/02-logo-tityverse.png"))
+
+```
+
+
+El [tidyverse](https://www.tidyverse.org/) es una colección de **paquetes de R para la ciencia de los datos**. Todos los paquetes comparten una filosofía de diseño, una gramática y unas estructuras de datos subyacentes. Se basan en la idea *tidy* data propuesta por Hadley Wickham (Wickham et al. 2014) y pueden instalarse con una única orden en R:
+
+
+`install.packages("tidyverse")`
+
+```{r , message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+
+
+
+
+
+
+```{r readr-logo, echo=FALSE, out.width='15%', fig.align='left'}
+knitr::include_graphics(here::here("img/02-logo-readr.png"))
+
+```
+
+
+### `readr` 
+
+
+El paquete `readr` roporciona una forma rápida y amigable de leer datos 
+rectangulares (como csv, tsv y fwf). Está diseñado para 
+analizar de forma flexible muchos tipos de datos que se encuentran en la naturaleza, mientras que sigue fallando limpiamente cuando los datos cambian inesperadamente.
+
+`readr` admite los siguientes formatos de archivo asociados a estas funciones `read_*()`:
+
+-  **`read_csv()`**: valores separados por coma, ficheros (CSV).
+
+-  **`read_tsv()`**: valores separados por tabulador, fichero (TSV).
+
+-  **`read_delim()`**: fichro delimitados (CSV y TSV son casos especiales).
+
+-  **`read_fwf()`**: archivos de ancho fijo.
+
+-  **`read_table()`**: archivos separados por espacios en blanco
+
+-  **`read_log()`**: archivos de logos web.
+
+
+:::{.callout-exm}
+
+Lea la base de datos de calidad del aire de la ciudad de Madrid , `dt_daily_mean_2011.RDS`, 
+contenida en la carpeta `data`.
+:::
+
+
+(TODO): QUITAR LA FUNCIÓN HERE PORQUE A ESTE NIVEL SI NO SE EXPLICA PUEDE LIAR
+
+```{r}
+air_mad <- readr::read_rds("data/dt_daily_mean_2011.RDS")
+```
+
+
+
+
+
+```{r dplyr-logo, echo=FALSE, out.width='15%',  fig.align='left'}
+knitr::include_graphics(here::here("img/02-logo-dplyr.png"))
+
+```
+
+
+### `dplyr`
+
+
+El paquete [`dplyr`](https://dplyr.tidyverse.org/articles/dplyr.html) 
+Ofrece una gramática de la manipulación de datos, proporcionando 
+un conjunto coherente de verbos que resuelven los problemas 
+más comunes de manipulación de datos y que pueden ser organizado 
+tres categorías basado en el dataset:
+
+1. **Filas:**
+
+-  **`filter()`**: elige filas en función de los valores de la columna.
+
+- **`slice()`**: elige filas en función de la ubicación.
+
+- **`arrange()`**: cambia el orden de las filas.
+
+
+2. **Columnas:**
+
+- **`select()`**: indica cuando una columa es incluida o no.
+
+- **`rename()`**: cambia el nombre de la columna.
+
+- **`mutate()`**: cambia los valores de las columnas y crea nuevas columnas.
+
+- **`relocate()`**: cambia el orden de las columnas.
+
+
+3. **Grupos de filas:**
+
+- **`summarise()`**: contrae un grupo en una sola fila.
+
+
+:::{.callout-note}
+### El operador pipe {-}
+
+Canaliza la salida de una función a la entrada de otra función. 
+```{r eval=FALSE}
+segundo(primero(datos))
+```
+
+se traduce en:
+```{r eval=FALSE}
+datos %>% 
+  primero %>% 
+  segundo
+```
+
+
+**Operador pipe de \{maggrit\}** `%>%`
+**Operador pipe de R base** `|>`
+:::
+
+
+:::{.callout-tip}
+### Ejemplo. Medidas de posición por estación de monitoreo
+
+Calcule las medidas de posición (mínimo, máximo, Q1, Q3, media y mediana)
+por estación de monitoreo , agrupando 
+por `id_name` para Partículas \< 2.5 µm `nom_abv == "PM2.5"` utilizando las funciones de la libreria `dplyr`.
+:::
+
+
+```{r}
+air_mad %>% # Summary por grupo usando dplyr 
+  na.omit() %>% # omitimos los NAs para el análisis
+  filter(nom_abv == "PM2.5") %>% # filtramos por PM2.5
+  group_by(id_name) %>% 
+  summarize(min = min(daily_mean),
+            q1 = quantile(daily_mean, 0.25),
+            median = median(daily_mean),
+            mean = mean(daily_mean),
+            q3 = quantile(daily_mean, 0.75),
+            max = max(daily_mean))
+
+```
+
+
+
+
+
+
+
+```{r tidyr-logo, echo=FALSE, out.width='15%',  fig.align='left'}
+knitr::include_graphics(here::here("img/02-logo-tidyr.png"))
+
+```
+
+
+### `tidyr`
+
+El paquete `tidyr` proporciona un conjunto de funciones que le ayudan a 
+obtener datos ordenados. Los datos ordenados son datos con una forma consistente. En resumen, cada variable va en una columna, y cada columna es una variable.
+
+Las funciones se agrupan en 5 grandes categorías:
+
+1. **Pivotar**. Convierte entre formas largas y anchas, `pivot_longer()` y `pivot_wider()` 
+
+2. **Rectangling**. Convierte listas profundamente anidadas (a partir de JSON) en `tibbles` ordenados: `unnest_longer()`, `unnest_wider()`, `hoist()`.
+
+3. **Anidar**. Convierte los datos agrupados en una forma en el que cada grupo se convierte en una sola fila que contiene un data frame anidado `nest()` y viceversa, `unnest()`.
+
+4. **Dividir y combinar columnas de caracteres**. Funciones: `separate()`, `extract()` y `unite()`
+
+5. **Valores perdidos**. Funciones: `complete()`, `drop_na()`, `fill()`, `replace_na()`
+
+
+
+
+:::{.callout-tip}
+### Ejemplo. ¿Cuál es el día con mayor y menor concentración de NOx de todo el periodo?
+:::
+
+```{r}
+air_mad %>% # Summary por grupo usando dplyr 
+  na.omit() %>% # omitimos los NAs para el análisis
+  filter(nom_abv == "NOx") %>% # filtramos por NOx
+  group_by(fecha) %>% # agrupamos por fecha
+  summarize(mad_mean = mean(daily_mean)) %>% # promedio de las estaciones
+  slice(which.max(mad_mean), which.min(mad_mean)) #seleccionamos el máximo y el mínimo 
+```
+
+El valor máximo, **415 µg/m3 de NOx**, se observa el 21 de diciembre de 2011 y el valor mínimo, **6,32 µg/m3 de NOx**, el 10 de mayo de 2020, en pleno estado de alarma.
+
+
+
+
+
+
+```{r ggplot2-logo, echo=FALSE, out.width='15%',  fig.align='left'}
+knitr::include_graphics(here::here("img/02-logo-ggplot2.png"))
+
+```
+
+
+### `ggplot2` 
+
+
+El paquete `ggplot2` es un sistema para crear gráficos de forma ordenada, 
+basado en *The Grammar of Graphics*. Al proporcionar los datos, 
+le dice a ggplot2 cómo asignar a las variables la estética y
+qué gráficas utilizar.
+
+El template básico para la función `ggplot()` es:
+```{r , eval=FALSE}
+ggplot(data = <DATA>) + 
+  <GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))
+```
+
+
+
+Los argumentos más importantes para la representación de gráficos son:
+
+* `ggplot()`, crea un nuevo gráfico.
+
+* `aes()`, construye la estética el gráfico.
+
+* `+(<gg>)`, añade componentes al gráfico.
+
+* `ggsave()`, guarda el gráfico.
+
+
+
+:::{.callout-tip}
+### Ejemplo. Gráfico de violín.
+
+Represente, con un gráfico de violín, las concentraciones de NOx por año en
+el periodo estudiado.
+:::
+
+
+
+Una buena forma de ver los datos es por medio de un gráfico de violín:
+
+```{r, message=FALSE}
+
+air_mad %>% # Summary por grupo usando dplyr 
+  na.omit() %>% # omitimos los NAs para el análisis
+  filter(nom_abv == "NOx") %>% # filtramos por NOx
+  group_by(year = format(fecha, "%Y")) %>% 
+  summarise(daily_mean)  %>% 
+  ggplot(aes(factor(year), daily_mean))+
+  geom_violin() +
+  geom_jitter(height = 0, width = 0.01) +
+  aes(x=factor(year), y=daily_mean, fill=year)
+
+
+```
+
+
+
+
+:::{.callout-note}
+
+Libro de referencia obligatoria: [**ggplot2: elegant graphics for data analysis**](https://ggplot2-book.org/index.html). 
+
+Es interesante conocer las [**Extensiones de ggplot2**](https://exts.ggplot2.tidyverse.org/gallery/)
+así como las [**ggplot2 Cheat sheet**](https://github.com/rstudio/cheatsheets/blob/main/data-visualization-2.1.pdf) disponible.
+:::
+
+
+
+
+
+
+
+
+
+```{r purrr-logo, echo=FALSE, out.width='15%',  fig.align='left'}
+knitr::include_graphics(here::here("img/02-logo-purrr.png"))
+
+```
+
+### `purrr`
+
+El paquete `purrr` mejora el conjunto de herramientas de programación 
+funcional (PF) de R proporcionando un conjunto completo y coherente de herramientas para 
+trabajar con funciones y vectores. Una vez que se dominan los conceptos básicos, `purrr` 
+permite sustituir muchos bucles `for` por un código más fácil de escribir 
+y más expresivo.
+
+:::{.callout-note}
+
+Consulte la [**purrr Cheat sheet**](https://github.com/rstudio/cheatsheets/blob/main/purrr.pdf) disponible para una descripcion de la librería.
+:::
+
+
+
+
+
+
+```{r tibble-logo, echo=FALSE, out.width='15%',  fig.align='left'}
+knitr::include_graphics(here::here("img/02-logo-tibble.png"))
+
+```
+
+
+### `tibble` 
+
+El paquete `tibble` es una reimaginación moderna del marco de datos, 
+manteniendo lo que el tiempo ha demostrado que es eficaz, y desechando 
+lo que no. Los Tibbles suelen conducir a un código más limpio y expresivo.
+
+
+:::{.callout-tip}
+
+Consulte el capítulo 10 de [**R for data science**](https://es.r4ds.hadley.nz/tibbles.html) disponible 
+online para una primera aproximación.
+:::
+
+
+
+
+```{r stringr-logo, echo=FALSE, out.width='10%',  fig.align='left'}
+knitr::include_graphics(here::here("img/02-logo-stringr.png"))
+
+```
+
+
+
+### `stringr`
+
+
+El paquete `stringr` proporciona un conjunto cohesivo de funciones diseñadas 
+para facilitar al máximo el trabajo con cadenas. 
+
+
+:::{.callout-tip}
+
+Consulte el capítulo 14 de [**R for data science**](https://es.r4ds.hadley.nz/cadenas-de-caracteres.html) disponible 
+online para una primera aproximación.
+:::
+
+
+
+
+
+
+
+```{r forcats-logo, echo=FALSE, out.width='15%'}
+knitr::include_graphics(here::here("img/02-logo-forcats.png"))
+
+```
+
+### `forcats` 
+
+
+El paquete `forcats` proporciona un conjunto de herramientas útiles que resuelven problemas comunes con los factores. R utiliza factores para manejar variables categóricas, variables que tienen un conjunto fijo y conocido de valores posibles.
+
+
+:::{.callout-note}
+
+Consulte el capítulo 14 de [**R for data science**](https://es.r4ds.hadley.nz/factores.html) disponible online para una primera aproximación.
+:::
+
+
+
+## Informes reproducibles con Quarto/Rmarkdown {#quarto} 
+
+Este es un documento R Quarto. Quarto es una sencilla sintaxis de formato para la creación de documentos HTML, PDF y MS Word. Para más detalles sobre el uso de Quarto vea (https://quarto.org/) [http://rmarkdown.rstudio.com].
+
+
+### Flujo de trabajo y el concepto renderizar
+
+```{r rmark-0, echo=FALSE, out.width='60%', fig.align='center', fig.cap='A diagram illustrating how an QUARTO document is converted to the final output document'}
+
+knitr::include_graphics(here::here("img/02-quarto.png"))
+```
+
+
+(TODO) ACTUALIZAR
+
+### Opciones de código (chunks)
+
+La salida de un chunk se puede personalizar con las opciones de knitr, argumentos establecidos en.... un chunk. Arriba, usamos cinco argumentos:
+
+  * `include = FALSE` evita que el código y los resultados aparezcan en el archivo final. R
+  Markdown sigue ejecutando el código en el chunk, y los resultados pueden ser utilizados por otros chunks.
+  * `echo = FALSE` impide que el código, pero no los resultados, aparezcan en el archivo final.
+  Esta es una forma útil de incrustar figuras.
+  * `message = FALSE` evita que los mensajes generados por el código aparezcan en el  
+  en el archivo final.
+  * `warning = FALSE` evita que las advertencias generadas por el código aparezcan en el archivo
+  terminado.
+  * `fig.cap = "..."` añade una leyenda a los resultados gráficos.
+
+Más información sobre la opción chunk (https://quarto.org/) [http://rmarkdown.rstudio.com].
+
+
+### Formato de texto
+
+
+R markdown permite formatear fácilmente su texto. Puedes añadir [enlaces](www.r-graph-gallery.com), escribir en **negrita** o *cursiva*. Consulta la hoja de trucos de Rstudio [descargar aquí](https://raw.githubusercontent.com/rstudio/cheatsheets/main/rmarkdown.pdf).
+
+> Hacer citas
+
+| bloque de líneas
+
+**Otros formatos de texto:**
+
+  * [subrayado]{.ul}
+  * ~~strikeout~~
+  * ^superíndice^
+  * ~subíndice~
+  * [small caps]{.smallcaps}
+
+La forma de añadir notas a pie de página es mediante `[^número]`[^1]
+
+[^1]: the footnote
+
+También puedes añadir emojis impresionantes como 😻 insertándolos en el editor visual de markdown o mediante su código `:heart_eyes_cat:`.
+
+***
+
+A veces queremos separar el texto con una línea horizontal, para ello simplemente escribimos `***`.
+
+
+<br><br><br><br>
+
+o saltar una linea utilizando código html `<br><br><br><br>`.
+
+### Añadir una imagen
+
+Para añadir imágenes basta con escribir `![nombre_de_la_imagen](ruta_de_la_imagen)`
+
+![R learners. Créditos: Allison Horst](img/02-Rlearners.png)
+
+
+### Buscar ayuda
+
+Las funciones de distintos paquetes de R tienen su ayuda y es muy fácil
+acceder a ella desde la consola poniendo un signo de interrogación
+delante de la función, por ejemplo al ejecutar `?mean` en la consola se
+abrirá la ventana de ***Help*** con la descripción de la función, su
+uso, los argumentos y otros datos relevantes que nos permitirán entender
+mejor la función que ejecutamos. También, existe una amplia información
+online sobre las funciones y distintos paquetes disponible en
+[Rdocumentation.org](https://rdocumentation.org/).
+
+#### Haz preguntas
+
+Uno de los foros más amplio de búsqueda de preguntas y respuestas sobre
+la programación es
+[StackOverflow](https://stackoverflow.com/questions/tagged/r). En
+StackOverflow se registraron hasta el momento más 450.000 preguntas. Se
+puede navegar por los archivos de StackOverflow y ver qué respuestas han
+sido votadas por los usuarios, o puedes hacer tus propias preguntas
+relacionadas con R y esperar una respuesta.
+
+<!-- ::: infobox -->
+<!-- **Cómo crear un ejemplo mínimo y reproducible** -->
+
+<!-- Cuando se hace una pregunta, la gente será más capaz de proporcionar ayuda si se -->
+<!-- proporciona un código que puedan entender fácilmente y utilizar para -->
+<!-- reproducir el problema. Los miembros de la comunidad se refieren a esto -->
+<!-- como la creación de un ejemplo mínimo y reproducible (reprex), un -->
+<!-- ejemplo mínimo, completo y verificable (mcve), o un ejemplo mínimo y -->
+<!-- viable (mwe). Independientemente de cómo se le comunique, se reduce a -->
+<!-- asegurar que su código que reproduce el problema sigue las siguientes -->
+<!-- directrices: -->
+
+<!-- Tus ejemplos de código deben ser... -->
+
+<!-- -   Mínimos - Utilizar la menor cantidad de código posible que siga -->
+<!--     produciendo el mismo problema -->
+<!-- -   Completos - Proporcionar todas las partes que alguien necesita para -->
+<!--     reproducir su problema en la propia pregunta -->
+<!-- -   Reproducible - Pruebe el código que va a proporcionar para -->
+<!--     asegurarse de que reproduce el problema -->
+<!-- ::: -->
+
+<!-- Si tienes una pregunta más relacionada con la metodología estadística, -->
+<!-- también hay muchos usuarios de R activos en la comunidad de preguntas y -->
+<!-- respuestas de [CrossValidated](https://stats.stackexchange.com/). -->
+
+<!-- Además se puede pedir ayuda a los usuarios de R y RStudio en -->
+<!-- [community.rstudio.com](https://community.rstudio.com/). -->
+
+#### Sigue la comunidad de R
+
+Existen diversas páginas web que contienen artículos sobre la
+programación en R, como por ejemplo:
+
+-   [R bloggers](https://www.r-bloggers.com/): un agregador de blogs que
+    vuelve a publicar artículos relacionados con R de toda la web. Un
+    buen lugar para encontrar tutoriales de R,
+
+-   [RWeekly](https://rweekly.org/): R Weekly se fundó el 20 de mayo
+    de 2016. R está creciendo muy rápidamente, y hay un montón de
+    grandes blogs, tutoriales y otros formatos de recursos que salen
+    cada día. R Weekly quiere hacer un seguimiento de estas grandes
+    cosas en la comunidad de R y hacerla más accesible para todos.
+
+-   [RPubs](https://rpubs.com/): RStudio permite aprovechar el poder de
+    R Markdown para crear documentos que entrelazan su escritura y la
+    salida de su código R. En RPubs se puede publicar esos documentos en
+    la web en un click.
+
+-   [Medium](https://medium.com/): un sitio web de blogs donde se puede
+    encontrar mucha temática sobre el Data Science.
+
+### Git y GitHub
+
+¿Git y GitHub? En primer lugar, son dos cosas distintas:
+
+-   **Git** es un software de código abierto para el control de
+    versiones. Con Git puedes hacer cosas como ver todas las versiones
+    anteriores del código que has creado en un proyecto.
+
+-   **GitHub** es el servicio más popular (otros son GitLab y BitBucket)
+    para colaborar en el código utilizando Git.
+
+#### ¿Por qué debería usar Git y GitHub?
+
+Las tres principales ventajas de utilizar Git y GitHub son:
+
+1.  El uso de Git y GitHub sirve como copia de seguridad. Dado que
+    GitHub tiene una copia de todo el código que tienes localmente, si
+    algo le ocurriera a tu ordenador, seguirías teniendo acceso a tu
+    código.
+
+2.  El uso de Git y GitHub te permite utilizar el control de versiones.
+    ¿Alguna vez has tenido documentos llamados trabajo_final.pdf,
+    trabajo_final_2.pdf o este_es_el_final.pdf? En lugar de hacer copias
+    de los archivos por miedo a perder el trabajo, el control de
+    versiones permite ver lo que se hizo en el pasado, todo ello
+    manteniendo versiones únicas de los documentos.
+
+3.  El uso de Git y GitHub hace posible trabajar en el mismo proyecto al
+    mismo tiempo con distintos colaboradores. Se puede ver el autor de
+    los cambios y se fuera necesario volver a la versión anterior.
+
+Para poner Git y GitHub a punto lo mejor es seguir la guía de [Happy Git
+and GitHub for the useR](https://happygitwithr.com/) en la que se
+explica paso a paso como registrarse en GitHub e instalar Git, además de
+integrarlo en RStuidio.
+
+
+      
+      
+## Fundamentos de la metodlogía CRISP-DM {#fundamentos}
+
+
+**CRISP-DM** \index{crisp-dm} es un modelo estándar ampliamente utilizado en la minería de datos que proporciona un enfoque estructurado para llevar a cabo proyectos de análisis de datos. Este modelo se compone de seis fases interconectadas, que abarcan desde la comprensión del negocio hasta la implementación de los resultados del análisis. Las fases de CRISP-DM son:
+
+1. Entendimiento del negocio
+
+2. Comprensión de los datos
+
+3. Preparación de los datos
+
+4. Modelado
+
+5. Evaluación
+
+6. Despliegue
+
+```{r lifecycle, echo=FALSE, out.width='15%', fig.cap= 'Ciclo de vida de un proceso de ciencia de datos' }
+knitr::include_graphics(here::here("img/02-Data-Science-LifeCycle.png"))
+
+```
+

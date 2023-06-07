@@ -1,11 +1,18 @@
-# Preparación del entorno de trabajo {#prepentorno}
+
+
+# Pre-curso {#pre-curso} {-}
+
+Aquí vamos a decir lo que deben hacer antes de venir al seminario, luego puede quedar como anexo o ya veremos donde- Esto se ejecuta solo y se les evía
+
+## Preparación del entorno de trabajo {#prepentorno}
 
 En este capítulo, se abordará la preparación del entorno de trabajo necesario para realizar el análisis de datos espaciales de contaminación del aire utilizando R y RStudio. Se describirá la instalación de R y RStudio, así como la configuración de las librerías y paquetes necesarios para el análisis.
 
 ## Instalación de R y RStudio
 Se proporcionarán instrucciones detalladas sobre cómo instalar R y RStudio en diferentes sistemas operativos, como Windows, macOS y Linux. Se explicará el proceso paso a paso y se destacarán los enlaces de descarga y recursos adicionales para obtener más información.
 
-## Configuración de librerías y paquetes
+## Configuración de librerías que tienen que venir instalados
+
 Se presentará una lista de las librerías y paquetes necesarios para el análisis de datos espaciales de contaminación del aire en R. Se describirá cómo instalar y cargar estas librerías en el entorno de RStudio, y se ofrecerán ejemplos de código para mostrar su utilización.
 
 Algunas de las librerías y paquetes relevantes pueden incluir:
@@ -16,8 +23,6 @@ Algunas de las librerías y paquetes relevantes pueden incluir:
   - caret: Para la selección de modelos y técnicas de modelado.
   - spatialreg: Para el modelado espacial y la regresión espacial.
 
-## Ejemplos prácticos en R y RStudio
-Se proporcionarán ejemplos prácticos de cómo instalar R y RStudio en diferentes sistemas operativos. Además, se mostrará cómo instalar y cargar las librerías y paquetes necesarios para el análisis de datos espaciales de contaminación del aire.
 
 ```r
 # Instalación de la librería sf
@@ -32,5 +37,3 @@ library(sf)
 # Carga de la librería dplyr
 library(dplyr)
 ```
-
-Se proporcionarán ejemplos adicionales de cómo utilizar estas librerías y paquetes en el análisis de datos espaciales de contaminación del aire, como la importación y manipulación de conjuntos de datos espaciales, la visualización de mapas y la realización de análisis estadísticos.

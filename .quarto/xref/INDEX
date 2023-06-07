@@ -25,5 +25,50 @@
   },
   "chapters/005-case-study.qmd": {
     "005-case-study.html": "213aaf23"
+  },
+  "chapters/001-Introduccion.qmd": {
+    "001-Introduccion.html": "de482c58"
+  },
+  "chapters/002-Fundamentos-CRISP-DM.qmd": {
+    "002-Fundamentos-CRISP-DM.html": "1b2e7996"
+  },
+  "chapters/003-Preparacion-entorno-trabajo.qmd": {
+    "003-Preparacion-entorno-trabajo.html": "97979f12"
+  },
+  "chapters/004-Comprension-negocio-datos.qmd": {
+    "004-Comprension-negocio-datos.html": "747314f1"
+  },
+  "chapters/005-Preparacion-datos.qmd": {
+    "005-Preparacion-datos.html": "f4de336c"
+  },
+  "chapters/006-modelado.qmd": {
+    "006-modelado.html": "6cac11d2"
+  },
+  "chapters/007-Evaluacion-validacion.qmd": {
+    "007-Evaluacion-validacion.html": "6fbc0916"
+  },
+  "chapters/008-Despliegue-conclusiones.qmd": {
+    "008-Despliegue-conclusiones.html": "97a7c4dd"
+  },
+  "chapters/00a-pre-curso.qmd": {
+    "00a-pre-curso.html": "8fe07e76"
+  },
+  "chapters/002-toolkit-ciencia-datos.qmd": {
+    "002-toolkit-ciencia-datos.html": "5cf22cdd"
+  },
+  "chapters/003-crispdm-air-madrid.qmd": {
+    "003-crispdm-air-madrid.html": "e33e9fbb"
+  },
+  "001-Introduccion.qmd": {
+    "001-Introduccion.html": "39e28801"
+  },
+  "002-toolkit-ciencia-datos.qmd": {
+    "002-toolkit-ciencia-datos.html": "dc20566a"
+  },
+  "003-crispdm-air-madrid.qmd": {
+    "003-crispdm-air-madrid.html": "4daf12c6"
+  },
+  "00a-pre-curso.qmd": {
+    "00a-pre-curso.html": "2212ab12"
   }
 }
