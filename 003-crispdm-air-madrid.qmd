@@ -79,19 +79,127 @@ El paquete integrado de `tidyverse` es un buen aliado en esta tarea, ya que reco
 
 En el caso de un análisis del primer paso es la obtención y carga de los datos. Una vez que se obtienen los datos descargando de una API pública o diréctamente desde la web se procede con la lectura de los mismos por medio de librerías como `readr` o `data.table`, por ejemplo:
 
+### Cómo obtener los datos
 
-**AQUÍ HABRÍA QUE HACER UN BREVE RESUMEN, A MODO DE ESQUEMA, AUNQUE NO SE EJECUTE, DE CÓMO LOS DATOS ESTAN EN LA WEB DEL AYUNTAMIENTO, SE HACE WEBSCRAPING, SE PROCESAN, ... Y FINALMENTE SE GUARDAN CON PROMEDIO DIARIO EN dt_daily_mean_2011**
+En el caso de los datos sobre la calidad de aire en el ayuntamiento de Madrid hay que dirigirse a la página [datos abiertos](https://datos.madrid.es/portal/site/egob) y buscamos los datos del aire diarios [(disponibles aquí)](https://datos.madrid.es/portal/site/egob/menuitem.c05c1f754a33a9fbe4b2e4b284f1a5a0/?vgnextoid=aecb88a7e2b73410VgnVCM2000000c205a0aRCRD&vgnextchannel=374512b9ace9f310VgnVCM100000171f5a0aRCRD&vgnextfmt=default). Para obtener los datos de forma automatizada se utiliza la API de los datos abiertos. Como base de obtención de los enlaces de descarga se copia el enlace de la descarga en DECAT `https://datos.madrid.es/egob/catalogo/201410-0-calidad-aire-diario.dcat`:
+  
+  
+```{r}
+library(tidyverse)
+library(xml2)
+library(vroom)
+
+# Se guarda la URL RDF de DECAT de los datos
+url <- "https://datos.madrid.es/egob/catalogo/201410-0-calidad-aire-diario.dcat"
+
+# Se carga la página
+page <- url %>%
+  read_xml() %>%
+  as_list()
+
+# Se convierte en una lista e inspecciona para identificar la localización de los datos
+location <- page[["RDF"]][["Catalog"]][["dataset"]][["Dataset"]]
+location <- location[names(location) == "distribution"]
+
+
+# Tras identificar se genera un tibble con el año como identificación y el link a los datos
+links <-
+  tibble(
+    year = sapply(X = location, function(x) unname(unlist(x[["Distribution"]][["title"]][1]))),
+    link = sapply(X = location, function(x) unname(unlist(x[["Distribution"]][["accessURL"]][1])))
+  )
+
+# Seleccionar el formato csv
+links <- links %>% filter(str_detect(link, pattern = ".csv"))
+
+# Añadir el nombre de fichero a descargar
+links <- links %>% 
+  mutate(file_name = paste0("datos_aire_madrid_", year, ".csv"))
+
+# Descarga de los ficheros csv desde 2013
+years <- links %>% filter(year >= "2013") %>% .$year
+
+lapply(years, function(x) {
+  file_x <- links %>%
+    filter(year == x & str_detect(link, ".csv"))
+  
+  if (x == max(years)) {
+    download.file(url = file_x$link,
+                  destfile = paste0("data/",
+                                    file_x$file_name))
+  }
+  
+  if (!file.exists(paste0("data/", file_x$file_name))) {
+    download.file(url = file_x$link,
+                  destfile = paste0("data/",
+                                    file_x$file_name))
+  }
+})
+
+# Lectura de los ficheros
+data <- vroom(paste0("data/", links %>% filter(year %in% years) %>% .$file_name))
+
+# Conversión de viariables a numéricas
+cols_to_numeric <-
+  c(
+    "PROVINCIA",
+    "MUNICIPIO",
+    "ESTACION",
+    "MAGNITUD",
+    "PUNTO_MUESTREO",
+    "ANO",
+    "MES",
+    str_subset(names(data), pattern = '^D')
+  )
+data <- data %>%
+  mutate(across(all_of(cols_to_numeric), as.numeric))
+
+# Guardar datos brutos
+write_rds(data, "data_raw.RDS")
+
+# Transformar de datos transversales a longitudinales
+air_mad <- data %>%
+  gather(v, valor, D01:V31) %>%
+  mutate(DIA = str_sub(v, 2, 3),
+         v = str_sub(v, 1, 1))
+
+air_mad <- air_mad %>%
+  mutate(id = ESTACION,
+         fecha = as.Date(paste(ANO, MES, DIA, sep = "-"))) %>%
+  select(id, MAGNITUD, fecha, v, valor)
+
+air_mad <- air_mad %>%
+  unique() %>%
+  pivot_wider(names_from = v, values_from = valor)
+air_mad <- air_mad %>%
+  mutate(valor = as.numeric(D)) %>%
+  select(-D)
+
+# Añadir información de diccionarios
+station_names <- read_csv("dictionaries/station_names.csv")
+magnitudes_names <- read_csv("dictionaries/magnitudes_names.csv")
+
+air_mad <- left_join(air_mad, station_names, by = "id")
+air_mad <- left_join(air_mad, magnitudes_names, by = "MAGNITUD")
+air_mad <- air_mad %>% select(-MAGNITUD)
+
+# Guardar los datos
+write_rds(air_mad, "data/air_mad.RDS")
+
+```
 
 
 ```{r lee-data}
 library(readr)
-air_mad <- readr::read_rds("data/dt_daily_mean_2011.RDS")
+air_mad <- readr::read_rds("data/air_mad.RDS")
 ```
+
 
 ```{r}
 class(air_mad)
 head(air_mad)
 ```
+
 
 Para ver la dimensión de la tabla de datos:
 ```{r dim-data}
@@ -120,10 +228,6 @@ DECIR QUE UNO DE LOS MÁS PRBLEMÁTICOS ES EL NOX y el PM10 Y NOS CENTRAMOS EN E
 
 HACER UN PRIMER PLOT PARA INTRODUCIR LOS GRÁFIOS, uno con cada polutan, 
 
-```
-ggplot 
-```
-
 
 ¿Cómo han evolucionado la concentración de contaminantes en la ciudad de Madrid?
 Con las funciones del Tidyverse represente la evolución de todos los contaminantes medidos por las estaciones de monitoreo de la ciudad de Madrid en el periodo (2011-2022).
@@ -131,9 +235,10 @@ Con las funciones del Tidyverse represente la evolución de todos los contaminan
 
 ```{r }
 #| eval: false
-plot_air_mad <- air_mad |>
-  group_by(fecha, nom_mag) |>
-  summarise(media_estaciones = mean(daily_mean, na.rm = TRUE)) |>
+plot_air_mad <- air_mad %>%
+  filter(V == "V") %>% 
+  group_by(fecha, nom_mag) %>%
+  summarise(media_estaciones = mean(valor, na.rm = TRUE)) %>%
   ggplot(aes(x = fecha, y = media_estaciones)) +
   geom_line() +
   geom_smooth() +
@@ -146,9 +251,6 @@ plot_air_mad
 
 
 DECIR QUE PARA ANLIZAR LA CALIDAD, EN ESTA FASE SE HACE ALGÚN EXAMEN DE LOS POLUTANS MÁS IMPORTANTES PERO QEU NOS VAMOS A CENTRARA EN UNO
-
-
-
 
 
   

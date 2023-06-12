@@ -1,0 +1,15 @@
+MAGNITUD,nom_mag,nom_abv,ud_med
+1,Dióxido de Azufre,SO2,µg/m3
+6,Monóxido de Carbono,CO,µg/m3
+7,Monóxido de Nitrógeno,NO,µg/m3
+8,Dióxido de Nitrógeno,NO2,µg/m3
+9,Partículas < 2.5 µm,PM2.5,µg/m3
+10,Partículas < 10 µm,PM10,µg/m3
+12,Óxidos de Nitrógeno,NOx,µg/m3
+14,Ozono,O3,µg/m3
+20,Tolueno,TOL,µg/m3
+30,Benceno,BEN,µg/m3
+35,Etilbenceno,EBE,µg/m3
+42,Hidrocarburos totales (hexano),TCH,µg/m3
+43,Metano,CH4,µg/m3
+44,Hidrocarburos no metánicos (hexano),NMHC,µg/m3
