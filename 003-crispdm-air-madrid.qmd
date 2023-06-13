@@ -81,10 +81,11 @@ En el caso de un análisis del primer paso es la obtención y carga de los datos
 
 ### Cómo obtener los datos
 
-En el caso de los datos sobre la calidad de aire en el ayuntamiento de Madrid hay que dirigirse a la página [datos abiertos](https://datos.madrid.es/portal/site/egob) y buscamos los datos del aire diarios [(disponibles aquí)](https://datos.madrid.es/portal/site/egob/menuitem.c05c1f754a33a9fbe4b2e4b284f1a5a0/?vgnextoid=aecb88a7e2b73410VgnVCM2000000c205a0aRCRD&vgnextchannel=374512b9ace9f310VgnVCM100000171f5a0aRCRD&vgnextfmt=default). Para obtener los datos de forma automatizada se utiliza la API de los datos abiertos. Como base de obtención de los enlaces de descarga se copia el enlace de la descarga en DECAT `https://datos.madrid.es/egob/catalogo/201410-0-calidad-aire-diario.dcat`:
+En el caso de los datos sobre la calidad de aire en el ayuntamiento de Madrid hay que dirigirse a la página [datos abiertos](https://datos.madrid.es/portal/site/egob) y buscamos los datos del aire diarios [(disponibles aquí)](https://datos.madrid.es/portal/site/egob/menuitem.c05c1f754a33a9fbe4b2e4b284f1a5a0/?vgnextoid=aecb88a7e2b73410VgnVCM2000000c205a0aRCRD&vgnextchannel=374512b9ace9f310VgnVCM100000171f5a0aRCRD&vgnextfmt=default). Para obtener los datos de forma automatizada se utiliza la API de los datos abiertos. Como base de obtención de los enlaces de descarga se copia el enlace de la descarga en DECAT `https://datos.madrid.es/egob/catalogo/201410-0-calidad-aire-diario.dcat`. Además, es muy importante entender la estructura de los datos, en este caso hay que acceder a la documentación asociada a los datos: [Intérprete de ficheros de calidad del aire](https://datos.madrid.es/FWProjects/egob/Catalogo/MedioAmbiente/Aire/Ficheros/Interprete_ficheros_%20calidad_%20del_%20aire_global.pdf).
   
   
-```{r}
+```{r }
+#| eval: false
 library(tidyverse)
 library(xml2)
 library(vroom)
@@ -188,25 +189,30 @@ write_rds(air_mad, "data/air_mad.RDS")
 
 ```
 
+Se procede a la lectura de los datos obtenidos y consulta la clase del objeto cargado:
 
 ```{r lee-data}
 library(readr)
 air_mad <- readr::read_rds("data/air_mad.RDS")
+class(air_mad)
 ```
+
+De acuerdo con la salida se trata de un onjeto de clase tibble, que forma parte del universo `tidyverse`. posteriormente se visionan las primeras líneas pare tener una visión preliminar de los datos. 
+
 
 
 ```{r}
-class(air_mad)
 head(air_mad)
 ```
 
 
 Para ver la dimensión de la tabla de datos:
+
 ```{r dim-data}
 dim(air_mad)
 ```
 
-
+Luego se trata de 559009 filas y 12 columnas.
 
 
 Una vez cargados los datos en **R**, las funciones como `summary()` y `str()` sirven para obtener información sobre la estructura y contenido de los datos, siguiendo con el ejemplo anterior:
@@ -216,7 +222,6 @@ DESCRIBIR BREVEMENTE ALGUNO DE ESTOS RESULTADOS
 ```{r str-data}
 summary(air_mad)
 str(air_mad)
-skimr::skim(air_mad)
 ```
 
 NOTA IMPORTANTE:
@@ -224,41 +229,75 @@ NOTA IMPORTANTE:
 Además, existen paquetes como DataExplorer y dlookr que generan informes automáticos con los principales descriptivos.
 
 
-DECIR QUE UNO DE LOS MÁS PRBLEMÁTICOS ES EL NOX y el PM10 Y NOS CENTRAMOS EN ESTOS DOS.
-
-HACER UN PRIMER PLOT PARA INTRODUCIR LOS GRÁFIOS, uno con cada polutan, 
-
-
 ¿Cómo han evolucionado la concentración de contaminantes en la ciudad de Madrid?
-Con las funciones del Tidyverse represente la evolución de todos los contaminantes medidos por las estaciones de monitoreo de la ciudad de Madrid en el periodo (2011-2022).
+Con las funciones del Tidyverse represente la evolución de todos los contaminantes medidos por las estaciones de monitoreo de la ciudad de Madrid en el periodo (2013-2023).
 
 
 ```{r }
-#| eval: false
-plot_air_mad <- air_mad %>%
+#| message: false
+air_mad %>%
   filter(V == "V") %>% 
-  group_by(fecha, nom_mag) %>%
+  group_by(semana = floor_date(fecha, unit = "week"), nom_mag) %>%
   summarise(media_estaciones = mean(valor, na.rm = TRUE)) %>%
-  ggplot(aes(x = fecha, y = media_estaciones)) +
-  geom_line() +
-  geom_smooth() +
-  facet_wrap( ~ nom_mag, scales = "free_y", ncol = 2)
-
-plot_air_mad
+  ggplot(aes(x = semana, y = media_estaciones)) +
+  geom_line(aes(color = nom_mag)) +
+  geom_smooth(size = 0.5, color = "red") +
+  labs(
+    x = NULL, y = "(µg/m3)", title = "Evolución de partículas contaminantes en Madrid",
+    subtitle = "Concentración media semanal en las estaciones de medición",
+    caption = "Fuente: Portal de datos abiertos del Ayuntamiento de Madrid"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  facet_wrap(~nom_mag, scales = "free_y", ncol = 2)
 
 ```
 
 
 
-DECIR QUE PARA ANLIZAR LA CALIDAD, EN ESTA FASE SE HACE ALGÚN EXAMEN DE LOS POLUTANS MÁS IMPORTANTES PERO QEU NOS VAMOS A CENTRARA EN UNO
+Según Sanchis, Montero Fernández-Avilés (2022), la contaminación del aire exterior es un problema importante que afecta a la salud humana en las zonas urbanas de todo el mundo. Por lo tanto, no es sorprendente que el control de la contaminación del aire sea una preocupación destacada para los ciudadanos en la actualidad. Aunque las emisiones de la mayoría de los contaminantes del aire han disminuido significativamente en las últimas décadas, sus concentraciones todavía superan los límites legales en la mayoría de los países, lo que indica que el control de la contaminación del aire sigue siendo un desafío para las sociedades modernas. Según la Organización Mundial de la Salud (OMS, 2016), más de 4,2 millones de personas mueren prematuramente cada año debido a la contaminación del aire exterior. Los principales responsables de esto son el ozono (O3), los óxidos de nitrógeno (NOx) y, especialmente, las partículas finas o material particulado (PM) con un diámetro de 10 micrómetros o menos (PM10).
+
+
+Por otro lado, como señalan Montero y Fernández-Avilés (2015, 2018), Madrid es la tercera ciudad más poblada de la Unión Europea después de Londres y Berlín, y cuenta con una extensa área metropolitana periférica con más de cinco millones de habitantes. Su actividad económica enérgica, incluso durante la pandemia de la Covid-19, resulta en niveles de PM10 superiores a los deseados debido al transporte, en particular al tráfico de vehículos, y a la actividad industrial, que son las principales fuentes de emisión de PM10.
+
+Para realizar el análisis de datos de contaminación, se ha decidido seleccionar el contaminante en forma de  óxidos de nitrógeno (NOx) como uno de los contaminantes a estudiar. Esta elección se basa en varias razones relevantes:
+
+1. Impacto en la salud humana: Los óxidos de nitrógeno son un contaminante del aire asociado a diversos problemas de salud, especialmente afecciones respiratorias. La exposición prolongada al NO2 puede causar irritación en las vías respiratorias, exacerbación de enfermedades pulmonares como el asma y aumentar el riesgo de infecciones respiratorias.
+
+2. Fuente de emisión: El tráfico rodado es una de las principales fuentes de emisión de dióxido de nitrógeno en áreas urbanas. En ciudades con altos volúmenes de tráfico, como Madrid, se produce una considerable liberación de NO2 debido a la combustión de combustibles fósiles en los vehículos.
+
+3. Regulaciones y límites: El dióxido de nitrógeno está sujeto a regulaciones y límites establecidos tanto a nivel nacional como internacional. Estos límites buscan controlar y reducir la concentración de NO2 en el aire para proteger la salud de la población y mejorar la calidad del aire en general.
+
+4. Disponibilidad de datos: Existen sistemas de monitoreo de calidad del aire que recopilan datos precisos sobre la concentración de dióxido de nitrógeno en tiempo real. En el caso de Madrid, el Ayuntamiento dispone de datos abiertos proporcionados por su red de estaciones de monitoreo, lo que facilita el análisis y seguimiento de los niveles de NOx en la ciudad.
+
+Teniendo en cuenta estas razones, el análisis de datos de contaminación se centrará en el dióxido de nitrógeno (NOx) para obtener información relevante sobre su impacto en la salud pública y evaluar el cumplimiento de los límites establecidos para este contaminante en la ciudad de Madrid.
+
+```{r}
+#| message: false
+plot_air_mad <- air_mad %>%
+  filter(V == "V" & nom_abv == "NOx" & fecha >= "2018-01-01") %>% 
+  group_by(fecha, nom_mag, zona) %>%
+  summarise(media_estaciones = mean(valor, na.rm = TRUE)) %>%
+  ggplot(aes(x = fecha, y = media_estaciones)) +
+  geom_line(aes(color = zona)) +
+  geom_smooth(size = 0.5, color = "red") +
+  labs(
+    x = NULL, y = "(µg/m3)", title = "Evolución de NOx en Madrid",
+    subtitle = "Concentración por zonas en las estaciones de medición",
+    caption = "Fuente: Portal de datos abiertos del Ayuntamiento de Madrid"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  facet_wrap(~zona, ncol = 1)
+
+plot_air_mad
+```
 
 
   
 ## Preparación de los datos {#prep-datos}
 
 En esta fase se  abordan la limpieza y transformación de los datos de contaminación del aire para su posterior análisis.
-
-
 
 
 En esta sección, se explorarán las técnicas y métodos para limpiar los datos de contaminación del aire y abordar los problemas de calidad, como los valores faltantes, los valores atípicos y los errores de medición. Se describirán las siguientes actividades:
