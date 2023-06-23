@@ -192,7 +192,9 @@ write_rds(air_mad, "data/air_mad.RDS")
 Se procede a la lectura de los datos obtenidos y consulta la clase del objeto cargado:
 
 ```{r lee-data}
-library(readr)
+#| message: false
+#| warning: false
+library(tidyverse)
 air_mad <- readr::read_rds("data/air_mad.RDS")
 class(air_mad)
 ```
@@ -235,6 +237,7 @@ Con las funciones del Tidyverse represente la evolución de todos los contaminan
 
 ```{r }
 #| message: false
+#| warning: false
 air_mad %>%
   filter(V == "V") %>% 
   group_by(semana = floor_date(fecha, unit = "week"), nom_mag) %>%
@@ -255,34 +258,35 @@ air_mad %>%
 
 
 
-Según Sanchis, Montero Fernández-Avilés (2022), la contaminación del aire exterior es un problema importante que afecta a la salud humana en las zonas urbanas de todo el mundo. Por lo tanto, no es sorprendente que el control de la contaminación del aire sea una preocupación destacada para los ciudadanos en la actualidad. Aunque las emisiones de la mayoría de los contaminantes del aire han disminuido significativamente en las últimas décadas, sus concentraciones todavía superan los límites legales en la mayoría de los países, lo que indica que el control de la contaminación del aire sigue siendo un desafío para las sociedades modernas. Según la Organización Mundial de la Salud (OMS, 2016), más de 4,2 millones de personas mueren prematuramente cada año debido a la contaminación del aire exterior. Los principales responsables de esto son el ozono (O3), los óxidos de nitrógeno (NOx) y, especialmente, las partículas finas o material particulado (PM) con un diámetro de 10 micrómetros o menos (PM10).
+Según Sanchis, Montero Fernández-Avilés (2022), la contaminación del aire exterior es un problema importante que afecta a la salud humana en las zonas urbanas de todo el mundo. Por lo tanto, no es sorprendente que el control de la contaminación del aire sea una preocupación destacada para los ciudadanos en la actualidad. Aunque las emisiones de la mayoría de los contaminantes del aire han disminuido significativamente en las últimas décadas, sus concentraciones todavía superan los límites legales en la mayoría de los países, lo que indica que el control de la contaminación del aire sigue siendo un desafío para las sociedades modernas. Según la Organización Mundial de la Salud (OMS, 2016), más de 4,2 millones de personas mueren prematuramente cada año debido a la contaminación del aire exterior. Los principales responsables de esto son el ozono (O3), el dióxido de nitrógeno (NO2) y, especialmente, las partículas finas o material particulado (PM) con un diámetro de 10 micrómetros o menos (PM10).
 
 
 Por otro lado, como señalan Montero y Fernández-Avilés (2015, 2018), Madrid es la tercera ciudad más poblada de la Unión Europea después de Londres y Berlín, y cuenta con una extensa área metropolitana periférica con más de cinco millones de habitantes. Su actividad económica enérgica, incluso durante la pandemia de la Covid-19, resulta en niveles de PM10 superiores a los deseados debido al transporte, en particular al tráfico de vehículos, y a la actividad industrial, que son las principales fuentes de emisión de PM10.
 
-Para realizar el análisis de datos de contaminación, se ha decidido seleccionar el contaminante en forma de  óxidos de nitrógeno (NOx) como uno de los contaminantes a estudiar. Esta elección se basa en varias razones relevantes:
+Para realizar el análisis de datos de contaminación, se ha decidido seleccionar el contaminante en forma de dióxido de nitrógeno (NO2) como uno de los contaminantes a estudiar. Esta elección se basa en varias razones relevantes:
 
-1. Impacto en la salud humana: Los óxidos de nitrógeno son un contaminante del aire asociado a diversos problemas de salud, especialmente afecciones respiratorias. La exposición prolongada al NO2 puede causar irritación en las vías respiratorias, exacerbación de enfermedades pulmonares como el asma y aumentar el riesgo de infecciones respiratorias.
+1. Impacto en la salud humana: El dióxido de nitrógeno son un contaminante del aire asociado a diversos problemas de salud, especialmente afecciones respiratorias. La exposición prolongada al NO2 puede causar irritación en las vías respiratorias, exacerbación de enfermedades pulmonares como el asma y aumentar el riesgo de infecciones respiratorias.
 
 2. Fuente de emisión: El tráfico rodado es una de las principales fuentes de emisión de dióxido de nitrógeno en áreas urbanas. En ciudades con altos volúmenes de tráfico, como Madrid, se produce una considerable liberación de NO2 debido a la combustión de combustibles fósiles en los vehículos.
 
 3. Regulaciones y límites: El dióxido de nitrógeno está sujeto a regulaciones y límites establecidos tanto a nivel nacional como internacional. Estos límites buscan controlar y reducir la concentración de NO2 en el aire para proteger la salud de la población y mejorar la calidad del aire en general.
 
-4. Disponibilidad de datos: Existen sistemas de monitoreo de calidad del aire que recopilan datos precisos sobre la concentración de dióxido de nitrógeno en tiempo real. En el caso de Madrid, el Ayuntamiento dispone de datos abiertos proporcionados por su red de estaciones de monitoreo, lo que facilita el análisis y seguimiento de los niveles de NOx en la ciudad.
+4. Disponibilidad de datos: Existen sistemas de monitoreo de calidad del aire que recopilan datos precisos sobre la concentración de dióxido de nitrógeno en tiempo real. En el caso de Madrid, el Ayuntamiento dispone de datos abiertos proporcionados por su red de estaciones de monitoreo, lo que facilita el análisis y seguimiento de los niveles de NO2 en la ciudad.
 
-Teniendo en cuenta estas razones, el análisis de datos de contaminación se centrará en el dióxido de nitrógeno (NOx) para obtener información relevante sobre su impacto en la salud pública y evaluar el cumplimiento de los límites establecidos para este contaminante en la ciudad de Madrid.
+Teniendo en cuenta estas razones, el análisis de datos de contaminación se centrará en el dióxido de nitrógeno (NO2) para obtener información relevante sobre su impacto en la salud pública y evaluar el cumplimiento de los límites establecidos para este contaminante en la ciudad de Madrid.
 
 ```{r}
 #| message: false
+#| warning: false
 plot_air_mad <- air_mad %>%
-  filter(V == "V" & nom_abv == "NOx" & fecha >= "2018-01-01") %>% 
+  filter(V == "V" & nom_abv == "NO2" & fecha >= "2018-01-01") %>% 
   group_by(fecha, nom_mag, zona) %>%
   summarise(media_estaciones = mean(valor, na.rm = TRUE)) %>%
   ggplot(aes(x = fecha, y = media_estaciones)) +
   geom_line(aes(color = zona)) +
   geom_smooth(size = 0.5, color = "red") +
   labs(
-    x = NULL, y = "(µg/m3)", title = "Evolución de NOx en Madrid",
+    x = NULL, y = "(µg/m3)", title = "Evolución de NO2 en Madrid",
     subtitle = "Concentración por zonas en las estaciones de medición",
     caption = "Fuente: Portal de datos abiertos del Ayuntamiento de Madrid"
   ) +
@@ -342,54 +346,140 @@ En esta sección, se explorarán las técnicas y métodos para limpiar los datos
 :::
 
 
-AQUÍ TODO EL **feature engineering** y el **exploratorio**
+1. Selección de NO2:
 
-hacer anova aquí o en modelización 
+```{r}
+# Selección de NO2
+no2 <- air_mad %>% 
+  filter(nom_abv == "NO2")
 
 
-```r
-# Tratamiento de valores faltantes
-air_pollution_clean <- na.omit(air_pollution)
+```
 
-# Detección y manejo de valores atípicos
-outliers <- boxplot(air_pollution_clean$pollution_level, plot = FALSE)$out
-air_pollution_clean <- air_pollution_clean[!air_pollution_clean$pollution_level %in% outliers, ]
+2. Datos validados:
 
-# Normalización de variables
-air_pollution_clean$pollution_level_normalized <- scale(air_pollution_clean$pollution_level)
+```{r}
+no2 %>% 
+  count(V)
 
-# Codificación de variables categóricas
-air_pollution_clean$city_category <- as.factor(air_pollution_clean$city)
+```
 
-# Agregación y transformación de variables
-air_pollution_agg <- aggregate(pollution_level ~ year, data = air_pollution_clean, FUN = mean)
+Hay un total de 819 datos **no válidos** y 90267 válidos. Se seleccionan sólamente los datos válidos:
+
+```{r}
+no2 <- no2 %>% 
+  filter(V == "V")
 ```
 
 
-En el caso de un análisis de datos espaciales sobre la contaminación del aire utilizando R y RStudio, podríamos utilizar librerías como dplyr y tidyr para llevar a cabo estas tareas. Por ejemplo, si queremos seleccionar solo las variables relevantes para nuestro análisis, podríamos utilizar el siguiente código:
+3. Hay valores con *NA*?:
+```{r}
+no2 %>%
+  count(is.na(valor))
+```
+No se encuentran valores válidos con NA en el campo `valor`.
 
-```r
-library(dplyr)
+4. Agrupar valores:
 
-datos_seleccionados <- datos %>%
-  select(area, fecha, contaminacion)
+```{r}
+#| message: false
+#| warning: false
+no2_zona <- no2 %>% 
+  group_by(zona, fecha) %>% 
+  summarise(valor_zona = mean(valor, na.rm = T))
 ```
 
-Si queremos eliminar valores faltantes o atípicos, podríamos utilizar funciones como filter y is.na. Por ejemplo:
 
-```r
-datos_limpio <- datos_seleccionados %>%
-  filter(!is.na(contaminacion)) %>%
-  filter(contaminacion >= 0)
-```
+5. Detección de los valores atípicos:
+
+```{r}
+#| message: false
+#| warning: false
+# devtools::install_github("business-science/sweep")
+# devtools::install_github("business-science/anomalize")
+library(anomalize)
+library(tibbletime)
+
+no2_zona_ts <- tibbletime::as_tbl_time(no2_zona, index = fecha) %>% 
+  arrange(zona, fecha, by_group = zona)
+
+anomalies <- no2_zona_ts %>% 
+  group_by(zona) %>% 
+  time_decompose(valor_zona, method = "stl", frequency = 7, trend = 14) %>%
+  anomalize(remainder, method = "iqr", alpha = .75, max_anoms = .02) %>%
+  time_recompose()
+
+plot_anomalia <- anomalies %>% 
+  filter(zona == "Interior M30") %>% 
+  ungroup() %>% 
+  plot_anomaly_decomposition() + 
+  labs(title = "Ejemplo anomalías en Interior M30")
+
+no2_zona <- left_join(no2_zona,
+                 anomalies %>% 
+                   select(zona, fecha, anomaly),
+                 by = c("zona", "fecha"))
   
-Si queremos transformar variables, podríamos utilizar funciones como mutate y ifelse. Por ejemplo, si queremos crear una nueva variable que indique si el nivel de contaminación del aire es alto o bajo, podríamos utilizar el siguiente código:
-
-```r
-datos_transformados <- datos_limpio %>%
-  mutate(nivel_contaminacion = ifelse(contaminacion > 50, "Alto", "Bajo"))
 ```
-  
+
+
+```{r}
+plot_anomalia
+```
+
+Una vez se han realizado los ajustes en los datos se procede a creación de variables de interés
+
+De acuerdo con el [DECRETO 140/2017, de 21 de noviembre, del Consejo de Gobierno, por el que se aprueba el protocolo marco de actuación durante episodios de alta contaminación por dióxido de nitrógeno (NO2) en la Comunidad de Madrid](http://www.madrid.org/rlma_web/html/web/FichaNormativa.icm?ID=4141#), el objetivo de la media anual se fija en los 40 µg/m3 por ello se generala variable lógica:
+ - `objetivo_anual` - tomará el valor `TRUE` cuando los valores son inferiores o iguales a 40 µg/m3 del objetivo anual.
+
+```{r}
+#| message: false
+#| warning: false
+no2_zona <- no2_zona %>%
+  mutate(objetivo_anual = valor_zona <= 40)
+
+no2_zona %>% 
+  ggplot(aes(zona, fill = objetivo_anual)) +
+  geom_bar(position = "fill") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Cumplimiento del tope de 40 µg/m3 de NO2",
+       subtitle = "porcentaje de cumplimiento por zona",
+       x = NULL,
+       y = "%", 
+       fill = "Cumplimiento del objetivo") +
+  theme(legend.position = "bottom")
+
+```
+
+A simple vista se observa que la zona que se encuentra más cerca del cumplimiento de los objetivos es la zona Noroeste, mientras la que se encuentra más alejada es la zona Suroeste. En General las zonas del Norte obtienen mejores resultados. 
+
+
+Dado que se trata de un objetivo anual se aplica a cada zona una media móvil con ventana de un año para ver la evolución de los datos:
+
+```{r}
+#| message: false
+#| warning: false
+library(zoo) 
+no2_zona <- no2_zona %>% 
+  group_by(zona) %>%
+  mutate(valor_zona_anual = rollmean(valor_zona, k = 365, fill = NA, align = 'right'))
+
+
+no2_zona %>% 
+  filter(fecha >= "2014-01-01") %>% 
+  ggplot(aes(fecha, valor_zona_anual, color = zona)) +
+  geom_line() +
+  scale_x_date() +
+  geom_hline(yintercept = 40, color = "red") +
+  labs(title = "Cumplimiento del tope de 40 µg/m3 de NO2",
+       subtitle = "media móvil anual por zona",
+       x = NULL,
+       y = "µg/m3 de NO2", 
+       color = "Zona") +
+  theme(legend.position = "bottom")
+```
+
+Se observa un claro cambio en los niveles de la contaminación desde 2020, el año del comienzo de la pandemia de COVID-19.
 
 
 
@@ -407,188 +497,442 @@ datos_transformados <- datos_limpio %>%
   - Conocimiento del dominio: Utilizar el conocimiento experto en contaminación del aire para seleccionar técnicas relevantes y realizar ajustes apropiados.
 :::
 
+El principal paquete que se utilzará en el modelado de los datos es el paquete `modeltime` ya que se tratarán series temporales.
+
+El paquete `modeltime` es una biblioteca en R que ofrece una variedad de herramientas y técnicas avanzadas para el pronóstico de series temporales. Está diseñado para simplificar el proceso de construcción, evaluación y despliegue de modelos de series temporales.
+
+Con modeltime, los usuarios pueden realizar tareas como la selección automática de modelos, la construcción de modelos en paralelo, la agregación de modelos, la validación cruzada y la generación de pronósticos. También ofrece una interfaz intuitiva para ajustar y personalizar modelos de series temporales, lo que facilita su adaptación a diferentes escenarios.
+
+El paquete modeltime incluye una amplia gama de algoritmos de modelado de series temporales, como ARIMA, modelos de suavizamiento exponencial, redes neuronales recurrentes y modelos de aprendizaje automático. Además, permite la integración con otras bibliotecas populares de R, como tidyverse y dplyr, lo que brinda un enfoque coherente para el preprocesamiento de datos y el análisis exploratorio.
+
+Para más información sobre la biblioteca véase la documentación oficial en sobre [modeltime](https://business-science.github.io/modeltime/).
 
 
+### Paso 1: Recopilar los datos y dividirlos en conjuntos de entrenamiento y de prueba
+
+
+Se cargan las librarías para aplicar los modelos:
+
+```{r}
+#| message: false
+#| warning: false
+
+# Tidymodeling
+library(tidymodels)
+library(modeltime)
+library(modeltime.resample)
+
+# Base Models
+library(earth)
+library(glmnet)
+library(xgboost)
+library(lightgbm)
+
+# Core Packages
+library(tidyverse)
+library(lubridate)
+library(timetk)
+library(bonsai)
+
+
+set.seed(160191)
+```
+
+Se selecciona una de las zonas, en este caso `zona == "Interior M30"`:
+
+```{r}
+no2_interior_m30 <- no2_zona %>%
+  filter(zona == "Interior M30" & anomaly == "No") %>% 
+  ungroup() %>% 
+  select(fecha, valor_zona)
+```
+
+
+
+Se visualizan los datos:
+
+```{r}
+no2_interior_m30 %>%
+  plot_time_series(fecha, valor_zona)
+```
+
+#### Preparación de los datos
+
+Los datos disponibles se añaden más filas para generar el conjunto para preparar el conjunto de datos de entrenamiento y los datos para proyección a futuro. 
+Se generan:
+  - `fecha_num` - valor numérico normalizado de la fecha 
+  - `dow` - valor numérico del día de la semana (siendo lunes el primer día)
+  - `month` - valor numérico del mes  
+  - `quarter` - valor numérico del trimestre
+  - `year` - el año
+
+Además se define `h` como el horizonte de predicción y que define también el número de *lags*.
+
+```{r}
+#| message: false
+#| warning: false
+
+# el horizonte
+h <- 21
+
+# función auxilar para hacer los lags
+lag_transformer <- function(data){
+  data %>%
+    tk_augment_lags(valor_zona, .lags = 1:h) %>%
+    ungroup()
+}
+
+# Extensión de los datos en h
+no2_zona_m30_ext <- no2_zona_m30 %>%
+  future_frame(
+    .date_var = "fecha", 
+    .length_out = h,
+    .bind_data  = TRUE
+  ) %>%
+  ungroup()
+
+# Generación de variables
+no2_zona_m30_ext <- no2_zona_m30_ext %>% 
+  mutate(
+    fecha_num = normalize_vec(as.numeric(fecha)),
+    dow = wday(fecha, week_start = 1), 
+    month = month(fecha),
+    quarter = quarter(fecha),
+    year = year(fecha)
+  ) %>%
+  ungroup()
+
+# Añadir lags
+no2_zona_m30_ext <- no2_zona_m30_ext %>%
+  lag_transformer()
+
+# Datos de entrenamiento
+train_data <- no2_zona_m30_ext %>%
+  drop_na()
+
+# Datos para la prediccción
+future_data <- no2_zona_m30_ext %>%
+  filter(is.na(valor_zona))
+
+
+```
+Los datos para el entrenamiento:
+```{r}
+head(train_data)
+```
+
+
+Los datos para la predicción:
+```{r}
+head(future_data)
+```
+
+
+#### Re-muestreo
+
+```{r}
+#| message: false
+#| warning: false
+
+resamples_tscv <- time_series_cv(
+  data        = train_data,
+  assess      = h,
+  initial     = 12 * 4 * h,
+  skip        = 12 * 3 * h,
+  slice_limit = 4
+)
+
+resamples_tscv
+```
+
+El re-muestreo es una técnica utilizada en el análisis de series de tiempo para evaluar la estabilidad de los modelos a lo largo del tiempo. Consiste en dividir los datos de la serie de tiempo en diferentes subconjuntos, aplicar un modelo predictivo a cada subconjunto y luego comparar las predicciones generadas por cada modelo.
 
 :::{.callout-note}
-### librarías y funciones en R {-}
+*Nota:*
 
-  - `lm` y `glm`: Regresión lineal: Utilizada para modelar la relación entre variables dependientes e independientes y predecir los niveles de contaminación del aire.
-  - `gstat` y `geoR`: Kriging: Un método de interpolación espacial utilizado para estimar valores de contaminación en ubicaciones no muestreadas, basado en la variabilidad espacial de los datos.
-::: 
+El re-muestreo es una técnica utilizada en el análisis de series de tiempo para evaluar la estabilidad de los modelos a lo largo del tiempo. Consiste en dividir los datos de la serie de tiempo en diferentes subconjuntos, aplicar un modelo predictivo a cada subconjunto y luego comparar las predicciones generadas por cada modelo.
+:::
+
+El re-muestreo es importante por varias razones:
+
+ 1. **Evaluación de la estabilidad del modelo**: Al dividir la serie temporal en diferentes subconjuntos y aplicar el modelo a cada uno de ellos, se puede evaluar cómo el modelo se comporta en las distintas muestras. Esto permite identificar si el rendimiento del modelo varía significativamente en diferentes momentos y si es capaz de generalizar bien a lo largo del tiempo.
+
+ 2. **Validación del rendimiento del modelo**: Al generar predicciones utilizando el re-muestreo, se obtiene una estimación más realista del rendimiento del modelo en datos futuros no vistos. Esto ayuda a evitar el sobreajuste *overfitting* y proporciona una evaluación más confiable del rendimiento del modelo en condiciones reales.
+
+  3. **Comparación de modelos**: El re-muestreo permite comparar el rendimiento de varios modelos de series de tiempo en diferentes subconjuntos de datos. Esto ayuda a seleccionar el mejor modelo para un conjunto de datos específico y proporciona información sobre qué modelos son más estables y consistentes a lo largo del tiempo.
+
+Se comienza con una estrategia de validación cruzada:
+
+```{r}
+resamples_tscv %>%
+  tk_time_series_cv_plan() %>%
+  plot_time_series_cv_plan(fecha, valor_zona, .facet_ncol = 2, .interactive = FALSE)
+```
 
 
-**SE PUEDE HACER UN KRIGING Y COMPARAR CON IDW COMO EN EL EJEMPLO DE CLIMAEMET QUE TE PASÉ, EL PROBLEMA ES QEU NO QUEDA MUY LUCIDO PORQUE COMO HAY POCAS ESTACIONES DE MONITOREO ES DIFÍCIAL CAPTAR LA DEPENDENCIA ESPACIAL**
+### Paso 2: Crear y ajustar varios modelos
+
+#### Receta
+
+Se crea la receta del modelo, lo que constituye el `valor_zona` frente las demás variables creadas:
+
+```{r}
+recipe_spec <- recipe(valor_zona ~ ., train_data)
+
+```
+
+
+
+#### Modelo 1: GLMNET
+
+El modelo GLMNET (Generalized Linear Model with Elastic Net regularization) es una técnica de modelado que combina la regresión lineal generalizada con la regularización *Elastic Net*. GLMNET es útil cuando se trabaja con conjuntos de datos con un gran número de variables predictoras, ya que ayuda a seleccionar y ajustar las variables más relevantes.
+
+Por ejemplo, supongamos que deseamos predecir el precio de las casas en función de múltiples variables, como el tamaño, el número de habitaciones, la ubicación, etc. Aplicando GLMNET, podemos identificar las variables más importantes para predecir el precio y ajustar el modelo de regresión lineal generalizada al mismo tiempo.
+
+GLMNET utiliza una combinación de la regularización L1 (LASSO) y L2 (Ridge) para penalizar los coeficientes de las variables y controlar la complejidad del modelo. Esto permite seleccionar automáticamente las variables más relevantes y reducir la tendencia al sobreajuste.
+
+En el caso NO2 se procede con la siguiente especificación:
+
+```{r}
+# Modelo 1 - glmnet
+
+# Especificación
+model_spec_glmnet <- linear_reg(penalty = 0.04) %>%
+  set_engine("glmnet")
+
+# Ajuste
+workflow_fit_glmnet <- workflow() %>%
+  add_model(model_spec_glmnet) %>%
+  add_recipe(recipe_spec %>% step_rm(fecha)) %>%
+  fit(train_data) %>%
+    recursive(
+      transform  = lag_transformer,
+      train_tail = tail(train_data, h))
+
+```
+
+
+#### Modelo 2: MARS
+
+El modelo Multivariate Adaptive Regression Splines (MARS) es una técnica de modelado que utiliza funciones de base para aproximar relaciones no lineales entre variables predictoras y una variable objetivo. Se adapta a los datos mediante la construcción de una red de segmentos de regresión que capturan cambios en la relación entre las variables.
+
+Por ejemplo, supongamos que queremos predecir el precio de una casa en función de variables como el tamaño, el número de habitaciones y la ubicación. Al aplicar el modelo MARS, este identificará los segmentos de regresión óptimos para cada variable y construirá un modelo no lineal que se ajuste mejor a los datos. Esto permite capturar relaciones complejas y no lineales entre las variables predictoras y la variable objetivo.
+
+Este tipo de modelos también puede aplicarse para la modelización de la calidad de aire. El  trabajo de investigación de [@garcíanieto2014] trató sobre la modelización de la calidad del aire ne Gijón con el modelo MARS. El estudio explora el uso de este algoritmo de regresión no paramétrico que puede aproximar la relación entre las variables de entrada y salida y expresarla matemáticamente. Se recopiló un conjunto de datos experimental de contaminantes del aire peligrosos durante tres años (2006-2008) y se utilizó para crear un modelo altamente no lineal de la calidad del aire en el área urbana de Gijón basado en la técnica de MARS. El objetivo principal es obtener una estimación preliminar de la dependencia entre los contaminantes primarios y secundarios en el área urbana de Gijón y determinar los factores que más afectan la calidad del aire. El modelo MARS captura la percepción principal del aprendizaje estadístico para obtener una buena predicción de la dependencia entre los contaminantes. Sus ventajas incluyen la capacidad de producir modelos simples y fáciles de interpretar, estimar las contribuciones de las variables de entrada y ser computacionalmente eficiente.
+
+En el caso NO2 se procede con la siguiente especificación:
+
+```{r}
+# Modelo 2 - earth
+
+# Especificación
+model_spec_mars <- mars(mode = "regression") %>%
+  set_engine("earth")
+
+# Ajuste
+workflow_fit_mars <- workflow() %>%
+  add_model(model_spec_mars) %>%
+  add_recipe(recipe_spec) %>%
+  fit(train_data) %>%
+    recursive(
+      transform  = lag_transformer,
+      train_tail = tail(train_data, h))
+
+```
+
+
+#### Modelo 3: LightGBM
+
+LightGBM es un modelo de aprendizaje automático basado en árboles de decisión que se destaca por su eficiencia y velocidad en el procesamiento de grandes volúmenes de datos. Utiliza el algoritmo de refuerzo (boosting) para construir una serie de árboles de decisión que se combinan para mejorar la precisión de las predicciones.
+
+Una de las principales características de LightGBM es su capacidad para manejar datos con alta dimensionalidad y realizar una selección automática de características importantes. También utiliza un enfoque de partición de datos basado en hojas, lo que permite una mayor eficiencia en el proceso de entrenamiento.
+
+Un ejemplo de aplicación de LightGBM puede ser en la predicción de la satisfacción del cliente en una empresa de comercio electrónico. Se pueden utilizar características como el historial de compras, el tiempo de respuesta del servicio al cliente y la interacción en redes sociales para predecir la satisfacción del cliente. Al entrenar un modelo LightGBM con estos datos, se puede obtener un modelo eficiente y preciso que permita identificar patrones y factores clave que influyen en la satisfacción del cliente.
+
+```{r}
+# Modelo 3 - LightGBM
+
+# Especificación
+model_spec_lightgbm <- boost_tree(mode = "regression",
+                                  trees = 1000,
+                                  min_n = 8,
+                                  tree_depth = 10) %>%
+  set_engine("lightgbm")
+
+# Ajuste
+workflow_fit_lightgbm <- workflow() %>%
+  add_model(model_spec_lightgbm) %>%
+  add_recipe(recipe_spec %>% step_rm(fecha)) %>%
+  fit(train_data) %>%
+    recursive(
+      transform  = lag_transformer,
+      train_tail = tail(train_data, h))
   
-Ejemplo de Kriging en R:
-
-```r
-# Carga de la librería gstat para el Kriging
-library(gstat)
-
-# Creación del objeto de datos espaciales
-air_pollution_sp <- st_as_sf(air_pollution_clean)
-
-# Ajuste del modelo de Kriging
-krige_model <- gstat::krige(pollution_level ~ 1, locations = air_pollution_sp, newdata = new_locations)
-
-# Visualización de los resultados del Kriging
-plot(krige_model)
-```
-
-- Interpolación por distancia inversa (IDW): Otro método de interpolación espacial que asigna valores de contaminación a ubicaciones no muestreadas basándose en la inversa de la distancia ponderada a los puntos de muestra.
-Ejemplo de Interpolación por distancia inversa en R:
-
-```r
-# Carga de la librería gstat para la interpolación por distancia inversa
-library(gstat)
-
-# Creación del objeto de datos espaciales
-air_pollution_sp <- st_as_sf(air_pollution_clean)
-
-# Ajuste del modelo de Interpolación por distancia inversa
-idw_model <- gstat::idw(pollution_level ~ 1, locations = air_pollution_sp, newdata = new_locations)
-
-# Visualización de los resultados de la interpolación por distancia inversa
-plot(idw_model)
-
 ```
 
 
+#### Modelo 4: Prophet boost con crecimiento logarítmico
 
+El modelo Prophet es una herramienta de *forecasting* de series temporales desarrollada por Facebook. Al especificar un crecimiento logarítmico en Prophet, se asume que la tasa de crecimiento de la serie temporal disminuye con el tiempo. Esto es útil cuando los datos muestran un crecimiento inicial rápido seguido de una desaceleración.
 
-La librería gstat para llevar a cabo una interpolación por distancia inversa. Por ejemplo:
+Por ejemplo, supongamos que deseamos predecir las ventas de un producto a lo largo del tiempo. Si aplicamos el modelo Prophet con crecimiento logarítmico, capturará la tendencia de crecimiento inicial acelerado y luego la desaceleración esperada. Esto puede ser útil para ajustar mejor la serie temporal y realizar pronósticos más precisos.
 
-```r
-idw_model <- idw(formula = contaminacion ~ 1, data = datos_train, newdata = datos_test)
-```
+El modelo Prophet también se utiliza en la predicción del la contaminación del aire. Un ejemplo es la aplicación en la predicción de la contaminación en Seúl [@shen2020]. El modelo logró predecir con precisión la concentración de varios contaminantes hasta un año de antelación, superando a otros modelos similares. Los indicadores estadísticos utilizados mostraron que el modelo tuvo un error promedio bajo en la predicción de PM2.5, PM10, SO2 y CO. Este estudio amplió los contaminantes modelados y aumentó el tiempo de predicción en comparación con estudios anteriores. Se sugiere utilizar conjuntos de datos más grandes y aplicar el modelo en otras regiones sin infraestructura avanzada para modelar la meteorología y la contaminación del aire. El gobierno de Seúl puede utilizar este modelo para una planificación precisa relacionada con la contaminación del aire.
 
-Una vez que hemos ajustado nuestros modelos, podemos evaluar su rendimiento utilizando técnicas como la validación cruzada. Por ejemplo:
+En el caso NO2 se procede con la siguiente especificación:
 
-```r
-kriging_cv <- krige.cv(contaminacion ~ 1, datos_train, model = kriging_model)
-mean((kriging_cv$residual)^2)
+```{r}
+# Modelo 4 - prophet_xgboost
+
+# Especificación
+model_spec_prophet_boost_log <- prophet_boost(
+  mode = 'regression',
+  changepoint_range = 0.8,
+  logistic_floor = min(training(splits)$valor_zona),
+  logistic_cap = max(training(splits)$valor_zona),
+  growth = 'logistic',
+  trees = 1000,
+  min_n = 8,
+  tree_depth = 10
+) %>%
+  set_engine("prophet_xgboost")
+
+# Ajuste
+workflow_fit_prophet_boost_log <- workflow() %>%
+  add_model(model_spec_prophet_boost_log) %>%
+  add_recipe(recipe_spec) %>%
+  fit(train_data) %>%
+    recursive(
+      transform  = lag_transformer,
+      train_tail = tail(train_data, h))
+
 ```
 
 
 
+### Paso 3: Añadir modelos ajustados a una tabla de modelos
+
+El siguiente paso es agregar cada uno de los modelos a una tabla de Modeltime utilizando `modeltime_table()`. Este paso realiza algunas verificaciones básicas para asegurarse de que cada uno de los modelos esté ajustado y los organiza en una estructura escalable llamada "Tabla de Modeltime" que se utiliza como parte del flujo de trabajo de *forecasting*.
+
+Hay que tener en cuenta que los modelos ejecutados tienen parámetros y es relevante asegurarse el ajuste antes de recopilarlos. 
+
+```{r}
+models_tbl <- modeltime_table(
+  workflow_fit_glmnet,
+  workflow_fit_mars,
+  workflow_fit_lightgbm,
+  workflow_fit_prophet_boost_log
+)
+
+models_tbl
+```
+#### Paso 4: Generar predicciones de remuestreo
+
+```{r}
+resamples_fitted <- models_tbl %>%
+  modeltime_fit_resamples(
+    resamples = resamples_tscv,
+    control   = control_resamples(verbose = FALSE)
+  )
+
+resamples_fitted
+```
 
 
 ## Evaluación {#eval-vali}
 
+En el campo de la ciencia de datos, la evaluación de modelos de aprendizaje automático es fundamental para garantizar la calidad y el rendimiento de los modelos utilizados. A medida que los datos se vuelven cada vez más complejos y abundantes, los modelos de machine learning se han convertido en una herramienta poderosa para extraer información y tomar decisiones basadas en datos.
+
+La evaluación de modelos de machine learning permite determinar la precisión, la eficacia y la capacidad de generalización de un modelo en función de los datos utilizados. Es crucial evaluar los modelos de forma adecuada para evitar problemas como el sobreajuste (overfitting) o el subajuste (underfitting) y para identificar cualquier sesgo o error en los resultados.
+
+Además, la evaluación de modelos proporciona información valiosa sobre la robustez y la confiabilidad de un modelo en diferentes escenarios y conjuntos de datos. Permite comparar diferentes modelos y enfoques, seleccionar el mejor modelo para una tarea específica y realizar mejoras iterativas para optimizar el rendimiento.
+
+
+
+### Paso 4: Evaluación de la precisión
+
+Gráfico de precisión:
+
+```{r}
+resamples_fitted %>%
+    plot_modeltime_resamples(
+      .point_size  = 3, 
+      .point_alpha = 0.8,
+      .interactive = FALSE
+    )
+
+```
+
+Tabla de precisión:
+
+```{r}
+resamples_fitted %>%
+    modeltime_resample_accuracy(summary_fns = mean) %>%
+    table_modeltime_accuracy(.interactive = FALSE)
+```
+
+Los tres primeros modelos parecen los que mejor se ajustan a los datos. Sin embargo todos los modelos presentan unas métricas con un MAPE bastante elevado. EN este punto habría que reconsiderar la inclusión de más regresores. 
+
+El modelo con las métricas más bajas de error es el **GLMNET**.
 
 :::{.callout-tip}
 ### Métricas de evaluación de modelos {-}
 
-  - Validación cruzada de k-fold: Divide los datos en k subconjuntos (folds), donde cada subconjunto se utiliza como conjunto de prueba y el resto como conjunto de entrenamiento. Se repite el proceso k veces y se promedian los resultados.
-  
-  - Validación cruzada dejando uno fuera (LOOCV): Utiliza un único punto de datos como conjunto de prueba y el resto como conjunto de entrenamiento. Este proceso se repite para todos los puntos de datos y se obtiene un promedio de los resultados.
-  
-  
-  - Error cuadrático medio (ECM): Mide la diferencia cuadrada promedio entre los valores predichos y los valores reales de contaminación del aire.
-  - Error absoluto medio (EAM): Calcula la diferencia promedio entre los valores predichos y los valores reales de contaminación del aire.
-  - Coeficiente de determinación (R^2): Proporciona una medida de cuánta variabilidad en los datos de contaminación del aire es explicada por el modelo.
-  - Índices de bondad de ajuste específicos del modelo utilizado, como el error de predicción promedio (RMSE) para modelos de kriging y la interpolación por distancia inversa ponderada.
+  - **MAE** (Mean Absolute Error): Es la media de las diferencias absolutas entre las predicciones y los valores reales. Mide el promedio del error absoluto y es útil para evaluar la magnitud del error en unidades de la variable de respuesta original. Un valor más bajo de MAE indica un mejor ajuste del modelo.
 
+  - **MAPE** (Mean Absolute Percentage Error): Es la media de los porcentajes absolutos de error entre las predicciones y los valores reales. Mide el promedio del error porcentual y es útil cuando se quiere evaluar el rendimiento relativo del modelo en términos de porcentaje. Un valor más bajo de MAPE indica una mayor precisión en las predicciones.
+
+  - **MASE** (Mean Absolute Scaled Error): Es una métrica que compara el error absoluto promedio del modelo con el error absoluto promedio de un modelo ingenuo, generalmente un modelo de caminata aleatoria. Proporciona una medida relativa del rendimiento del modelo en comparación con un modelo de referencia. Un valor de MASE inferior a 1 indica que el modelo es mejor que el modelo de referencia.
+
+  - **SMAPE** (Symmetric Mean Absolute Percentage Error): Es similar al MAPE, pero utiliza el promedio simétrico de los porcentajes absolutos de error entre las predicciones y los valores reales. Es útil cuando se desea penalizar de manera similar los errores positivos y negativos. Al igual que el MAPE, un valor más bajo de SMAPE indica una mayor precisión en las predicciones.
+
+  - **RMSE** (Root Mean Squared Error): Es la raíz cuadrada de la media de los errores al cuadrado entre las predicciones y los valores reales. Mide el promedio de la diferencia cuadrática y es útil para evaluar la dispersión de los errores. Un valor más bajo de RMSE indica una menor dispersión y un mejor ajuste del modelo.
+  - **RSQ** (R-squared): También conocido como coeficiente de determinación, es una medida que indica la proporción de la variabilidad de la variable de respuesta que puede explicar el modelo. Proporciona una medida de cuánto se ajustan los valores predichos a los valores reales. El valor de RSQ varía entre 0 y 1, donde 1 indica un ajuste perfecto. Un valor más alto de RSQ indica un mejor ajuste del modelo a los datos observados.
+  
 :::
 
-
-:::{.callout-note}
-### Librarías y funciones en R {-}
-
-- gstat::xxx
-
-- geoR::
-
-  - Validación de modelos de kriging: Se evalúa el rendimiento del modelo de kriging utilizando métricas como el RMSE (Root Mean Square Error) para comparar los valores predichos con los valores reales de contaminación del aire.
-
-  - Validación de la interpolación por distancia inversa: Se utiliza la misma métrica RMSE para evaluar el rendimiento del modelo de interpolación por distancia inversa y comparar los valores predichos con los valores reales de contaminación del aire.
-:::
+### Paso 5: Seleccíon del modelo y predicción a futuro
 
 
+Visualización del *forecast* frente al conjunto de datos de prueba
 
+```{r}
+recursive_model_panel <- modeltime_table(
+  workflow_fit_glmnet
+)
 
-Ejemplo de validación de modelos de interpolación en R:
-
-
-
-```r
-# Carga de la librería caret para la validación cruzada
-library(caret)
-
-# Creación del objeto de control para la validación cruzada
-ctrl <- trainControl(method = "cv", number = 5)
-
-# Entrenamiento y evaluación del modelo de kriging utilizando validación cruzada
-krige_model_cv <- train(pollution_level ~ ., data = air_pollution_train, method = "krige",
-                        trControl = ctrl)
-
-# Evaluación de las métricas de rendimiento del modelo
-krige_model_cv$results
-```
-
-
-```r
-# Carga de la librería gstat para el kriging y la interpolación por distancia inversa
-library(gstat)
-
-# Ajuste del modelo de kriging
-krige_model <- gstat::krige(pollution_level ~ 1, locations = air_pollution_train)
-
-# Evaluación del rendimiento del modelo de kriging
-krige_predictions <- predict(krige_model, locations = air_pollution_test)
-krige_rmse <- sqrt(mean((krige_predictions - air_pollution_test$pollution_level)^2))
-
-# Ajuste del modelo de interpolación por distancia inversa
-idw_model <- gstat::idw(pollution_level ~ 1, locations = air_pollution_train)
-
-# Evaluación del rendimiento del modelo de interpolación por distancia inversa
-idw_predictions <- predict(idw_model, locations = air_pollution_test)
-idw_rmse <- sqrt(mean((idw_predictions - air_pollution_test$pollution_level)^2))
+recursive_model_panel %>%
+  modeltime_forecast(
+    new_data    = future_data,
+    actual_data = no2_zona_m30_lags,
+    keep_data   = TRUE
+  ) %>%
+  filter(fecha >= "2023-01-01") %>% 
+  plot_modeltime_forecast(
+    .conf_interval_show = FALSE
+  )
 
 ```
 
 
 
 
-Evaluación de la precisión y el rendimiento de los modelos desarrollados.
-Utilización de métricas y técnicas de validación cruzada.
 
 
 
+```{r}
+recursive_ensemble_tbl %>%
+  modeltime_forecast(
+    new_data    = future_data,
+    actual_data = no2_zona_m30_lags,
+    keep_data   = TRUE
+  ) %>%
+  filter(fecha >= "2023-01-01") %>% 
+  plot_modeltime_forecast(
+    .conf_interval_show = FALSE
+  )
 
-En el caso de un análisis de datos sobre la contaminación del aire utilizando R, podríamos utilizar diferentes técnicas para evaluar el rendimiento de nuestros modelos. Por ejemplo, si hemos ajustado un modelo de regresión, podríamos utilizar medidas como el error cuadrático medio (MSE) o el coeficiente de determinación (R^2) para evaluar su rendimiento. Por ejemplo:
-
-```r
-modelo <- lm(contaminacion ~ fecha + area, data = datos_train)
-predicciones <- predict(modelo, newdata = datos_test)
-mse <- mean((predicciones - datos_test$contaminacion)^2)
-r2 <- summary(modelo)$r.squared
 ```
-
-Si hemos ajustado un modelo de series temporales, podríamos utilizar medidas como el error cuadrático medio (MSE) o el error absoluto medio (MAE) para evaluar su rendimiento. Por ejemplo:
-
-```r
-library(forecast)
-
-modelo <- auto.arima(datos_train$contaminacion)
-predicciones <- forecast(modelo, h = length(datos_test$contaminacion))$mean
-mse <- mean((predicciones - datos_test$contaminacion)^2)
-mae <- mean(abs(predicciones - datos_test$contaminacion))
-```
-
-También podemos utilizar técnicas como la validación cruzada para evaluar el rendimiento de nuestros modelos. Por ejemplo:
-
-```r
-cv_resultados <- cv.glm(datos_train, modelo, K = 10)
-mean(cv_resultados$delta)
-```
-
-
-SE PUEDE ENFOCAR TAMBIEN DE FORMA ALTERNATIVA COMO UNA PREDICCION TEMPORAL, VER.
-
-SE PUEDE PONER UN EJEMPLO CON TIDYMODELS...
-
 
 
 ## Despliegue {#despliegue}
