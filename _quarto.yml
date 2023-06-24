@@ -16,7 +16,7 @@ book:
     en la ciudad de Madrid. Centrado en el uso del lenguaje de programación R y el IDE RStudio, 
     este libro pretende proporcionar a los lectores las herramientas necesarias para llevar 
     a cabo análisis de datos robustos y reproducibles.
-  cover-image: cover2.png
+  cover-image: cover.png
   chapters:
     - index.qmd
     - 001-Introduccion.qmd
@@ -28,7 +28,7 @@ bibliography: references.bib
 
 format:
   html:
-    theme: cosmo
+    theme: theme.scss
     header-includes: |
       <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/lato" type="text/css"/>
       <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/roboto" type="text/css"/>

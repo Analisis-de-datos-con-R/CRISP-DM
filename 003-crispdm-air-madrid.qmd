@@ -487,6 +487,10 @@ Se observa un claro cambio en los niveles de la contaminación desde 2020, el a�
 
 ## Modelado {#modelado}
 
+```{r proceso-cd, echo=FALSE, out.width='60%', fig.align='center', fig.cap='Proceso de ciencia de datos'}
+knitr::include_graphics(here::here("img/modelo.png"))
+```
+
 
 :::{.callout-tip}
 ### Selección de técnicas de modelado {-}
@@ -541,7 +545,7 @@ set.seed(160191)
 Se selecciona una de las zonas, en este caso `zona == "Interior M30"`:
 
 ```{r}
-no2_interior_m30 <- no2_zona %>%
+no2_zona_m30 <- no2_zona %>%
   filter(zona == "Interior M30" & anomaly == "No") %>% 
   ungroup() %>% 
   select(fecha, valor_zona)
@@ -552,7 +556,7 @@ no2_interior_m30 <- no2_zona %>%
 Se visualizan los datos:
 
 ```{r}
-no2_interior_m30 %>%
+no2_zona_m30 %>%
   plot_time_series(fecha, valor_zona)
 ```
 
@@ -788,8 +792,8 @@ En el caso NO2 se procede con la siguiente especificación:
 model_spec_prophet_boost_log <- prophet_boost(
   mode = 'regression',
   changepoint_range = 0.8,
-  logistic_floor = min(training(splits)$valor_zona),
-  logistic_cap = max(training(splits)$valor_zona),
+  logistic_floor = min(train_data$valor_zona),
+  logistic_cap = max(train_data$valor_zona),
   growth = 'logistic',
   trees = 1000,
   min_n = 8,
@@ -897,14 +901,11 @@ El modelo con las métricas más bajas de error es el **GLMNET**.
 Visualización del *forecast* frente al conjunto de datos de prueba
 
 ```{r}
-recursive_model_panel <- modeltime_table(
-  workflow_fit_glmnet
-)
-
-recursive_model_panel %>%
+workflow_fit_lightgbm %>% 
+  modeltime_table() %>%
   modeltime_forecast(
     new_data    = future_data,
-    actual_data = no2_zona_m30_lags,
+    actual_data = no2_zona_m30_ext,
     keep_data   = TRUE
   ) %>%
   filter(fecha >= "2023-01-01") %>% 
@@ -915,24 +916,6 @@ recursive_model_panel %>%
 ```
 
 
-
-
-
-
-
-```{r}
-recursive_ensemble_tbl %>%
-  modeltime_forecast(
-    new_data    = future_data,
-    actual_data = no2_zona_m30_lags,
-    keep_data   = TRUE
-  ) %>%
-  filter(fecha >= "2023-01-01") %>% 
-  plot_modeltime_forecast(
-    .conf_interval_show = FALSE
-  )
-
-```
 
 
 ## Despliegue {#despliegue}

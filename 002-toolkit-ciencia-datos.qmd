@@ -594,7 +594,11 @@ Consulte el capítulo 14 de [**R for data science**](https://es.r4ds.hadley.nz/f
 
 ## Informes reproducibles con Quarto/Rmarkdown {#quarto} 
 
-Este es un documento R Quarto. Quarto es una sencilla sintaxis de formato para la creación de documentos HTML, PDF y MS Word. Para más detalles sobre el uso de Quarto vea (https://quarto.org/) [http://rmarkdown.rstudio.com].
+Este es un documento R Quarto. Quarto es una sintaxis simple de formato para la creación de documentos HTML, PDF y MS Word. Para obtener más detalles sobre cómo usar R Quarto, consulta <https://quarto.org/>.
+
+La mejor manera de tejer un html_document es a través de un script con la función quarto::quarto_render(), especificando input como el archivo *.qmd.
+
+Quarto utiliza la misma sintaxis que RMarkdown, por lo que es muy fácil de aprender.
 
 
 ### Flujo de trabajo y el concepto renderizar
@@ -604,66 +608,159 @@ Este es un documento R Quarto. Quarto es una sencilla sintaxis de formato para l
 knitr::include_graphics(here::here("img/02-quarto.png"))
 ```
 
+### Trozos de código *chunks*
 
-(TODO) ACTUALIZAR
+Se puede insertar rápidamente bloques como estos en tu archivo con:
 
-### Opciones de código (chunks)
+el atajo de teclado Ctrl + Alt + I (en OS X: Cmd + Option + I), el comando Agregar Bloque en la barra de herramientas del editor o escribiendo los delimitadores de bloque ```` ```{r} and ``` ````.
 
-La salida de un chunk se puede personalizar con las opciones de knitr, argumentos establecidos en.... un chunk. Arriba, usamos cinco argumentos:
+Cuando renderice su archivo .Rmd, R Markdown ejecutará cada fragmento de código e incrustará los resultados debajo del fragmento de código en su informe final.
 
-  * `include = FALSE` evita que el código y los resultados aparezcan en el archivo final. R
-  Markdown sigue ejecutando el código en el chunk, y los resultados pueden ser utilizados por otros chunks.
-  * `echo = FALSE` impide que el código, pero no los resultados, aparezcan en el archivo final.
-  Esta es una forma útil de incrustar figuras.
-  * `message = FALSE` evita que los mensajes generados por el código aparezcan en el  
-  en el archivo final.
-  * `warning = FALSE` evita que las advertencias generadas por el código aparezcan en el archivo
-  terminado.
-  * `fig.cap = "..."` añade una leyenda a los resultados gráficos.
+#### *Chunks* opciones
 
-Más información sobre la opción chunk (https://quarto.org/) [http://rmarkdown.rstudio.com].
+La salida de un chunk se puede personalizar con las opciones de knitr, argumentos establecidos en la {} de la cabecera de un chunk. Arriba, usamos cinco argumentos:
 
+-   `include = FALSE` evita que el código y los resultados aparezcan en el archivo final. R Markdown sigue ejecutando el código en el chunk, y los resultados pueden ser utilizados por otros chunks.
+-   `echo = FALSE` evita que el código, pero no los resultados, aparezcan en el archivo final. Es una forma útil de incrustar cifras.
+-   `message = FALSE` evita que los mensajes generados por el código aparezcan en el archivo final.
+-   `warning = FALSE` evita que las advertencias generadas por el código aparezcan en el acabado.
+-   `fig.cap = "..."` añade una leyenda a los resultados gráficos.
+
+Más información sobre la opción de trozos de código [aquí](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf).
 
 ### Formato de texto
 
-
-R markdown permite formatear fácilmente su texto. Puedes añadir [enlaces](www.r-graph-gallery.com), escribir en **negrita** o *cursiva*. Consulta la hoja de trucos de Rstudio [descargar aquí](https://raw.githubusercontent.com/rstudio/cheatsheets/main/rmarkdown.pdf).
+R markdown permite formatear fácilmente tu texto. Puedes añadir [enlaces](www.r-graph-gallery.com), escribir en **negrita** o *cursiva*. Consulta la hoja de trucos de Rstudio [descargar aquí](https://raw.githubusercontent.com/rstudio/cheatsheets/main/rmarkdown.pdf).
 
 > Hacer citas
 
-| bloque de líneas
+| bloque de línea
 
 **Otros formatos de texto:**
 
-  * [subrayado]{.ul}
-  * ~~strikeout~~
-  * ^superíndice^
-  * ~subíndice~
-  * [small caps]{.smallcaps}
+-   [subrayado]{.underline}
+-   ~~tachar~~
+-   ^superíndice^
+-   ~subíndice~
+-   [versalitas]{.smallcaps}
 
-La forma de añadir notas a pie de página es mediante `[^número]`[^1]
+La forma de añadir notas a pie de página es `[^number]`[^1]
 
-[^1]: the footnote
+[^1]: la nota a pie de página
 
-También puedes añadir emojis impresionantes como 😻 insertándolos en el editor visual de markdown o mediante su código `:heart_eyes_cat:`.
+También se puede añadir emojis increíbles como 😻 insertándolo en el editor visual markdown o mediante su código `:heart_eyes_cat:`.
 
-***
+------------------------------------------------------------------------
 
-A veces queremos separar el texto con una línea horizontal, para ello simplemente escribimos `***`.
-
+A veces es necesario separar el texto con una línea horizontal, para ello simplemente se introduce `***`
 
 <br><br><br><br>
 
-o saltar una linea utilizando código html `<br><br><br><br>`.
+o saltar una línea con código html `<br><br><br><br>`.
 
-### Añadir una imagen
+## Añadir una imagen
 
-Para añadir imágenes basta con escribir `![nombre_de_la_imagen](ruta_de_la_imagen)`
+Para añadir imágenes basta con escribir `![image_name](image_path)`
 
 ![R learners. Créditos: Allison Horst](img/02-Rlearners.png)
 
+Si desea centrar la imagen, un poco de código htm le ayudará, sólo tiene que utilizar `<center> </center>`
 
-### Buscar ayuda
+<center>
+
+![R & RStudio](https://bookdown.org/oscar_teach/estadistica_aplicada_con_r/r-rstudio.png)
+
+</center>
+
+Para ajustar las imágenes puedes usar **r chunk** añadiendo la imagen con una función `knitr::include_graphics`
+
+```{r image, fig.align='right', out.width='20%', fig.cap='Mi super foto'}
+knitr::include_graphics("https://bookdown.org/oscar_teach/estadistica_aplicada_con_r/r-rstudio.png")
+```
+
+
+
+```{r}
+#| label: fig-plots
+#| fig-cap: "Plots" 
+#| layout-ncol: 2
+#| fig-subcap:
+#|   - "Plot 1: eed and Stopping Distances of Cars"
+#|   - "Plot 2: por Pressure of Mercury as a Function of Temperature"
+
+plot(cars)
+plot(pressure)
+
+
+
+```
+
+Véanse ejemplos en @fig-plots. En particular, @fig-plots-2.
+
+### Ecuaciones
+
+en línea: $A = (\pi * \lambda \times r^{4}) / \alpha$
+
+visualizar: $$A = (\pi * \lambda \times r^{4}) / \alpha$$
+
+## Diagramas
+
+Quarto tiene soporte nativo para incrustar diagramas [Mermaid](https://mermaid-js.github.io/mermaid/#/) y [Graphviz](https://graphviz.org/). Esto te permite crear diagramas de flujo, diagramas de secuencia, diagramas de estado, diagramas gnatt, y más usando una sintaxis de texto plano inspirada en markdown.
+
+Por ejemplo, aquí se incrusta un diagrama de flujo creado con Mermaid:
+
+```{mermaid}
+flowchart LR
+  A[Hard edge] --> B(Round edge)
+  B --> C{Decision}
+  C --> D[Result one]
+  C --> E[Result two]
+```
+
+
+Gantt diagram:
+
+```{mermaid}
+gantt
+dateFormat  YYYY-MM-DD
+title Adding GANTT diagram to mermaid
+excludes weekdays 2014-01-10
+
+section A section
+Completed task            :done,    des1, 2014-01-06,2014-01-08
+Active task               :active,  des2, 2014-01-09, 3d
+Future task               :         des3, after des2, 5d
+Future task2               :         des4, after des3, 5d
+
+```
+
+## Bloques de llamada
+
+:::{.callout-note}
+Tenga en cuenta que hay cinco tipos de llamadas, incluyendo: 
+`note`, `tip`, `warning`, `caution`, and `important`.
+:::
+
+::: {layout-ncol=2}
+- ítem X
+- ítem Y
+- ítem Z
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur gravida eu erat et fring. Morbi congue augue vel eros ullamcorper, eget convallis tortor sagittis. Fusce sodales viverra mauris a fringilla. Donec feugiat, justo eu blandit placerat, enim dui volutpat turpis, eu dictum lectus urna eu urna. Mauris sed massa ornare, interdum ipsum a, semper massa. 
+:::
+
+
+### Apéndice {.appendix}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur gravida eu erat et fring. Morbi congue augue vel eros ullamcorper, eget convallis tortor sagittis. Fusce sodales viverra mauris a fringilla. Donec feugiat, justo eu blandit placerat, enim dui volutpat turpis, eu dictum lectus urna eu urna. Mauris sed massa ornare, interdum ipsum a, semper massa.
+
+
+### Citaciones
+
+R Markdown The Definitive Guide [@xie2018]
+
+
+## Buscar ayuda
 
 Las funciones de distintos paquetes de R tienen su ayuda y es muy fácil
 acceder a ella desde la consola poniendo un signo de interrogación
@@ -674,7 +771,7 @@ mejor la función que ejecutamos. También, existe una amplia información
 online sobre las funciones y distintos paquetes disponible en
 [Rdocumentation.org](https://rdocumentation.org/).
 
-#### Haz preguntas
+### Haz preguntas
 
 Uno de los foros más amplio de búsqueda de preguntas y respuestas sobre
 la programación es
@@ -713,7 +810,7 @@ relacionadas con R y esperar una respuesta.
 <!-- Además se puede pedir ayuda a los usuarios de R y RStudio en -->
 <!-- [community.rstudio.com](https://community.rstudio.com/). -->
 
-#### Sigue la comunidad de R
+### Sigue la comunidad de R
 
 Existen diversas páginas web que contienen artículos sobre la
 programación en R, como por ejemplo:
@@ -736,7 +833,7 @@ programación en R, como por ejemplo:
 -   [Medium](https://medium.com/): un sitio web de blogs donde se puede
     encontrar mucha temática sobre el Data Science.
 
-### Git y GitHub
+## Git y GitHub
 
 ¿Git y GitHub? En primer lugar, son dos cosas distintas:
 
@@ -747,7 +844,7 @@ programación en R, como por ejemplo:
 -   **GitHub** es el servicio más popular (otros son GitLab y BitBucket)
     para colaborar en el código utilizando Git.
 
-#### ¿Por qué debería usar Git y GitHub?
+### ¿Por qué debería usar Git y GitHub?
 
 Las tres principales ventajas de utilizar Git y GitHub son:
 

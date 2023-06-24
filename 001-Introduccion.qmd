@@ -28,7 +28,7 @@
 
 
 
-```{r ciencia-datos, echo=FALSE, out.width='70%', fig.align='center', fig.cap='Diagrama de Venn de la ciencia de datós. Créditos: Anabayes'}
+```{r ciencia-datos, echo=FALSE, out.width='70%', fig.align='center', fig.cap='Diagrama de Venn de la ciencia de datos'}
 knitr::include_graphics(here::here("img/01-ciencia-datos.png"))
 ```
 
@@ -46,7 +46,7 @@ la reproducibilidad, diseñar y publicar blogs, páginas webs, dashboards,
 cuadros de mando, etc...
 
 ```{r caja-herram, echo=FALSE, out.width='70%', fig.align='center', fig.cap='Herramientas básicas de R'}
-knitr::include_graphics(here::here("img/01-caja-herram-x3.png"))
+knitr::include_graphics(here::here("img/herramientas.jpg"))
 ```
 
 
@@ -181,7 +181,7 @@ la ciencia de datos (Data Science with R), las herramientas necesarias para un p
 transformar, visualizar, modelar y comunicar (véase Figura xxxxxxxx)
 
 ```{r proceso-cd, echo=FALSE, out.width='60%', fig.align='center', fig.cap='Proceso de ciencia de datos'}
-knitr::include_graphics(here::here("img/01-proceso-cd.png"))
+knitr::include_graphics(here::here("img/proceso-cd.png"))
 ```
 
 
