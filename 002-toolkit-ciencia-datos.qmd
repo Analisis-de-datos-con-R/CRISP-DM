@@ -889,7 +889,7 @@ integrarlo en RStuidio.
 
 6. Despliegue
 
-```{r lifecycle, echo=FALSE, out.width='15%', fig.cap= 'Ciclo de vida de un proceso de ciencia de datos' }
+```{r lifecycle, echo=FALSE, out.width='100%', fig.cap= 'Ciclo de vida de un proceso de ciencia de datos' }
 knitr::include_graphics(here::here("img/02-Data-Science-LifeCycle.png"))
 
 ```

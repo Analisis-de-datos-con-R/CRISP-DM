@@ -465,6 +465,7 @@ no2_zona <- no2_zona %>%
   mutate(valor_zona_anual = rollmean(valor_zona, k = 365, fill = NA, align = 'right'))
 
 
+
 no2_zona %>% 
   filter(fecha >= "2014-01-01") %>% 
   ggplot(aes(fecha, valor_zona_anual, color = zona)) +
@@ -482,12 +483,19 @@ no2_zona %>%
 Se observa un claro cambio en los niveles de la contaminación desde 2020, el año del comienzo de la pandemia de COVID-19.
 
 
+```{r}
+#|echo: false
+
+write_rds(no2_zona, "data/no2_zona.RDS")
+
+
+```
 
 
 
 ## Modelado {#modelado}
 
-```{r proceso-cd, echo=FALSE, out.width='60%', fig.align='center', fig.cap='Proceso de ciencia de datos'}
+```{r, echo=FALSE, out.width='100%', fig.align='center', fig.cap='Proceso de ciencia de datos'}
 knitr::include_graphics(here::here("img/modelo.png"))
 ```
 
@@ -752,6 +760,8 @@ LightGBM es un modelo de aprendizaje automático basado en árboles de decisión
 Una de las principales características de LightGBM es su capacidad para manejar datos con alta dimensionalidad y realizar una selección automática de características importantes. También utiliza un enfoque de partición de datos basado en hojas, lo que permite una mayor eficiencia en el proceso de entrenamiento.
 
 Un ejemplo de aplicación de LightGBM puede ser en la predicción de la satisfacción del cliente en una empresa de comercio electrónico. Se pueden utilizar características como el historial de compras, el tiempo de respuesta del servicio al cliente y la interacción en redes sociales para predecir la satisfacción del cliente. Al entrenar un modelo LightGBM con estos datos, se puede obtener un modelo eficiente y preciso que permita identificar patrones y factores clave que influyen en la satisfacción del cliente.
+
+En el caso NO2 se procede con la siguiente especificación:
 
 ```{r}
 # Modelo 3 - LightGBM
