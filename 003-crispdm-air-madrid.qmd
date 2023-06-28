@@ -236,6 +236,7 @@ Con las funciones del Tidyverse represente la evolución de todos los contaminan
 
 
 ```{r }
+library(lubridate)
 #| message: false
 #| warning: false
 air_mad %>%
@@ -392,11 +393,11 @@ no2_zona <- no2 %>%
 
 5. Detección de los valores atípicos:
 
-```{r}
+```{r outliers-detec}
 #| message: false
 #| warning: false
-# devtools::install_github("business-science/sweep")
-# devtools::install_github("business-science/anomalize")
+#devtools::install_github("business-science/sweep")
+#devtools::install_github("business-science/anomalize")
 library(anomalize)
 library(tibbletime)
 
