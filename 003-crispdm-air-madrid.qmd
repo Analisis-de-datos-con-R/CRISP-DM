@@ -396,36 +396,59 @@ no2_zona <- no2 %>%
 ```{r outliers-detec}
 #| message: false
 #| warning: false
+<<<<<<< HEAD
 #devtools::install_github("business-science/sweep")
 #devtools::install_github("business-science/anomalize")
 library(anomalize)
 library(tibbletime)
+=======
+>>>>>>> 88bfaa3f6cea67faea5626ac0b0cd4ced805ae41
 
-no2_zona_ts <- tibbletime::as_tbl_time(no2_zona, index = fecha) %>% 
-  arrange(zona, fecha, by_group = zona)
-
-anomalies <- no2_zona_ts %>% 
-  group_by(zona) %>% 
-  time_decompose(valor_zona, method = "stl", frequency = 7, trend = 14) %>%
-  anomalize(remainder, method = "iqr", alpha = .75, max_anoms = .02) %>%
-  time_recompose()
-
-plot_anomalia <- anomalies %>% 
-  filter(zona == "Interior M30") %>% 
-  ungroup() %>% 
-  plot_anomaly_decomposition() + 
-  labs(title = "Ejemplo anomalías en Interior M30")
-
-no2_zona <- left_join(no2_zona,
-                 anomalies %>% 
-                   select(zona, fecha, anomaly),
-                 by = c("zona", "fecha"))
+anomalias <- lapply(unique(no2_zona$zona), function(x) {
+  aux_data <- no2_zona %>%
+    filter(zona == x) %>%
+    select(zona, fecha, valor_zona)
   
+  aux_data <- aux_data %>%
+    group_by(month(fecha), year(fecha)) %>%
+    mutate(anomaly = !between(
+      valor_zona,
+      quantile(aux_data$valor_zona, probs = c(.25)) - 1.5 * IQR(valor_zona),
+      quantile(aux_data$valor_zona, probs = c(.75)) + 1.5 * IQR(valor_zona)
+    )) %>% 
+    ungroup() %>% 
+    select(zona, fecha, anomaly)
+})
+anomalias <- do.call(rbind, anomalias)
+  
+no2_zona <- left_join(no2_zona, anomalias, by = c("zona", "fecha"))
+
 ```
 
 
+La detección de anomalías es importante en el análisis de datos porque permite identificar valores atípicos que pueden distorsionar los resultados y afectar la validez de las conclusiones. 
+
+El método de 1,5 veces el rango intercuartílico es una técnica común utilizada para identificar valores atípicos en un conjunto de datos. El rango intercuartílico (IQR) representa la dispersión de los valores centrales de un conjunto de datos, específicamente el 50% intermedio. Al multiplicar el IQR por 1,5, se establece un umbral para definir qué valores están suficientemente lejos de la norma como para considerarse atípicos.
+
+Bajo este método, si un valor en el conjunto de datos está por encima de 1,5 veces el IQR por encima del tercer cuartil (Q3) o por debajo de 1,5 veces el IQR por debajo del primer cuartil (Q1), se clasifica como un valor atípico. Esto proporciona una medida simple pero efectiva para identificar valores extremos y potencialmente problemáticos en un conjunto de datos.
+
+Además, al tratarse de datos temporales con una clara tendencia. Se tienen en cuenta los valores agrupados por año y mes. 
+
+
+
 ```{r}
-plot_anomalia
+no2_zona %>% 
+  filter(zona == "Interior M30") %>% 
+  ggplot(aes(fecha, valor_zona, color = anomaly)) +
+  geom_point() +
+  scale_x_date() + 
+  scale_color_manual(values = c("black", "red")) +
+  labs(title = "Anomalías NO2 por RI",
+       subtitle = "Interior M30",
+       x = NULL, 
+       y = "(µg/m3)") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
 ```
 
 Una vez se han realizado los ajustes en los datos se procede a creación de variables de interés
@@ -555,7 +578,7 @@ Se selecciona una de las zonas, en este caso `zona == "Interior M30"`:
 
 ```{r}
 no2_zona_m30 <- no2_zona %>%
-  filter(zona == "Interior M30" & anomaly == "No") %>% 
+  filter(zona == "Interior M30" & anomaly == FALSE) %>% 
   ungroup() %>% 
   select(fecha, valor_zona)
 ```
