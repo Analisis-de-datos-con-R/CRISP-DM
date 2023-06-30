@@ -1,13 +1,13 @@
-#  Toolkit para la ciencia de datos {#toolkit}
+#  **R** toolkit para la ciencia de datos {#toolkit}
 
 :::{.callout-warning}
 ### Objetivos {-}
 
 - Instalar el software **R** y su IDE (Entorno de Desarrollo Integrado) **RStudio**.
 
-- Informes reproducibles, quarto, githbum
+- Informes reproducibles con **`quarto`** y control de versiones con **`GitHub`**.
 
-- Conocer los fundamentos del modelo **CRISP-DM** (Cross Industry Standard Process for Data Mining)  
+- Conocer los fundamentos del modelo **CRISP-DM**.
 
 :::
 
@@ -31,7 +31,7 @@ su espejo CRAN preferido en
     la URL <https://CRAN.R-project.org/> y se refleja diariamente en
     muchos sitios de todo el mundo.
 
-**RStudio** es un entorno de desarrollo integrado (IDE) para R. Incluye
+**RStudio** es un entorno de desarrollo integrado (IDE) para **R**. Incluye
 una consola, un editor que resalta la sintaxis y admite la ejecución
 directa del código, así como herramientas para el trazado, el historial,
 la depuración y la gestión del espacio de trabajo.
@@ -46,16 +46,17 @@ Hat/CentOS y SUSE Linux), está disponible en
 :::{.callout-note}
 El orden es importante:
 
-1. Instale R
+1. Instale **R**.
 
-2. Instale RStudio.
+2. Instale **RStudio**.
 :::
 
 
-Compruebe que tiene instalados estos iconos. Tal y como se indica en la Fig. XXX abra RStudio
+Compruebe que tiene instalados los iconos de la @fig-002-panrstudio2 y abra RStudio.
 
 
-```{r 002-panrstudio2, echo=FALSE, out.width='60%', fig.align='center', fig.cap='Iconos de R y RStudio'}
+```{r , echo=FALSE, out.width='60%', fig.align='center', fig.cap='Iconos de R y RStudio'}
+#| label: fig-002-panrstudio2
 knitr::include_graphics("img/02-open-rstudio.png")
 ```
 
@@ -63,54 +64,39 @@ knitr::include_graphics("img/02-open-rstudio.png")
 
 
 
-### Interfaz de RStudio (TODO)
+### Interfaz de RStudio 
 
-Al abrir el programa se observan los cuatro paneles que se muetran en la Fig. XX
+Al abrir el programa se observan cuatro paneles (véase @fig-002-panrstudio).
 
--   **Sripts**:
+-  **Sripts**: para escribir código. 
 
-- **Consola**: contiene la Consola, Terminal y los Jobs
+- **Consola**: contiene la Consola, Terminal y los Jobs.
 
--   **Entorno**: contiene el
-    Environment, History, conexiones y git entre otros
+- **Entorno**: contiene el *Environment*, *History*, *conexiones* y *Git*, entre otros.
 
--   **Files, Plots, Packages, Help y Viewer**
+- **Files, Plots, Packages, Help y Viewer**
 
-Cuando abrimos un script nuevo, éste se abrirá en la parte superior
-izquierda. La posición de los paneles se puede personalizar al gusto del
+La posición de los paneles se puede personalizar al gusto del
 usuario, al igual que la apariencia del IDE.
 
-```{r 002-panrstudio, echo=FALSE, out.width='60%', fig.align='center', fig.cap='Paneles de RStudio'}
+```{r , echo=FALSE, out.width='60%', fig.align='center', fig.cap='Paneles de RStudio'}
+#| label: fig-002-panrstudio
 knitr::include_graphics(here::here("img/02-rstudio-layout.png"))
 ```
 
 
 :::{.callout-note}
-*Nota:*
-
-la posición relativa y el contenido de cada panel pueden personalizarse
+La posición relativa y el contenido de cada panel pueden personalizarse
 desde el menú: Tools \> Global Options \> Pane Layout
 :::
 
 
 ### Instalación los paquetes
 
-Los paquetes son adiciones modulares al software R que añaden
-funcionalidad en forma de nuevas funciones, conjuntos de datos
-incluidos, documentación, etc. El repositorio estándar de paquetes R El
+Los paquetes son adiciones modulares al software **R** que añaden
+funcionalidad en forma de nuevas funciones, conjuntos de datos,
+ documentación, etc. El repositorio estándar de paquetes **R** es
 "Comprehensive R Archive Network" (CRAN). 
-
-Copie el siguiente comando en la consola de R: 
-```{r , eval=FALSE}
-install.packages("tidyverse")
-```
-
-:::{.callout-note}
-Los paquetes se instalan una única vez y se leen cada vez que se utilizan.
-:::
-
-Alternativamente, use el panel de Paquetes en RStudio para hacer la
-instalación con la interfaz gráfica.
 
 :::{.callout-note}
 [**CRAN Task Views**](https://cran.r-project.org/web/views/):
@@ -119,57 +105,65 @@ Ofrecen un breve resumen de los paquetes incluidos.
 :::
 
 
+Los paquetes se instalan con la función base de **R** `install.packages()`: 
+```{r , eval=FALSE}
+install.packages("tidyverse")
+```
+
+:::{.callout-note}
+Los paquetes se instalan una única vez y se leen cada vez que se utilizan.
+:::
+
+Alternativamente, se pueden instalar desde el panel de Paquetes en RStudio desde una interfaz gráfica.
+
+
+
+
 
 
 ### Proyectos
 
 
-Ser organizado desde el principio es uno de los mejores hábitos que
-podemos desarrollar y esto se consigue trabajando con proyectos.
-Un proyecto de R agrupa todo los ficheros de tu trabajo en una carpeta de forma que
-se facilita su manejo, el trabajo colaborativo y su reproducibilida.
+Ser organizado desde el principio es uno de los mejores hábitos y en **R** esto se consigue trabajando con proyectos.
+Un proyecto de **R** agrupa todo los ficheros del trabajo en una carpeta de forma que
+se facilita su manejo, el trabajo colaborativo y su reproducibilidad.
 
-(TODO) rEPASAR ESTO
 
 :::{.callout-note}
-*Crear un proyecto Quarto de R:*
+*Crear un proyecto Quarto en R:*
 
 Desde el menú: File \> New Project y luego elija:
 
--   Nuevo Directorio
+-   `Nuevo Directorio`
 
--   Proyecto Vacío
+-   `Proyecto Vacío`
 
--   Elija un nombre para el directorio, por ejemplo aprender-R
+-   Elija un nombre para el directorio, por ejemplo, `mi_proyecto`
 
--   Haga clic en Crear Proyecto
+-   Haga clic en `Crear Proyecto`.
 :::
 
 
-(TODO) CAMBIA LA IMAGEN A ESTA ESTRUCTURA QUE ES LA QUE HEMOS DEFINIDO, con estas carpetas más sencillas. Se pueden poner unos emojis para las carpetitas y para el libro. https://github.com/hadley/emo#emoji
-¿te gusta?
 
 - **data**  `r emo::ji("folder")`: para los datos.
 
 - **img** `r emo::ji("folder")`: para las imágenes.
 
+- **src**:  contiene los *scripts* de **R** para llevar a cabo las
+distintas tareas del análisis.
 
-- **src**:  contriene los *scripts* de R que para llevar a cabo las
-distintas tareas del análisis. Se recomienda dividir en distintos
-*scripts* las tareas que utilizan sets de datos distintos o que tengan
-una finalidad muy marcada.
-
--  **output** se guardarán los resultados
+-  **output** `r emo::ji("folder")`: se guardarán los resultados
 finales de nuestro análisis.
 
 -  **README.md** debe contener
-la información básica sobre el proyecto, la compatibilidad, los inputs
-que necesita, los outputs que genera y un resumen de flujo del trabajo.
+la información básica sobre el proyecto, la compatibilidad, los *inputs*
+que necesita, los *outputs* que genera y un resumen de flujo del trabajo.
 Ésto ayudará a cualquiera a comprender mejor cómo es nuestro proyecto.
 
-Una de las estructuras más comunes es la siguiente:
+Una de las estructuras más comunes es la mostrada en la @fig-proyecto:
 
-```{r proyecto, echo=FALSE, fig.align='center'}
+```{r , echo=FALSE, fig.align='center'}
+#| label: fig-proyecto
 knitr::include_graphics(here::here("img/02-estructura_proyecto.png"))
 ```
 
@@ -179,41 +173,41 @@ Los distintos scripts se pueden ejecutar desde otros scripts.
 Para ello se utiliza la función `source()`
 :::
 
-### Trabajar con un script de R (TODO)
+### Trabajar con un *script* de R 
 
 Para comenzar a escribir un *script* nuevo nos dirigimos a File \> New
-File \> R Script. 
+File. Los más utilizados actualmente son:
 
-Si creamos un proyecto quarto mejor un quarto document o y así luego compilamo todo o mejor un Rnotebook, depende de cómo sea el proyecto, no?? para hacerlo luego con ellos exactamente igual.
++ \> R Script. 
+
++ \> Quarto document. 
+
++ \> R Notebook.
+
++ \> R Markdown.
 
 
-Y REMITIR AL LIBRO R4DS porque es imposible explicar todo, 
 
+:::{.callout-note}
+Si se tiene creado un proyecto Quarto mejor trabajar con un un `quarto document` para luego renderizar todo el documento.
+Véase @wickham2016r para un estudio profundo de proyectos.
+:::
 
 El editor es un editor de texto plano (sin negritas ni cursivas) pero
 ofrece un código de colores del texto dependiendo de lo que se escriba
 (resaltado de sintaxis).
 
-Aunque el código que escribimos ahora mismo tiene sentido para nosotros,
-puede que no sea obvio para otros o incluso para nosotros mismos en el
-futuro. Por lo tanto, es extremadamente útil comentar el *script* con
-información adicional para hacer más claro el proceso. Para añadir un
+Es extremadamente útil comentar el *script* con
+información adicional para hacer más claro el proceso de programación. Para añadir un
 comentario, simplemente hay que poner `#` al comienzo de la linea y lo
-que escribamos no será ejecutado.
+que esté a la derecha no será ejecutado.
 
-Los comandos que se escriben dentro del *script* pueden ser ejecutados
-usando el atajo de teclado `Ctrl + Enter` (en Macs, `Cmd + Enter`). Esto
-ejecutará el comando en la línea actual (indicado por el cursor) o todos
-los comandos en el texto actualmente seleccionado. Esta acción enviará
-el texto seleccionado a la consola R que ejecutará los comandos.
 
-Finalmente, a la hora de escribir código en R debemos recordar que se
-trate de un lenguaje y como tal debemos ser consistentes con la
-estructura del script, la forma en la que llamamos nuestras variables y
-funciones. Para comenzar con un buen pie lo más conveniente es usar las
-buenas prácticas diseñadas por programadores expertos. Para ello lo
+
+Finalmente, a la hora de escribir código en **R** lo más conveniente es usar las
+buenas prácticas diseñadas por programadores expertos. Para ello, lo
 mejor es aplicar una guía de estilo, cuyo objetivo es hacer que nuestro
-código R sea más fácil de leer, compartir y verificar. Una de las
+código **R** sea más fácil de leer, compartir y verificar. Una de las
 mejores guías es [The tidyverse style
 guide](https://style.tidyverse.org/index.html).
 
@@ -230,8 +224,6 @@ knitr::include_graphics(here::here("img/02-logo-tityverse.png"))
 
 El [tidyverse](https://www.tidyverse.org/) es una colección de **paquetes de R para la ciencia de los datos**. Todos los paquetes comparten una filosofía de diseño, una gramática y unas estructuras de datos subyacentes. Se basan en la idea *tidy* data propuesta por Hadley Wickham (Wickham et al. 2014) y pueden instalarse con una única orden en R:
 
-
-`install.packages("tidyverse")`
 
 ```{r , message=FALSE, warning=FALSE}
 library(tidyverse)
@@ -290,7 +282,6 @@ air_mad <- readr::read_rds("data/dt_daily_mean_2011.RDS")
 
 ```{r dplyr-logo, echo=FALSE, out.width='15%',  fig.align='left'}
 knitr::include_graphics(here::here("img/02-logo-dplyr.png"))
-
 ```
 
 
@@ -378,9 +369,8 @@ air_mad %>% # Summary por grupo usando dplyr
 
 
 
-```{r tidyr-logo, echo=FALSE, out.width='15%',  fig.align='left'}
+```{r  tidyr-logo, echo=FALSE, out.width='15%',  fig.align='left'}
 knitr::include_graphics(here::here("img/02-logo-tidyr.png"))
-
 ```
 
 
@@ -594,43 +584,62 @@ Consulte el capítulo 14 de [**R for data science**](https://es.r4ds.hadley.nz/f
 
 ## Informes reproducibles con Quarto/Rmarkdown {#quarto} 
 
-Este es un documento R Quarto. Quarto es una sintaxis simple de formato para la creación de documentos HTML, PDF y MS Word. Para obtener más detalles sobre cómo usar R Quarto, consulta <https://quarto.org/>.
+Este es un documento **R Quarto**. Quarto es una sintaxis simple de formato para la creación de documentos HTML, PDF y MS Word. Para obtener más detalles sobre cómo usar R Quarto consulta <https://quarto.org/>.
 
-La mejor manera de tejer un html_document es a través de un script con la función quarto::quarto_render(), especificando input como el archivo *.qmd.
+RMarkdown (el antecesor de Quarto) y Quarto son herramientas permiten combinar texto formateado con código y resultados en un mismo documento. Quarto facilita la interoperabilidad entre **R**, **Python**, **Julia**.
 
-Quarto utiliza la misma sintaxis que RMarkdown, por lo que es muy fácil de aprender.
+Los documentos Quarto constan principalmetne de 3 partes, el YAML (o cabecera del documento), el texto y las chunks.
 
+## El YAML
+
+```
+---
+title: "My Document"
+author:
+    - Gema Fernández-Avilés
+    - Michal Kinel
+format: 
+  html:
+    toc: true
+    code-fold: true
+---
+```
 
 ### Flujo de trabajo y el concepto renderizar
 
-```{r rmark-0, echo=FALSE, out.width='60%', fig.align='center', fig.cap='A diagram illustrating how an QUARTO document is converted to the final output document'}
+
+La mejor manera de tejer un `html_document` es mediante el botón `Render` o la función `quarto::quarto_render()`.
+
+```{r rmark-0, echo=FALSE, out.width='60%', fig.align='center', fig.cap='Diagrama de transformación de un documento Quarto a HTML, PDF, etc.'}
 
 knitr::include_graphics(here::here("img/02-quarto.png"))
 ```
 
+
 ### Trozos de código *chunks*
 
-Se puede insertar rápidamente bloques como estos en tu archivo con:
+Se puede insertar rápidamente bloques de código con el comando Agregar Bloque en la barra de herramientas del editor o escribiendo los delimitadores de bloque: 
 
-el atajo de teclado Ctrl + Alt + I (en OS X: Cmd + Option + I), el comando Agregar Bloque en la barra de herramientas del editor o escribiendo los delimitadores de bloque ```` ```{r} and ``` ````.
+``` 
+```{r} 
+2+2
+```
+```
 
-Cuando renderice su archivo .Rmd, R Markdown ejecutará cada fragmento de código e incrustará los resultados debajo del fragmento de código en su informe final.
 
-#### *Chunks* opciones
+La salida de una chunk se puede personalizar con las opciones de knitr. Algunas de las más usadas son:
 
-La salida de un chunk se puede personalizar con las opciones de knitr, argumentos establecidos en la {} de la cabecera de un chunk. Arriba, usamos cinco argumentos:
+-   `|# include: false` evita que el código y los resultados aparezcan en el archivo final. R Markdown sigue ejecutando el código en el chunk, y los resultados pueden ser utilizados por otros chunks.
+-   `|# echo : false` evita que el código, pero no los resultados, aparezcan en el archivo final. Es una forma útil de incrustar cifras.
+-   `|# message : false` evita que los mensajes generados por el código aparezcan en el archivo final.
+-   `|# warning : false` evita que las advertencias generadas por el código aparezcan en el acabado.
+-   `|# fig.cap : "..."` añade una leyenda a los resultados gráficos.
 
--   `include = FALSE` evita que el código y los resultados aparezcan en el archivo final. R Markdown sigue ejecutando el código en el chunk, y los resultados pueden ser utilizados por otros chunks.
--   `echo = FALSE` evita que el código, pero no los resultados, aparezcan en el archivo final. Es una forma útil de incrustar cifras.
--   `message = FALSE` evita que los mensajes generados por el código aparezcan en el archivo final.
--   `warning = FALSE` evita que las advertencias generadas por el código aparezcan en el acabado.
--   `fig.cap = "..."` añade una leyenda a los resultados gráficos.
-
-Más información sobre la opción de trozos de código [aquí](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf).
+Más información sobre la opción de trozos de código: [Quarto chunks](https://quarto.org/docs/reference/cells/cells-knitr.html).
 
 ### Formato de texto
 
-R markdown permite formatear fácilmente tu texto. Puedes añadir [enlaces](www.r-graph-gallery.com), escribir en **negrita** o *cursiva*. Consulta la hoja de trucos de Rstudio [descargar aquí](https://raw.githubusercontent.com/rstudio/cheatsheets/main/rmarkdown.pdf).
+Quatro, al igual que Markdown permite formatear fácilmente tu texto. Puedes añadir [enlaces](www.r-graph-gallery.com), escribir en **negrita** o *cursiva*. Consulta la hoja de trucos de Rstudio [descargar aquí](https://raw.githubusercontent.com/rstudio/cheatsheets/main/rmarkdown.pdf).
 
 > Hacer citas
 
@@ -658,7 +667,7 @@ A veces es necesario separar el texto con una línea horizontal, para ello simpl
 
 o saltar una línea con código html `<br><br><br><br>`.
 
-## Añadir una imagen
+### Añadir una imagen
 
 Para añadir imágenes basta con escribir `![image_name](image_path)`
 
@@ -699,11 +708,13 @@ Véanse ejemplos en @fig-plots. En particular, @fig-plots-2.
 
 ### Ecuaciones
 
-en línea: $A = (\pi * \lambda \times r^{4}) / \alpha$
+Insertar ecuaciones en un documento Quarteo es fácil utilizando la escritura Latex
++ en línea: $A = (\pi * \lambda \times r^{4}) / \alpha$
 
-visualizar: $$A = (\pi * \lambda \times r^{4}) / \alpha$$
++ centradas: $$A = (\pi * \lambda \times r^{4}) / \alpha$$
 
-## Diagramas
+
+### Diagramas
 
 Quarto tiene soporte nativo para incrustar diagramas [Mermaid](https://mermaid-js.github.io/mermaid/#/) y [Graphviz](https://graphviz.org/). Esto te permite crear diagramas de flujo, diagramas de secuencia, diagramas de estado, diagramas gnatt, y más usando una sintaxis de texto plano inspirada en markdown.
 
@@ -734,12 +745,15 @@ Future task2               :         des4, after des3, 5d
 
 ```
 
-## Bloques de llamada
+### Bloques de llamada
 
 :::{.callout-note}
 Tenga en cuenta que hay cinco tipos de llamadas, incluyendo: 
 `note`, `tip`, `warning`, `caution`, and `important`.
 :::
+
+
+### Listas 
 
 ::: {layout-ncol=2}
 - ítem X
@@ -752,12 +766,13 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur gravida eu er
 
 ### Apéndice {.appendix}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur gravida eu erat et fring. Morbi congue augue vel eros ullamcorper, eget convallis tortor sagittis. Fusce sodales viverra mauris a fringilla. Donec feugiat, justo eu blandit placerat, enim dui volutpat turpis, eu dictum lectus urna eu urna. Mauris sed massa ornare, interdum ipsum a, semper massa.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 
 
 ### Citaciones
 
-R Markdown The Definitive Guide [@xie2018]
+R Markdown The Definitive Guide [@xie2018r]
+
 
 
 ## Buscar ayuda
@@ -871,26 +886,4 @@ integrarlo en RStuidio.
 
 
       
-      
-## Fundamentos de la metodlogía CRISP-DM {#fundamentos}
-
-
-**CRISP-DM** \index{crisp-dm} es un modelo estándar ampliamente utilizado en la minería de datos que proporciona un enfoque estructurado para llevar a cabo proyectos de análisis de datos. Este modelo se compone de seis fases interconectadas, que abarcan desde la comprensión del negocio hasta la implementación de los resultados del análisis. Las fases de CRISP-DM son:
-
-1. Entendimiento del negocio
-
-2. Comprensión de los datos
-
-3. Preparación de los datos
-
-4. Modelado
-
-5. Evaluación
-
-6. Despliegue
-
-```{r lifecycle, echo=FALSE, out.width='100%', fig.cap= 'Ciclo de vida de un proceso de ciencia de datos' }
-knitr::include_graphics(here::here("img/02-Data-Science-LifeCycle.png"))
-
-```
-
+     

@@ -1,56 +1,56 @@
-# Introducción al análisis estadístico de datos con **R** {#introduccion}
+# Introducción: las bases de un análisis de datos con **R** {#introduccion}
 
-## Qué vas a apernder
+## ¿Qué vas a apernder?
 
--   Los conceptos básicas para llevar a cabo un análisis en ciencia de datos.
+-   Los conceptos básicos para llevar a cabo un análisis en ciencia de datos.
 
 -   Un *overview* de las herramientas más importantes del
-    software estadístico R y su potencial no solo para el análisis de datos.
+    software estadístico **R** y su potencial no solo para el análisis de datos.
 
 -   Una de las metodologías más utilizada en ciencia de datos: la metodología *Cross Industry Standard Process for Data Mining* (CRISP-DM por sus siglas en inglés).
 
--   Cómo desarrollar un caso de uso en ciencia de datos aplicando la metodologías CRISP-DM a un caso de uso actual de importante repercusión económica, sanitaria y social, el control de la calidad del aire.
+-   Cómo desarrollar un caso de uso en ciencia de datos aplicando la metodologías CRISP-DM a un problema actual de importante repercusión económica, sanitaria y social, el control de la calidad del aire.
 
 
-## Qué no vas a aprender
+## ¿Qué no vas a aprender?
 
--   Programación en R
+-   Programación en **R**
 
--   Escritura en \LaTeX,
+-   Escritura en \LaTeX.
 
--   Contenidos teóricos de ciencia de datas
+-   Contenidos teóricos de ciencia de datos.
 
 
 ## ¿Qué es la ciencia de datos?
 
-(TODO) Un párrafo 
-
-
+La ciencia de datos es una disciplina emergente que ha sido etiquetada como la profesión más sexy del siglo XXI [@davenport2012data]. Mediante la combinación de modelos matemáticos y estadísticos, la programación computacional y el conocimiento del negocio o área de aplicación (véase @fig-ciencia-datos), la ciencia de datos obtiene el máximo valor de los datos para apoyar los procesos de toma de decisiones. Es decir, transforma los datos en información y la información en conocimiento.
 
 
 ```{r ciencia-datos, echo=FALSE, out.width='70%', fig.align='center', fig.cap='Diagrama de Venn de la ciencia de datos'}
+#| label: fig-ciencia-datos
 knitr::include_graphics(here::here("img/01-ciencia-datos.png"))
 ```
 
 
 
 
-## ¿Cuáles son las herramientas básicas de R?
+## ¿Cuáles son las herramientas básicas de **R** para ciencia de datos?
 
-R es una caja de herramientas en el sentido más amplio, pues permite
+**R** es una caja de herramientas en el sentido más amplio (tal y com ilustra la @fig-caja-herramientas), pues permite
 llevar a cabo muchas aplicaciones y muy diferentes. Entre ellas, para
-hacer una idea al lector, con R es posible: sumar o restar, ejecutar
+hacer una idea al lector, con **R** es posible: sumar o restar, ejecutar
 modelos ya programados, desarrollar funciones nuevas, dibujar datos y
 resultados de forma estática y/o interactiva, crear informes y fomentar
 la reproducibilidad, diseñar y publicar blogs, páginas webs, dashboards,
 cuadros de mando, etc...
 
-```{r caja-herram, echo=FALSE, out.width='70%', fig.align='center', fig.cap='Herramientas básicas de R'}
+```{r , echo=FALSE, out.width='70%', fig.align='center', fig.cap='Herramientas básicas de R'}
+#| label: fig-caja-herramientas
 knitr::include_graphics(here::here("img/herramientas.jpg"))
 ```
 
 
-R tiene tres grandes pilares (véase Figura `\@ref(fig:caja-herram)`) que
+**R** tiene tres grandes pilares (véase la Fig. \@ref(fig:caja-herram)) que
 son:
 
 1.  [**Rstudio**]{style="color:red"}: un entorno de desarrollo integrado (IDE) para R (y
@@ -65,37 +65,37 @@ son:
 
     4.  un conjunto de utilidades.
 
-```{=html}
-<!-- -->
-```
-2.  [**Tidyverse**:]{style="color:red"} una colección de paquetes coehrentes, que
+
+2.  [**Tidyverse**:]{style="color:red"} una colección de paquetes coherentes, que
     comparten gramática, filosofía y estructura y están diseñados para
     realizar juntos como una canalización completa (*pipeline*). Todos
-    se basan en la idea de *tidy data* propuesta por Hadley Wickham
-    (Wickham et al. 2014) y pueden instalarse con un único comando en R:
+    se basan en la idea de **tidy data** propuesta por Hadley Wickham
+    (@Wickham2014) y pueden instalarse con un único comando en **R**:
 
-```{=html}
-<!-- -->
+
+```{r}
+#| eval: false
+install.packages("tidyverse")
 ```
-    install.packages("tidyverse")
 
-Los paquetes que forman parte del tidyverso son:
+    
+Los paquetes que forman parte del `tidyverse` son:
 
--    **`readr`**, para importación de datos.
+-    **`readr`**: importación de datos.
 
--   **`dplyr`**, para manipulación de datos.
+-   **`dplyr`**: manipulación de datos.
 
--   **`tidyr`,** para ordenar datos.
+-   **`tidyr`**: ordenación de datos.
 
--   **`ggplot2`**, para visualización de datos.
+-   **`ggplot2`** visualización de datos.
 
--   **`purrr`**, para programación.
+-   **`purrr`**: programación.
 
--   **`tibble`**`,` para `tibbles`, un nuevo formato de `data frames`.
+-   **`tibble`**: para `tibbles`, un nuevo formato de `data frames`.
 
--   **`stringr`**, para caracteres.
+-   **`stringr`**: para caracteres.
 
--   **`forcats`**, para factores.
+-   **`forcats`**: para factores.
 
 
 3.  [**Quarto/Rmarkdown**:]{style="color:red"} un marco de escritura para ciencia de datos, que
@@ -107,8 +107,6 @@ Los paquetes que forman parte del tidyverso son:
     [Rmarkdown](https://bookdown.org/yihui/rmarkdown-cookbook/)
 
 
-(TODO) HABLAR DE QUARTO AUNQUE SE REFERNCIE TAMBIÉN A RMARKDOWN
-
 ::: {.callout-note}
 Libro de referencia obligatoria: [**R for Data Science (en español)**](https://es.r4ds.hadley.nz/index.html)
 :::
@@ -116,11 +114,11 @@ Libro de referencia obligatoria: [**R for Data Science (en español)**](https://
 
 
 
-## Importancia de una metodología en ciencia de datos
+## Importancia de una metodología en ciencia de datos  {#fundamentos}
 
-(TODO) UNA FRASE O PEQUEÑO PÁRRAFO QUE DIJA LO IMPORTANTE QUE SON LAS METODOLOGÍAS EN CIENCIA DE DATOS
+La **metodología** en la ciencia de datos proporciona un camino para encontrar soluciones a un problema específico. Este es un proceso cíclico que sufre un comportamiento crítico y que guía a los analistas de negocios y científicos de datos a actuar en consecuencia.
 
-**CRISP-DM** \index{crisp-dm} es un modelo estándar ampliamente utilizado en la minería de datos que proporciona un enfoque estructurado para llevar a cabo proyectos de análisis de datos. Este modelo se compone de seis fases interconectadas, que abarcan desde la comprensión del negocio hasta la implementación de los resultados del análisis. Las fases de CRISP-DM son:
+**CRISP-DM** \index{crisp-dm} es un modelo estándar ampliamente utilizado en la minería de datos que proporciona un enfoque estructurado para llevar a cabo proyectos de análisis de datos  (@wirth2000crisp). Este modelo se compone de seis fases interconectadas, que abarcan desde la comprensión del negocio hasta la implementación de los resultados del análisis. Las fases de CRISP-DM son:
 
 1. Entendimiento del negocio.
 
@@ -135,35 +133,40 @@ Libro de referencia obligatoria: [**R for Data Science (en español)**](https://
 6. Despliegue.
 
 
+```{r lifecycle, echo=FALSE, out.width='100%', fig.cap= 'Ciclo de vida de un proceso de ciencia de datos' }
+knitr::include_graphics(here::here("img/02-Data-Science-LifeCycle.png"))
+
+```
 
 
 
 ## Caso de estudio: la calidad del aire en la ciudad de Madrid
 
-(TODO) rEPASAR EL ENGANCHE
 
 El análisis de datos (espaciales o no) desempeña un papel crucial en la comprensión de la contaminación del aire y sus efectos en la salud humana y el medio ambiente. La disponibilidad de datos geoespaciales permite identificar patrones espaciales, detectar áreas de alta contaminación y evaluar el impacto de las emisiones en diferentes regiones. Resulta muy importante la fácil accesibilidad de los datos para la democratización de la información. Un ejemplo de ello es la página de [Datos abiertos del Gobierno de España](https://datos.gob.es/es/). Gracias a los datos públicos y el análisis adecuado se facilita la toma de decisiones informadas para abordar y mitigar los problemas de contaminación del aire.
 
 La mejor forma para comprender y entender nuevos desarrollos es viendo su utilidad
 a través de un caso de uso, y en este manual se ha escogido un tema tan importante
-como es la contaminación del aire en la ciudad de Madrid. Ello quedó de manifiesto los días 14-16 de marzo de 2022 cuando una gran calima cubrió no sólo a Madrid (Figura xxxxxxx) 
+como es la contaminación del aire en la ciudad de Madrid. Ello quedó de manifiesto los días 14-16 de marzo de 2022 cuando una gran calima cubrió no sólo a Madrid (@fig-cal-aire) 
 sino a España entera tiñiendo el país de polvo rojo.
 
-```{r cal-aire, echo=FALSE, out.width='60%', fig.align='center', fig.cap='Calidad del aire 15-Marzo-2022'}
+```{r , echo=FALSE, out.width='60%', fig.align='center', fig.cap='Calidad del aire 15-Marzo-2022'}
+#| label: fig-cal-aire
 knitr::include_graphics(here::here("img/01-calima_la_razon.png"))
 ```
 
-Y es que, de acuerdo con @sanchis2022extended la contaminación del aire exterior es uno de los principales problemas que afectan a la salud humana en las zonas urbanas de todo el mundo. Por lo tanto, no sorprende que el control de la contaminación del aire sea actualmente una de las principales preocupaciones de los ciudadanos. Aunque las emisiones de la mayoría de los contaminantes del aire han disminuido sustancialmente en las últimas décadas, sus concentraciones aún superan los límites legales en la mayoría de los países, lo que indica que el control de la contaminación del aire sigue siendo un desafío para las sociedades modernas. Cada año, más de 4,2 millones de personas sufren una muerte prematura a causa de la contaminación del aire exterior (OMS, 2016). Los principales culpables son el ozono (O3), el dióxido de nitrógeno (NOx) y, sobre todo, las partículas finas o material particulado (PM) con un diámetro de 10 micrómetros o menos (PM10).
+De acuerdo con @sanchis2022extended, la contaminación del aire exterior es uno de los principales problemas que afectan a la salud humana en las zonas urbanas de todo el mundo. Por lo tanto, no sorprende que el control de la contaminación del aire sea actualmente una de las principales preocupaciones de los ciudadanos. Aunque las emisiones de la mayoría de los contaminantes del aire han disminuido sustancialmente en las últimas décadas, sus concentraciones aún superan los límites legales en la mayoría de los países, lo que indica que el control de la contaminación del aire sigue siendo un desafío para las sociedades modernas. Cada año, más de 4,2 millones de personas sufren una muerte prematura a causa de la contaminación del aire exterior (OMS, 2016). Los principales culpables son el ozono (O3), el dióxido de nitrógeno (NOx) y, sobre todo, las partículas finas o material particulado (PM) con un diámetro de 10 micrómetros o menos (PM10).
 
 Por otra parte, como apuntan @montero2018functional y @montero2021local, Madrid es la tercera ciudad más poblada de la Unión Europea después de Londres y Berlín y cuenta con una gran área metropolitana periférica con más de cinco millones de habitantes. Su potente actividad económica, incluso en tiempos de pandemia de la Covid-19, se traduce en niveles de PM10 superiores a los deseados a causa del transporte —en concreto, del tráfico rodado— y de la actividad industrial, que son las principales fuentes de emisión de PM10.
 
 Además, el Ayuntamiento de Madrid dispone datos abiertos proporcionados a traves del[Portal de datos abiertos del Ayuntamiento de Madrid](https://datos.madrid.es/portal/site/egob/menuitem.c05c1f754a33a9fbe4b2e4b284f1a5a0/?vgnextoid=f3c0f7d512273410VgnVCM2000000c205a0aRCRD&vgnextchannel=374512b9ace9f310VgnVCM100000171f5a0aRCRD&vgnextfmt=default) que permiten su análisis sin coste alguno.
 
-Concretamente, a través del Sistema Integral de la Calidad del Aire del Ayuntamiento de Madrid, se pueden descargar los datos de los contaminantes registrados en 
+Concretamente, a través del Sistema Integral de la Calidad del Aire del Ayuntamiento de Madrid (véase @fig-ayto-madrid), se pueden descargar los datos de los contaminantes registrados en 
 las estaciones de monitoreo de la ciudad desde 2001 en distintos formatos. 
 
 
-```{r ayto-madrid, echo=FALSE, out.width='60%', fig.align='center', fig.cap='Web Ayuntamiento de Madrid'}
+```{r , echo=FALSE, out.width='60%', fig.align='center', fig.cap='Web Ayuntamiento de Madrid'}
+#| label: fig-ayto-madrid
 knitr::include_graphics(here::here("img/01-datos_ayto_madrid.png"))
 ```
 
@@ -176,11 +179,14 @@ se presenta.
 
 ## Los datos
 
-De acuerdo con @Hwickham2016r, el cual es considerada una referencia clave en el
+De acuerdo con @wickham2016r, el cual es considerada una referencia clave en el
 la ciencia de datos (Data Science with R), las herramientas necesarias para un proyecto típico de ciencia de datos sigue el siguiente esquema: importar, ordenar, 
-transformar, visualizar, modelar y comunicar (véase Figura xxxxxxxx)
+transformar, visualizar, modelar y comunicar (véase @fig-proceso-cd)
 
-```{r proceso-cd, echo=FALSE, out.width='60%', fig.align='center', fig.cap='Proceso de ciencia de datos'}
+```{r , echo=FALSE}
+#| label: fig-proceso-cd
+#| fig-cap: "Ciclo de vida de la ciencia de datos" 
+#| out-width: '60%'
 knitr::include_graphics(here::here("img/proceso-cd.png"))
 ```
 
@@ -190,16 +196,17 @@ Partir con la ingesta y orden de los datos no sería optimo para llevar a cabo
 el objetivo de este manual, pues el 80% del tiempo es un proceso rutinario y aburrido y el 20% restante es extraño y frustrante. 
 :::
 
-Por ello, recurriremos al repositorio de 
+Por ello, se recurre al repositorio de 
 Github  michal0091/aire_madrid de Kinel (2022a, 2022b) que trata los datos brutos
 de calidad del aire del Ayuntamiento de Madrid, los organiza y los codifica, 
-facilitando así su uso (Figura \@ref(fig:foto-michal)). La salida del conjunto de datos 
+facilitando así su uso (@fig-foto-michal). La salida del conjunto de datos 
 dt_daily_mean_2011.RDS que aquí se proporciona será la entrada
 para el análisis que se presenta. 
 
 (TODO) descripción breve de lo que contienen estas carpetas, datos procesasdos, sin procear, diccionarios.
 
-```{r foto-michal, echo=FALSE, out.width='60%', fig.align='center', fig.cap='Repositorio Github con el código de Michal'}
+```{r echo=FALSE, out.width='60%', fig.align='center', fig.cap='Repositorio Github con el código'}
+#| label: fig-foto-michal
 knitr::include_graphics(here::here("img/01-git_aire_madrid.png"))
 ```
 

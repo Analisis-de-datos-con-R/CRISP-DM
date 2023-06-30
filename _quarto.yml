@@ -9,13 +9,8 @@ book:
     - Michal Kinel
   date: today
   description: |
-    Este libro ofrece una guía práctica para el análisis de datos con el software estdístico R mediante 
-    la aplicación de la metodología CRISP-DM (Cross-Industry Standard Process for Data Mining), 
-    un modelo de proceso de minería de datos de estándar abierto. 
-    El análisis de datos se lleva a cabo con un caso de uso real, la modelización de la calidad del aire
-    en la ciudad de Madrid. Centrado en el uso del lenguaje de programación R y el IDE RStudio, 
-    este libro pretende proporcionar a los lectores las herramientas necesarias para llevar 
-    a cabo análisis de datos robustos y reproducibles.
+    Este libro ofrece una guía práctica para el análisis de datos con el software estadístico R mediante 
+    la aplicación de la metodología *Cross-Industry Standard Process for Data Mining* (CRISP-DM).
   cover-image: cover.png
   chapters:
     - index.qmd
@@ -28,6 +23,8 @@ bibliography: references.bib
 
 format:
   html:
+    code-fold: true
+    code-tools: true
     theme: theme.scss
     header-includes: |
       <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/lato" type="text/css"/>

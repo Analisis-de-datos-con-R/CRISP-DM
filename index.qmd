@@ -1,15 +1,15 @@
 # Prologo {#prologo .unnumbered}
 
-En los últimos años, la cantidad de datos generados en todo el mundo ha crecido exponencialmente, abriendo un mundo de posibilidades para extraer conocimientos y tomar decisiones con conocimiento de causa. En este contexto, la minería de datos se ha convertido en una disciplina fundamental para descubrir patrones, tendencias y relaciones ocultas en grandes conjuntos de datos.
+En los últimos años, la cantidad de datos generados en todo el mundo ha crecido exponencialmente, abriendo un mundo de posibilidades para extraer conocimientos y tomar decisiones con conocimiento de causa. En este contexto, la ciencia de datos se ha convertido en una disciplina fundamental para descubrir patrones, tendencias y relaciones ocultas en grandes conjuntos de datos.
 
 ## Objetivos del libro
 
+El objetivo principal de este libro es proporcionar a los lectores una guía práctica llevara a cabo un análisis estadístico en ciencia de datos basado en la metodología *Cross-Industry Standard Process for Data Mining* (CRISP-DM), un modelo de proceso de minería de datos de estándar abierto.
 
-Este libro ofrece una guía práctica para la aplicación de CRISP-DM (Cross-Industry Standard Process for Data Mining), un modelo de proceso de minería de datos de estándar abierto, en el análisis de datos espaciales sobre contaminación atmosférica. Centrado en el uso del lenguaje de programación R y el IDE RStudio, este libro pretende proporcionar a los lectores las herramientas necesarias para llevar a cabo análisis de datos robustos y reproducibles.
+Centrado en el uso del lenguaje de programación **R** y el IDE RStudio, este libro pretende proporcionar a los lectores las herramientas necesarias para llevar a cabo un análisis estadístico 
+con datos de contaminación del aire en la ciudad de Madrid. El enfoque estará orientado hacia la reproducibilidad y la gobernanza del dato, garantizando así la integridad y la transparencia en el análisis.
 
-El objetivo principal de este libro es proporcionar a los lectores una guía práctica sobre cómo aplicar el modelo **CRISP-DM** en un análisis práctico aplicando datos espaciales de contaminación del aire. Se abordarán los pasos clave del proceso, acompañados de ejemplos prácticos utilizando el lenguaje de programación R con la filosofía tidy y el IDE RStudio. El enfoque estará orientado hacia la reproducibilidad y la gobernanza del dato, garantizando así la integridad y la transparencia en el análisis.
 
-\textcolor{red}{los párrafos son repetitivos, unificar}
 
 
 
@@ -30,9 +30,9 @@ Uno de los puntos fuertes de esta obra es su énfasis en la reproducibilidad y l
 
 En definitiva, este libro pretende ser una guía accesible y práctica para los interesados en la aplicación de CRISP-DM y la minería de datos espaciales en el contexto de la contaminación atmosférica. Esperamos que este libro proporcione las herramientas necesarias para comprender, analizar y abordar los retos de la calidad del aire, y que inspire a los lectores a seguir explorando nuevas aplicaciones y enfoques en este ámbito en constante evolución.
 
-¡Bienvenidos a este apasionante viaje de descubrimiento y análisis de datos sobre contaminación atmosférica utilizando CRISP-DM y el potente lenguaje de programación R!
+¡Bienvenidos a este apasionante viaje de descubrimiento y análisis de datos sobre contaminación atmosférica utilizando CRISP-DM y el potente lenguaje de programación **R**!
 
-[Dra. Gema Fernández-Avilés](https://blog.uclm.es/gemafaviles/)
+[Gema Fernández-Avilés](https://blog.uclm.es/gemafaviles/)
 [Michal Kinel](https://www.linkedin.com/in/michal-kinel/?originalSubdomain=es)
 
 
