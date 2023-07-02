@@ -30,7 +30,6 @@ library(timetk)
 library(bonsai)
 
 
-set.seed(160191)
 
 no2_zona <- read_rds(here::here("data/no2_zona.RDS"))
 models <- read_rds(here::here("data/models.RDS"))
@@ -123,7 +122,9 @@ server <- function(input, output) {
   # Upload
   dataInput <- reactive({
     no2_zona %>% 
+      ungroup() %>% 
       filter(zona == input$zona_i)
+      
   })
   
   
@@ -133,7 +134,7 @@ server <- function(input, output) {
     data <- dataInput()
     nom_zona <- input$zona_i
     plot_1 <- data %>%
-      filter(anomaly == "No" & fecha >= "2018-01-01") %>%
+      filter(anomaly == FALSE & fecha >= "2018-01-01") %>%
       ggplot(aes(x = fecha, y = valor_zona)) +
       geom_line() +
       geom_smooth(size = 0.5, color = "red") +
@@ -157,7 +158,7 @@ server <- function(input, output) {
     data <- dataInput()
     nom_zona <- input$zona_i
     plot_2 <- data %>% 
-      filter(fecha >= "2014-01-01" & anomaly == "No") %>% 
+      filter(fecha >= "2014-01-01" & anomaly == FALSE) %>% 
       ggplot(aes(fecha, valor_zona_anual)) +
       geom_line() +
       scale_x_date() +
@@ -189,7 +190,7 @@ server <- function(input, output) {
   output$summary_table <- renderTable({
     data <- dataInput()
     data %>% 
-      filter(fecha >= (max(fecha) - 365) & anomaly == "No") %>% 
+      filter(fecha >= (max(fecha) - 365) & anomaly == FALSE) %>% 
       group_by(Fecha = as.yearmon(fecha)) %>% 
       summarise(
         Max = max(valor_zona, na.rm = T), 
@@ -200,7 +201,8 @@ server <- function(input, output) {
   
   output$resample_table <- renderTable({
     nom_zona <- input$zona_i
-    models[[nom_zona]]$resample_table
+    models[[nom_zona]]$resample_table %>%
+      table_modeltime_accuracy(.interactive = FALSE)
   })
     
   

@@ -19,24 +19,33 @@ book:
     - 003-crispdm-air-madrid.qmd
   appendices:
     - 00a-pre-curso.qmd
+  search: false
 bibliography: references.bib
 
 format:
   html:
-    code-fold: true
-    code-tools: true
-    theme: theme.scss
+    theme: custom.scss
     header-includes: |
       <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/lato" type="text/css"/>
-      <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/roboto" type="text/css"/>
+      <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/fira-code" type="text/css"/>
     mainfont: LatoRegular
-    monofont: RobotoRegular
+    monofont: FiraCodeRegular
+    toc: true
+    toc-depth	: 2
+    toc-location: right
+    toc-title: "Contenidos"
+    number-sections: true
+    linestretch: 1.5
+    fig-cap-location: bottom
+    tbl-cap-location: top
+    code-block-border-left: true
+    execute:
+      warning: false
+      message: false
+    anchor-sections: true
+    smooth-scroll: true
+    link-external-newwindow: true
 
-  pdf:
-    documentclass: scrreprt
-    cover-image: cover2.png
-    mainfont: Lato
-    monofont: Roboto
 
 editor: source
 

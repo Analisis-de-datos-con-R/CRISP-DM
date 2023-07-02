@@ -40,13 +40,13 @@ h <- 21
 # función auxilar para hacer los lags
 lag_transformer <- function(data){
   data %>%
-    tk_augment_lags(valor_zona, .lags = 1:h) %>%
+    tk_augment_lags(valor_zona, .lags = 1:14) %>%
     ungroup()
 }
 
 for(i in nam_zonas) {
   no2_zona_m30 <- no2_zona %>%
-    filter(zona == i & anomaly == "No") %>% 
+    filter(zona == i & anomaly == FALSE) %>% 
     ungroup() %>% 
     select(fecha, valor_zona)
   
@@ -133,9 +133,10 @@ for(i in nam_zonas) {
   
   # Especificación
   model_spec_lightgbm <- boost_tree(mode = "regression",
-                                    trees = 1000,
-                                    min_n = 8,
-                                    tree_depth = 10) %>%
+                                    trees = 400,
+                                    learn_rate = 0.008,
+                                    tree_depth = 12,
+                                    min_n = 50) %>%
     set_engine("lightgbm")
   
   # Ajuste
@@ -152,20 +153,23 @@ for(i in nam_zonas) {
   # Especificación
   model_spec_prophet_boost_log <- prophet_boost(
     mode = 'regression',
-    changepoint_range = 0.8,
+    growth = 'linear',
+    seasonality_yearly = T,
+    seasonality_weekly = T,
+    seasonality_daily = F,
     logistic_floor = min(train_data$valor_zona),
     logistic_cap = max(train_data$valor_zona),
-    growth = 'logistic',
-    trees = 1000,
-    min_n = 8,
-    tree_depth = 10
+    changepoint_num = .8,
+    learn_rate = .001,
+    tree_depth = 4,
+    trees = 2000
   ) %>%
     set_engine("prophet_xgboost")
   
   # Ajuste
   workflow_fit_prophet_boost_log <- workflow() %>%
     add_model(model_spec_prophet_boost_log) %>%
-    add_recipe(recipe_spec) %>%
+    add_recipe(recipe_spec %>% step_rm(fecha_num, dow, month, quarter, year)) %>%
     fit(train_data) %>%
     recursive(
       transform  = lag_transformer,
@@ -187,7 +191,7 @@ for(i in nam_zonas) {
     )
   
   best_model <- modeltime_resample_accuracy(resamples_fitted) %>%
-    arrange(mae) %>%
+    arrange(rsq) %>%
     select(.model_id) %>%
     head(1) 
   
@@ -203,8 +207,8 @@ for(i in nam_zonas) {
   
   # Resample table
   models[[i]][["resample_table"]] <- resamples_fitted %>%
-      modeltime_resample_accuracy(summary_fns = mean) %>%
-      table_modeltime_accuracy(.interactive = FALSE)
+      modeltime_resample_accuracy(summary_fns = mean)
+      
   
   
   models[[i]][["forecast_plot"]] <- 

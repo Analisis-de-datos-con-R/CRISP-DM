@@ -142,6 +142,13 @@ $breadcrumb-border-radius:          .25rem !default;
 $btn-close-color:            $white !default;
 $btn-close-opacity:          .8 !default;
 $btn-close-hover-opacity:    1 !default;
+// Code output
+
+.output {
+  color: $blue2;
+  background: $gray-600;
+}
+
 
 
 
@@ -154,6 +161,10 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;70
 @if $web-font-path {
   @import url($web-font-path);
 }
+
+
+
+
 
 // Navbar
 

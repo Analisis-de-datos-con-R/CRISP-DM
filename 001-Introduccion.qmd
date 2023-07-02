@@ -44,13 +44,13 @@ resultados de forma estática y/o interactiva, crear informes y fomentar
 la reproducibilidad, diseñar y publicar blogs, páginas webs, dashboards,
 cuadros de mando, etc...
 
-```{r , echo=FALSE, out.width='70%', fig.align='center', fig.cap='Herramientas básicas de R'}
+```{r , echo=FALSE, out.width='70%', fig.align='center'}
 #| label: fig-caja-herramientas
 knitr::include_graphics(here::here("img/herramientas.jpg"))
 ```
 
 
-**R** tiene tres grandes pilares (véase la Fig. \@ref(fig:caja-herram)) que
+**R** tiene tres grandes pilares que
 son:
 
 1.  [**Rstudio**]{style="color:red"}: un entorno de desarrollo integrado (IDE) para R (y
@@ -103,8 +103,8 @@ Los paquetes que forman parte del `tidyverse` son:
     Markdown (\*.Rmd) son completamente reproducibles y soportan docenas
     de formatos de salida tales como PDFs, archivos de Word,
     presentaciones, artículos científicos,... Materiral de recomendable
-    lectura [R Markdown Cookbook](https://rmarkdown.rstudio.com/) y
-    [Rmarkdown](https://bookdown.org/yihui/rmarkdown-cookbook/)
+    lectura [R Markdown Cookbook](https://rmarkdown.rstudio.com/),
+    [Rmarkdown](https://bookdown.org/yihui/rmarkdown-cookbook/) y el nuevo formato multiplataforma integrado de [Quarto](https://quarto.org/)
 
 
 ::: {.callout-note}

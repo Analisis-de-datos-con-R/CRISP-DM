@@ -105,8 +105,10 @@ location <- location[names(location) == "distribution"]
 # Tras identificar se genera un tibble con el año como identificación y el link a los datos
 links <-
   tibble(
-    year = sapply(X = location, function(x) unname(unlist(x[["Distribution"]][["title"]][1]))),
-    link = sapply(X = location, function(x) unname(unlist(x[["Distribution"]][["accessURL"]][1])))
+    year = sapply(X = location, function(x) unname(unlist(
+      x[["Distribution"]][["title"]][1]))),
+    link = sapply(X = location, function(x) unname(unlist(
+      x[["Distribution"]][["accessURL"]][1])))
   )
 
 # Seleccionar el formato csv
@@ -366,11 +368,11 @@ no2 %>%
 ```
 No se encuentran valores válidos con NA en el campo `valor`.
 
+Posteriormente se agrupan los datos por la variable `zona` y se genera la variable `valor_zona` que representa la media por zona y día. 
 
 ```{r}
 #| message: false
 #| warning: false
-#| code-summary: Manipulación del data frame para su análisis. Se agrupa por zona y fecha y se calcula la media.
 no2_zona <- no2 %>% 
   group_by(zona, fecha) %>% 
   summarise(valor_zona = mean(valor, na.rm = T))
@@ -489,20 +491,16 @@ write_rds(no2_zona, "data/no2_zona.RDS")
 ```
 
 
-
-
-
-
 El siguiente paso será centrar el estudio en la zona de calidad del aire con mayores niveles de contaminación, el interior de la M30.
 
+Se filtra la zona de calidad del aire con mayores niveles de contaminación, la zona "Interior M30" y se crea el subconjunto `no2_zona_m30`.
+
 ```{r}
-#| code-summary: Se filtra la zona de calidad del aire con mayores niveles de contaminación, la zona "Interior M30" y se crea el subconjunto `no2_zona_m30`
 no2_zona_m30 <- no2_zona %>%
   filter(zona == "Interior M30" & anomaly == FALSE) %>% 
   ungroup() %>% 
   select(fecha, valor_zona)
 ```
-
 
 
 Se visualizan los datos de NO2 en el interior de la M30
@@ -528,7 +526,48 @@ Se generan una serie de variables útiles para la predicción y se define `h` co
   - `quarter`: valor numérico indicativo del trimestre.
   
   - `year`: año.
+  
+La creación de variables auxiliares como día de la semana, mes o año en los modelos de *machine learning* para la predicción de series temporales es necesaria debido a varias razones:
 
+  1. **Tendencia estacional**: Muchas series temporales exhiben patrones estacionales que se repiten en intervalos regulares, como estacionalidad diaria, mensual o anual. Al incluir variables como día de la semana, mes o año, los modelos de *machine learning* pueden capturar mejor estos patrones y ajustar las predicciones en consecuencia.
+
+  2. **Diferenciación de comportamiento**: Las series temporales pueden tener diferentes comportamientos dependiendo del día de la semana o el mes. Por ejemplo, las ventas minoristas pueden ser más altas los fines de semana o durante las vacaciones. Al incluir variables auxiliares, los modelos pueden aprender estas diferencias y mejorar la precisión de las predicciones.
+
+  3. **Cambios estacionales y tendencias a largo plazo**: Al considerar variables como el año, los modelos pueden capturar cambios estacionales y tendencias a largo plazo en los datos. Por ejemplo, una serie de tiempo que muestra un crecimiento anual constante puede beneficiarse de la inclusión del año como variable para predecir futuros incrementos.
+
+  4. **Ajuste a patrones no lineales**: Al utilizar variables auxiliares, los modelos de machine learning pueden capturar patrones no lineales en las series temporales. Por ejemplo, puede haber interacciones complejas entre el día de la semana y el mes que influyen en el comportamiento de la serie.
+
+En resumen, la inclusión de variables auxiliares como día de la semana, mes o año en los modelos de **machine learning** para la predicción de series temporales permite capturar patrones estacionales, diferencias de comportamiento, cambios estacionales y tendencias a largo plazo, así como ajustar a patrones no lineales. Esto mejora la capacidad del modelo para realizar pronósticos precisos y más sólidos en series temporales.
+
+Además de las variables auxiliares mencionadas anteriormente, la inclusión de *lags* o retardos en los modelos de *machine learning* para la predicción de series temporales es otra técnica importante. Los *lags* representan la observación pasada de la serie en diferentes puntos de tiempo y se utilizan como variables predictoras en el modelo.
+
+La inclusión de *lags* permite capturar la dependencia temporal en los datos. Las observaciones pasadas de la serie pueden contener información relevante para predecir el valor futuro. Al incluir lags en el modelo, se proporciona al algoritmo de *machine learning* información sobre cómo las observaciones anteriores afectan a las futuras.
+
+La elección adecuada de los lags es importante. Dependerá de la naturaleza de la serie y de su periodicidad. Por ejemplo, en una serie de tiempo mensual, se pueden incluir lags correspondientes a los meses anteriores. En una serie de tiempo diaria, se pueden considerar lags que representen los días anteriores.
+
+En el caso de los modelos seleccionados se aplica lags de 1 al 14 por medio de la función `lag_transformer()` creada en el chunk inferior. 
+
+En definitiva inclusión de *lags* permite al modelo capturar patrones de autocorrelación y estacionalidad en la serie temporal. Además, puede ayudar a capturar cambios en la dinámica de la serie y a mejorar la precisión de las predicciones.
+
+::: {.callout-note title="Autocorrelación y estacionalidad"}
+La **autocorrelación temporal** se refiere a la correlación entre una observación y sus observaciones pasadas a lo largo del tiempo. Es una medida que indica cómo una observación en un momento dado está relacionada con las observaciones anteriores en la misma serie [@shumway2017]. Se trata un concepto fundamental en el análisis de series temporales, ya que proporciona información sobre la dependencia temporal y los patrones de comportamiento en los datos. Permite identificar si hay una relación lineal o no lineal entre las observaciones pasadas y presentes.
+
+La **estacionalidad** se refiere a patrones regulares y repetitivos que se observan en los datos a lo largo del tiempo. Estos patrones pueden ser de corto plazo, como fluctuaciones diarias o semanales, o de largo plazo, como fluctuaciones estacionales o anuales [@hyndman2021]. Se trata de una característica común en muchos tipos de datos, como las ventas minoristas, la demanda de productos, el tráfico web, el clima y muchos otros.
+
+:::
+
+Sin embargo, es importante tener en cuenta que la inclusión de demasiados *lags* puede aumentar la complejidad del modelo y llevar a **problemas de sobreajuste**[^longnote]. Por lo tanto, se debe encontrar un equilibrio adecuado al seleccionar los *lags* relevantes y evitar la inclusión de **lags redundantes**.
+
+[^longnote]: El sobreajuste (overfitting en inglés) en el contexto del machine learning se refiere a un escenario en el cual un modelo se ajusta demasiado a los datos de entrenamiento y pierde su capacidad de generalización en datos nuevos e invisibles. En otras palabras, el modelo aprende y se ajusta demasiado a las particularidades y el ruido presentes en los datos de entrenamiento, en lugar de capturar los patrones y relaciones generales que se aplicarían a otros conjuntos de datos [@nordhausen2009].
+
+Para mitigasr los problemas de **sobreajuste** existen varias técnicas como:
+
+  - **Regularización**: Se aplica una penalización a los coeficientes o parámetros del modelo para evitar que tomen valores extremos.
+  - **Validación cruzada**: Se divide el conjunto de datos en subconjuntos de entrenamiento y validación para evaluar el rendimiento del modelo en datos no vistos durante el entrenamiento.
+  - **Reducción de la complejidad del modelo**: Se puede reducir el número de características o la complejidad del modelo para evitar un ajuste excesivo.
+  - **Recopilación de más datos**: Obtener más datos puede ayudar a reducir el sobreajuste al proporcionar una visión más completa y representativa del problema.
+
+En el caso de este proyecto se aplica el ajuste de parámetros y validación cruzada. 
 
 ```{r}
 #| message: false
@@ -541,7 +580,7 @@ h <- 21
 # función auxilar para hacer los lags
 lag_transformer <- function(data){
   data %>%
-    tk_augment_lags(valor_zona, .lags = 1:h) %>%
+    tk_augment_lags(valor_zona, .lags = 1:14) %>%
     ungroup()
 }
 
@@ -588,7 +627,7 @@ future_data <- no2_zona_m30_ext %>%
 ```
 
 
-Los datos para el entrenamiento.  EXPLICAR AQUÍ QUE INTERNAMENTE SE HACE LA VALIDACIÓN
+Los datos para el entrenamiento.
 ```{r}
 #| code-summary: Estructura de los datos de entrenamiento y validación
 str(train_data)
@@ -603,6 +642,10 @@ str(future_data)
 
 
 ### Validación cruzada para evaluación de los modelos 
+
+La librería `timek` con la función `time_series_cv()` crea conjuntos de validación cruzada de rsample para series temporales. Esta función genera un plan de muestreo comenzando con las observaciones más recientes de la serie temporal y avanzando hacia atrás. El procedimiento de muestreo es similar a `rsample::rolling_origin()`, pero se enfoca en los datos más recientes de la serie temporal para la validación cruzada.
+
+Es por ello, que el conjunto de datos de entrenamiento se refiere a la serie completa conocida ya que internamente va a dividir los datos en varias  partes con sus subconjuntos de entrenamiento y test. 
 
 ```{r}
 #| message: false
@@ -632,7 +675,7 @@ La validación cruzada es una técnica utilizada en el análisis de series de ti
 3. Permite la comparación de modelos.
 :::
 
-
+En el gráfico inferior se observa cómo se generó la división de los datos para la validación cruzada. En color azul se muestra la parte de entrenamiento y en rojo la del test. Posteriormente los modelos seleccionados se aplicarán a cada *trozo* de entrenamiento por separado y gracias a la parte del test se generarán las estadísticas que evaluarán los modelos en cada *trozo*. De esta forma, se obtendrán 4 estadísticas de rendimiento de cada modelo, lo que ayudará a no caer en el sobreajuste.
 
 ```{r}
 resamples_tscv %>%
@@ -747,7 +790,6 @@ recipe_spec <- recipe(valor_zona ~ ., train_data)
 
 GLMNET es útil cuando se trabaja con conjuntos de datos con un gran número de variables predictoras, ya que ayuda a seleccionar y ajustar las variables más relevantes. GLMNET utiliza una combinación de la regularización L1 (LASSO) y L2 (Ridge) para penalizar los coeficientes de las variables y controlar la complejidad del modelo. Esto permite seleccionar automáticamente las variables más relevantes y reducir la tendencia al sobreajuste. Por ejemplo, supongamos que se desea predecir el precio de la vivienda en función de múltiples variables, como el tamaño, el número de habitaciones, la ubicación, etc. Aplicando GLMNET, se identifican las variables más importantes para predecir el precio y ajustar el modelo de regresión lineal generalizada al mismo tiempo.
 
-
 En el caso NO2 se procede con la siguiente especificación:
 
 ```{r}
@@ -768,6 +810,12 @@ workflow_fit_glmnet <- workflow() %>%
 
 ```
 
+::: {.callout-note}
+Nótese que cuando se determina el workflow del modelo se desestima la variable `fecha` aplicando una modificación en la receta:
+`add_recipe(recipe_spec %>% step_rm(fecha))`
+
+Esto es debido a que el modelo no soporta variables en formato de fecha (`Date`).
+:::
 
 **Modelo 2:  Multivariate Adaptive Regression Splines (MARS)**. es una técnica de modelado que utiliza funciones de base para aproximar relaciones no lineales entre variables predictoras y una variable objetivo. Se adapta a los datos mediante la construcción de una red de segmentos de regresión que capturan cambios en la relación entre las variables.
 
@@ -809,9 +857,10 @@ En el caso NO2 se procede con la siguiente especificación:
 
 # Especificación
 model_spec_lightgbm <- boost_tree(mode = "regression",
-                                  trees = 1000,
-                                  min_n = 8,
-                                  tree_depth = 10) %>%
+                                  trees = 400,
+                                  learn_rate = 0.008,
+                                  tree_depth = 12,
+                                  min_n = 50) %>%
   set_engine("lightgbm")
 
 # Ajuste
@@ -825,6 +874,12 @@ workflow_fit_lightgbm <- workflow() %>%
   
 ```
 
+::: {.callout-note}
+Nótese que cuando se determina el workflow del modelo se desestima la variable `fecha` aplicando una modificación en la receta:
+`add_recipe(recipe_spec %>% step_rm(fecha))`
+
+Esto es debido a que el modelo no soporta variables en formato de fecha (`Date`).
+:::
 
 **Modelo 4: Prophet boost con crecimiento logarítmico**: es una herramienta de predicción de series temporales desarrollada por Facebook. Al especificar un crecimiento logarítmico en Prophet, se asume que la tasa de crecimiento de la serie temporal disminuye con el tiempo. Esto es útil cuando los datos muestran un crecimiento inicial rápido seguido de una desaceleración.
 
@@ -840,20 +895,23 @@ En el caso NO2 se procede con la siguiente especificación:
 # Especificación
 model_spec_prophet_boost_log <- prophet_boost(
   mode = 'regression',
-  changepoint_range = 0.8,
+  growth = 'linear',
+  seasonality_yearly = T,
+  seasonality_weekly = T,
+  seasonality_daily = F,
   logistic_floor = min(train_data$valor_zona),
   logistic_cap = max(train_data$valor_zona),
-  growth = 'logistic',
-  trees = 1000,
-  min_n = 8,
-  tree_depth = 10
+  changepoint_num = .8,
+  learn_rate = .001,
+  tree_depth = 4,
+  trees = 2000
 ) %>%
   set_engine("prophet_xgboost")
 
 # Ajuste
 workflow_fit_prophet_boost_log <- workflow() %>%
   add_model(model_spec_prophet_boost_log) %>%
-  add_recipe(recipe_spec) %>%
+  add_recipe(recipe_spec %>% step_rm(fecha_num, dow, month, quarter, year)) %>%
   fit(train_data) %>%
     recursive(
       transform  = lag_transformer,
@@ -861,6 +919,12 @@ workflow_fit_prophet_boost_log <- workflow() %>%
 
 ```
 
+::: {.callout-note}
+Nótese que cuando se determina el workflow del modelo se desestima la variable `fecha_num`, `dow`, `month`, `quarter`, `year` aplicando una modificación en la receta:
+`add_recipe(recipe_spec %>% step_rm(fecha_num, dow, month, quarter, year))`
+
+Esto se debe a que el modelo Prophet boost con crecimiento logarítmico ya incluye en su estrucura variables que determinan la estacionalidad de los datos como: `seasonality_yearly = T` o `seasonality_weekly = T`.
+:::
 
 
 El siguiente paso es agregar cada uno de los modelos a una tabla de Modeltime utilizando `modeltime_table()`. 
@@ -878,12 +942,10 @@ models_tbl
 ```
 
 
-Por último, se realizan las predicciones 
-
-**ESTAS PREDICCIONES NO LAS ENTIENDO**
+Por último, se realizan las predicciones entrenando los modelos seleccionados para los 4 *trozos* de datos del **plan de validación cruzada** con el fin de poder comparar los datos de predicción con los datos reales y obtener una buena evaluación de los modelos propuestos.  
 
 ```{r}
-#| code-summary: Predicciónes
+#| code-summary: Predicciones
 resamples_fitted <- models_tbl %>%
   modeltime_fit_resamples(
     resamples = resamples_tscv,
@@ -913,12 +975,6 @@ resamples_fitted
   
 :::
 
-:::{.callout-note}
-### Librerías y funciones en R {-}
-
-funciones
-
-:::
 
 En el campo de la ciencia de datos, la evaluación de modelos de aprendizaje automático es fundamental para garantizar la calidad y el rendimiento de los modelos utilizados. A medida que los datos se vuelven cada vez más complejos y abundantes, los modelos de machine learning se han convertido en una herramienta poderosa para extraer información y tomar decisiones basadas en datos.
 

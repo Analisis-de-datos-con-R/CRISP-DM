@@ -1,39 +1,155 @@
-
-
-# Pre-curso {#pre-curso} {-}
-
-Aquí vamos a decir lo que deben hacer antes de venir al seminario, luego puede quedar como anexo o ya veremos donde- Esto se ejecuta solo y se les evía
-
-## Preparación del entorno de trabajo {#prepentorno}
+# Preparación del entorno de trabajo {#prepentorno}
 
 En este capítulo, se abordará la preparación del entorno de trabajo necesario para realizar el análisis de datos espaciales de contaminación del aire utilizando R y RStudio. Se describirá la instalación de R y RStudio, así como la configuración de las librerías y paquetes necesarios para el análisis.
 
 ## Instalación de R y RStudio
 Se proporcionarán instrucciones detalladas sobre cómo instalar R y RStudio en diferentes sistemas operativos, como Windows, macOS y Linux. Se explicará el proceso paso a paso y se destacarán los enlaces de descarga y recursos adicionales para obtener más información.
 
+### Descarga e instalación de R
+
+**R** está mantenido por un equipo internacional de desarrolladores que hacen que el lenguaje esté disponible a través de la página web de [The Comprehensive R Archive Network](https://cran.r-project.org/). En la parte superior de la página web se encuentran tres enlaces para descargar R. Simplemente debes hacer clic en el enlace que corresponda a tu sistema operativo: Windows, macOS o Linux.
+
+#### Windows
+
+Para instalar R en Windows, haz clic en el enlace *Download R for Windows*. Luego, haz clic en el enlace *base*. A continuación, haz clic en el primer enlace en la parte superior de la nueva página. Este enlace debería decir algo como *Download R-4.3.1 for Windows*, excepto que el 4.3.1 será reemplazado por la versión más actualizada de R. El enlace descargará un programa de instalación que instalará la versión más reciente de R para Windows. Ejecuta este programa y sigue los pasos del asistente de instalación que aparece. El asistente instalará R en las carpetas de tus archivos de programa y colocará un acceso directo en tu menú de inicio. Ten en cuenta que necesitarás tener todos los privilegios de administración apropiados para instalar nuevo software en tu máquina. Además se recomienda la instalación de Rtools.
+
+::: {.callout-note}
+Rtools es un conjunto de herramientas utilizado para construir paquetes de R desde el código fuente (aquellos que requieren la compilación de código C/C++ o Fortran) y para construir R en sí mismo. Rtools43 se utiliza para R 4.3.x y para R-devel, la versión de desarrollo de R.
+:::
+
+::: {.callout-caution collapse="true"}
+## Instalación de Rtools43
+
+Rtools43 solo es necesario para la instalación de paquetes de R desde el código fuente o la construcción de R desde el código fuente. R se puede instalar desde el instalador binario de R y, de forma predeterminada, se instalarán versiones binarias de los paquetes de CRAN, lo cual no requiere Rtools43.
+
+Además, existen servicios de construcción en línea disponibles para verificar y construir paquetes de R para Windows, para los cuales tampoco es necesario instalar Rtools43 localmente. El servicio de verificación de [Winbuilder](https://win-builder.r-project.org/) utiliza una configuración idéntica a la de las verificaciones de paquetes entrantes de CRAN y ya tiene preinstalados todos los paquetes de CRAN y Bioconductor.
+
+Rtools43 se puede instalar desde el [instalador de Rtools43](https://cran.r-project.org/bin/windows/Rtools/rtools43/files/rtools43-5550-5548.exe). Se recomienda utilizar los valores predeterminados, incluida la ubicación de instalación predeterminada en `C:\rtools43`.
+
+Cuando se utiliza R instalado mediante el instalador, no es necesario realizar ninguna configuración adicional después de instalar Rtools43 para construir paquetes de R desde el código fuente. Cuando se utiliza la ubicación de instalación predeterminada, R y Rtools43 se pueden instalar en cualquier orden y Rtools43 se puede instalar incluso si R ya está en ejecución.
+:::
+
+#### macOS
+
+Para instalar R en una Mac, haz clic en el enlace *Download R for macOS*. A continuación, haz clic en el enlace del paquete R-4.3.1 (o el enlace del paquete para la versión más actualizada de R). Se descargará un instalador que te guiará a través del proceso de instalación, el cual es muy fácil. El instalador te permite personalizar tu instalación, pero la configuración predeterminada será adecuada para la mayoría de los usuarios.
+
+#### Linux - Ubuntu
+
+Los paquetes para la versión actual de R 4.2 están disponibles para la mayoría de las versiones estables de Ubuntu para escritorio hasta su fecha oficial de fin de vida. Sin embargo, solo se brinda soporte completo para la última versión de Soporte a Largo Plazo (LTS). A partir del 2 de mayo de 2022, las versiones compatibles son:
+
+  - Jammy Jellyfish (22.04, solo amd64)
+  - Impish Indri (21.10, solo amd64)
+  - Focal Fossa (20.04, solo LTS y amd64)
+  - Bionic Beaver (18.04, LTS)
+  - Xenial Xerus (16.04, LTS)
+
+Ejecuta estas líneas (si eres root, omite el comando sudo) para informar a Ubuntu sobre los archivos binarios de R en CRAN.
+
+````{.bash filename="Terminal"}
+# update indices
+sudo apt update -qq
+# install two helper packages we need
+sudo apt install --no-install-recommends software-properties-common dirmngr
+# add the signing key (by Michael Rutter) for these repos
+# To verify key, run gpg --show-keys /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc 
+# Fingerprint: E298A3A825C0D65DFD57CBB651716619E084DAB9
+wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+# add the R 4.0 repo from CRAN -- adjust 'focal' to 'groovy' or 'bionic' as needed
+sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+````
+Aquí utilizamos el comando "lsb_release -cs" para acceder a la versión de Ubuntu que estás utilizando, que puede ser una de las siguientes: "jammy", "impish", "focal", "bionic", ...
+
+Luego ejecuta:
+
+````{.bash filename="Terminal"}
+sudo apt install --no-install-recommends r-base
+
+````
+para instalar R y sus dependencias.
+
+Para obtener instrucciones más detalladas, incluyendo información sobre la administración y el mantenimiento de paquetes de R, consulta el [README completo](https://cran.r-project.org/bin/linux/ubuntu/fullREADME.html).
+
+Para versiones antiguas de R, consulta el [README correspondiente](https://cran.r-project.org/bin/linux/ubuntu/olderreleasesREADME.html).
+
+### Descarga e instalación de RStudio
+
+RStudio es un entorno de desarrollo integrado (IDE) diseñado específicamente para trabajar con el lenguaje de programación R. Es una aplicación que proporciona una interfaz fácil de usar y funciones adicionales para facilitar la escritura, depuración y ejecución de código en R. RStudio ofrece un entorno de trabajo organizado con paneles que incluyen una consola interactiva para ejecutar comandos en tiempo real, una ventana para ver y editar archivos de código, herramientas de visualización de datos y mucho más. Es una herramienta muy popular y ampliamente utilizada por profesionales y estudiantes en el análisis de datos y la programación en R.
+
+#### Windows
+
+  - Ve al sitio web de RStudio en https://www.rstudio.com/products/rstudio/download/.
+  - En la sección "RStudio Desktop", haz clic en "Download" debajo de la versión gratuita de RStudio.
+  - Selecciona la descarga correspondiente a tu sistema operativo de Windows (32 o 64 bits).
+  - Una vez descargado, ejecuta el archivo de instalación.
+  - Sigue las instrucciones del asistente de instalación y acepta los términos y condiciones.
+  - Después de completar la instalación, podrás abrir RStudio desde el menú de inicio o mediante un acceso directo en el escritorio.
+
+
+#### macOS
+
+  - Visita el sitio web de RStudio en https://www.rstudio.com/products/rstudio/download/.
+  - En la sección "RStudio Desktop", haz clic en "Download" debajo de la versión gratuita de RStudio.
+  - Descarga el archivo de instalación correspondiente a macOS.
+  - Una vez descargado, abre el archivo de instalación.
+  - Arrastra el ícono de RStudio a la carpeta "Applications" para completar la instalación.
+  - Puedes abrir RStudio desde Launchpad o desde la carpeta "Applications".
+
+#### Linux
+
+  - En el sitio web de RStudio en https://www.rstudio.com/products/rstudio/download/, selecciona la descarga adecuada para tu distribución de Linux.
+  - Dependiendo de tu distribución, puedes seguir las instrucciones específicas para instalar RStudio en Linux. Estas instrucciones suelen incluir comandos de terminal.
+  - Una vez instalado, puedes abrir RStudio desde el menú de aplicaciones o utilizando el comando "rstudio" en la terminal.
+  
+  
+::: {.callout-caution}
+Recuerda que RStudio requiere tener previamente instalado R en tu sistema operativo, ya que RStudio es un entorno que se utiliza para trabajar con el lenguaje R. Si aún no tienes instalado R, puedes descargarlo desde el sitio web de CRAN (Comprehensive R Archive Network) y luego instalar RStudio.
+:::
+
 ## Configuración de librerías que tienen que venir instalados
 
-Se presentará una lista de las librerías y paquetes necesarios para el análisis de datos espaciales de contaminación del aire en R. Se describirá cómo instalar y cargar estas librerías en el entorno de RStudio, y se ofrecerán ejemplos de código para mostrar su utilización.
+Este apartado, se centra en las las librerías esenciales que se van a necesitar para seguir estelibro. Estas librerías son ampliamente utilizadas en el análisis de datos, el modelado estadístico y el aprendizaje automático. Se agrupan por tipología para facilitar su comprensión. A continuación, se explica cómo obtener e instalar cada una de ellas, además de proporcionar una breve descripción de su funcionalidad.
 
-Algunas de las librerías y paquetes relevantes pueden incluir:
+1. Librerías para el manejo de series temporales:
 
-  - sf: Para el manejo y análisis de datos espaciales.
-  - dplyr y tidyr: Para la manipulación y transformación de datos.
-  - ggplot2 y leaflet: Para la visualización de datos espaciales y mapas interactivos.
-  - caret: Para la selección de modelos y técnicas de modelado.
-  - spatialreg: Para el modelado espacial y la regresión espacial.
+  - `modeltime`: Esta librería proporciona herramientas para la creación, manipulación y visualización de modelos de series temporales en R. Puedes obtener más información y descargar la librería desde el sitio oficial en [GitHub](https://github.com/business-science/modeltime)
+  - `modeltime.resample`: Es una extensión de la librería `modeltime` que ofrece funciones para el muestreo y la reescalada de series temporales.
 
+2. Librerías para el modelado estadístico:
+  - `tidymodels`: Es un conjunto de librerías diseñadas para facilitar el flujo de trabajo en el modelado estadístico. Proporciona una interfaz consistente para ajustar, evaluar y comparar diferentes modelos.
+  - `earth`: Esta librería implementa modelos de regresión basados en funciones suaves y proporciona una interpretación más fácil de los modelos
+  - `glmnet`: Es una librería que implementa algoritmos eficientes para el ajuste de modelos de regresión lineal y logística con regularización L1 y L2.
+  - `xgboost`: Es una librería de aprendizaje automático que implementa el algoritmo de Gradient Boosting. Proporciona una implementación rápida y eficiente del algoritmo.
+  - `lightgbm`: Es otra librería de Gradient Boosting que se centra en la eficiencia y la velocidad de entrenamiento. Puedes instalarla con el comando install.packages("lightgbm").
 
-```r
-# Instalación de la librería sf
-install.packages("sf")
+3. Librerías para el manejo de datos y visualización:
+  - `tidyverse`: Es un conjunto de librerías que incluye ggplot2, dplyr, tidyr y otras herramientas para el manejo de datos y la visualización en R.
+  - `lubridate`: Esta librería proporciona funciones para el manejo de fechas y horas en R. Puedes instalarla con el comando install.packages("lubridate").
+  - `bonsai`: Es una librería para el análisis de datos de series temporales y la creación de modelos predictivos. Puedes obtener más información y descargarla desde el sitio oficial en GitHub: https://github.com/bonsai-team/bonsai
 
-# Instalación de la librería dplyr
-install.packages("dplyr")
+4. Librerías adicionales:
+  - `knitr`: Es una librería utilizada para la generación de informes dinámicos en R.
+  - `xml2`: Es una librería para el manejo de datos XML en R.
+  - `vroom`: Esta librería permite la lectura rápida de grandes conjuntos de datos en R.
+  - `timetk`: Es una librería para la manipulación de series temporales en R. Proporciona funciones para la limpieza, transformación y visualización de datos temporales.
+  
+  
+```{r}
+#| eval: false
 
-# Carga de la librería sf
-library(sf)
-
-# Carga de la librería dplyr
-library(dplyr)
+# Instalación de las bibliotecas necesarias
+install.packages("modeltime")
+install.packages("modeltime.resample")
+install.packages("tidymodels")
+install.packages("earth")
+install.packages("glmnet")
+install.packages("xgboost")
+install.packages("lightgbm")
+install.packages("tidyverse")
+install.packages("lubridate")
+install.packages("bonsai")
+install.packages("knitr")
+install.packages("xml2")
+install.packages("vroom")
+install.packages("timetk")
 ```
+

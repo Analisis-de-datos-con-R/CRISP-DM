@@ -1,0 +1,426 @@
+//
+// Color system
+//
+
+// base-colors
+$base0:    #333366 !default;
+$base1:    #3C3C3B !default;
+$base2:    #36A9E1 !default;
+$white:    #fff !default;
+
+// base-color 0 Gradient
+$base0_mg_1:    #06538B !default;
+$base0_mg_2:    #0074A6 !default;
+$base0_mg_3:    #0095B4 !default;
+$base0_mg_4:    #00B5B6 !default;
+$base0_mg_5:    #39D3AD !default;
+
+// base-color 0 shades
+$base0_sh_1:    #59568D !default;
+$base0_sh_2:    #807BB6 !default;
+$base0_sh_3:    #A9A3E0 !default;
+$base0_sh_4:    #D4CDFF !default;
+
+// base-color 1 shades
+$base1_sh_1:    #5F5F5E !default;
+$base1_sh_2:    #848483 !default;
+$base1_sh_3:    #ABABAA !default;
+$base1_sh_4:    #D4D4D3 !default;
+$base1_sh_5:    #EDEDED !default;
+
+// base-color 1 Dust Palette
+$base1_du_1:    #ACAE89 !default;
+$base1_du_2:    #787867 !default;
+$base1_du_3:    #00787C !default;
+
+// base-color 2 Classy Palette
+$base2_cp_1:    #384955 !default;
+$base2_cp_2:    #9BAEBC !default;
+$base2_cp_3:    #D586B7 !default;
+$base2_cp_4:    #9D5282 !default;
+
+
+$primary:       $base0 !default;
+$secondary:     $base1 !default;
+$success:       $base1_du_3 !default;
+$info:          $base0_mg_3 !default;
+$warning:       $base2_cp_3 !default;
+$danger:        $base2_cp_4 !default;
+$light:         $base2_cp_2 !default;
+$dark:          $base2_cp_1 !default;
+
+// Sass Variables
+
+// Sass-Colors
+$body-bg:	   $white !default;
+$body-color: $base1 !default;
+$link-color: $base2 !default;
+$input-bg:   $base2_cp_1 !default;
+$popover-bg: $base2_cp_2 !default;
+
+// Headers
+h1 {
+  color: $base0;
+}
+
+h2 {
+  color: $base0_mg_1;
+}
+
+h3 {
+  color: $base0_mg_2;
+}
+
+h4 {
+  color: $base0_mg_3;
+}
+
+h5 {
+  color: $base0_mg_4;
+}
+
+
+// Code Blocks
+$code-block-border-left-style: none;
+$code-block-border-left-size: 4px;
+$code-block-padding-left: 0.8em;
+$code-block-bg: $base0_sh_4 !default;
+$code-block-bg-padding: 0.6em;
+$code-block-bg-alpha: -0.5;
+
+// Code Copy
+$btn-code-copy-color:	$base0_sh_1 !default;
+$btn-code-copy-color-active: $base0_sh_2 !default;
+
+.cell-output {
+  color: $base1_du_3;
+  background: $base1_sh_4;
+}
+
+
+// Inline Code
+$code-bg: $base1_sh_4 !default;
+$code-color: $base1_du_3 !default;
+
+// Table of Contents
+$toc-font-size:	13px;
+$toc-active-border: $base0_mg_5 !default;
+$toc-inactive-border: $base0_mg_4 !default;
+
+// Layout
+$content-padding-top: 20px;
+
+// Dropdowns
+
+$dropdown-link-color:               $base1_sh_1 !default;
+$dropdown-link-hover-color:         $dropdown-link-color !default;
+$dropdown-link-hover-bg:            $base1_sh_4 !default;
+$dropdown-link-active-color:        $dropdown-link-color !default;
+$dropdown-link-active-bg:           $dropdown-link-hover-bg !default;
+
+// Navs
+
+$nav-link-padding-x:                .9rem !default;
+$nav-link-disabled-color:           $base1_sh_3!default;
+$nav-tabs-border-color:             $base1_sh_3!default;
+$nav-tabs-link-hover-border-color:  $base1_sh_3!default;
+$nav-tabs-link-active-bg:           $white !default;
+$nav-pills-link-active-color:       $base1_sh_1 !default;
+$nav-pills-link-active-bg:          $base1_sh_4 !default;
+
+
+// Pagination
+
+$pagination-color:                  $base1_sh_1 !default;
+$pagination-bg:                     $base1_sh_4 !default;
+$pagination-border-color:           $base1_sh_3!default;
+$pagination-hover-color:            $pagination-color !default;
+$pagination-active-color:           $pagination-color !default;
+$pagination-active-bg:              $base1_sh_3!default;
+$pagination-active-border-color:    $base1_sh_3!default;
+$pagination-disabled-color:         $base1_sh_3!default;
+$pagination-disabled-bg:            $base1_sh_4 !default;
+$pagination-disabled-border-color:  $pagination-border-color !default;
+
+// Cards
+
+$card-border-color:                 rgba($base1_sh_3, .75) !default;
+$card-cap-bg:                       rgba($base1_sh_4, .25) !default;
+
+// Popovers
+
+$popover-header-bg:                 $base1_sh_4 !default;
+
+// Modals
+
+$modal-content-border-color:        $base1_sh_3!default;
+$modal-header-border-color:         $modal-content-border-color !default;
+
+// Progress bars
+
+$progress-bg:                       $base1_sh_3!default;
+$progress-border-radius:            10px !default;
+$progress-bar-color:                $primary !default;
+
+// List group
+
+$list-group-border-color:           $base1_sh_3!default;
+$list-group-hover-bg:               $base1_sh_4 !default;
+$list-group-active-color:           $body-color !default;
+$list-group-active-bg:              $base1_sh_4 !default;
+$list-group-active-border-color:    $base1_sh_3!default;
+$list-group-disabled-color:         $base1_sh_2 !default;
+$list-group-disabled-bg:            $white !default;
+$list-group-action-color:           $list-group-active-color !default;
+$list-group-action-active-color:    $list-group-active-color !default;
+$list-group-action-active-bg:       $base1_sh_3!default;
+
+// Breadcrumbs
+
+$breadcrumb-padding-y:              .375rem !default;
+$breadcrumb-padding-x:              .75rem !default;
+$breadcrumb-bg:                     $pagination-bg !default;
+$breadcrumb-border-radius:          .25rem !default;
+
+// Close
+
+$btn-close-color:            $white !default;
+$btn-close-opacity:          .8 !default;
+$btn-close-hover-opacity:    1 !default;
+
+
+/*-- scss:rules --*/
+
+// Navbar
+
+.bg-primary {
+  background-color: $primary !important;
+}
+
+.bg-dark {
+  background-color: $dark !important;
+}
+
+.bg-light {
+  background-color: $light !important;
+}
+
+.my_theme {
+  font-size: 13px;
+  line-height: 22px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.navbar {
+  .nav-link {
+    @extend .my_theme;
+  }
+
+  &-form input,
+  &-form .form-control {
+    border: none;
+  }
+}
+
+// Buttons
+
+.btn {
+  @extend .my_theme;
+
+  &:hover {
+    border-color: transparent;
+  }
+
+  &-success,
+  &-warning {
+    color: $white;
+  }
+}
+
+// Tables
+
+.table {
+  .thead-dark th {
+    background-color: $dark;
+  }
+}
+
+// Forms
+
+input,
+.form-control {
+  @include box-shadow(none);
+
+  &:focus {
+    @include box-shadow(none);
+  }
+}
+
+// Navs
+
+.nav-tabs {
+  .nav-link {
+    @extend .my_theme;
+    background-color: $base1_sh_4;
+    border-color: $base1_sh_3;
+  }
+
+  .nav-link,
+  .nav-link:hover,
+  .nav-link:focus {
+    color: $base1_sh_1;
+  }
+
+  .nav-link.disabled,
+  .nav-link.disabled:hover,
+  .nav-link.disabled:focus {
+    background-color: $base1_sh_4;
+    border-color: $base1_sh_3;
+    color: $nav-link-disabled-color;
+  }
+}
+
+.nav-pills {
+  .nav-link {
+    @extend .my_theme;
+    border: 1px solid transparent;
+    color: $base1_sh_1;
+  }
+
+  .nav-link.active,
+  .nav-link:hover,
+  .nav-link:focus {
+    background-color: $base1_sh_4;
+    border-color: $base1_sh_3;
+  }
+
+  .nav-link.disabled,
+  .nav-link.disabled:hover {
+    background-color: transparent;
+    border-color: transparent;
+    color: $base1_sh_3;
+  }
+}
+
+
+.breadcrumb {
+  @extend .my_theme;
+  border: 1px solid $base1_sh_3;
+}
+
+.pagination {
+  @extend .my_theme;
+
+  a:hover {
+    text-decoration: none;
+  }
+}
+
+.dropdown-menu {
+  .dropdown-item {
+    @extend .my_theme;
+  }
+}
+
+// Indicators
+
+.alert {
+  color: $white;
+
+  a,
+  .alert-link {
+    color: $white;
+    text-decoration: underline;
+  }
+
+  &-primary {
+    &,
+    > th,
+    > td {
+      background-color: $primary;
+    }
+  }
+
+  &-secondary {
+    &,
+    > th,
+    > td {
+      background-color: $secondary;
+    }
+  }
+
+  &-success {
+    &,
+    > th,
+    > td {
+      background-color: $success;
+    }
+  }
+
+  &-info {
+    &,
+    > th,
+    > td {
+      background-color: $info;
+    }
+  }
+
+  &-danger {
+    &,
+    > th,
+    > td {
+      background-color: $danger;
+    }
+  }
+
+  &-warning {
+    &,
+    > th,
+    > td {
+      background-color: $warning;
+    }
+  }
+
+  &-dark {
+    &,
+    > th,
+    > td {
+      background-color: $dark;
+    }
+  }
+
+  &-light {
+    &,
+    > th,
+    > td {
+      background-color: $light;
+    }
+
+    &,
+    a:not(.btn),
+    .alert-link {
+      color: $body-color;
+    }
+  }
+}
+
+.badge {
+  &.bg-light {
+    color: $dark;
+  }
+}
+
+.tooltip {
+  @extend .my_theme;
+}
+
+// Containers
+
+.modal,
+.toast {
+  .btn-close {
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23dfd7ca'><path d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/></svg>");
+  }
+}
+
