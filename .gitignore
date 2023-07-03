@@ -40,7 +40,4 @@ rsconnect
 # Data
 data
 
-# Html files
-*.html
-
 /.quarto/

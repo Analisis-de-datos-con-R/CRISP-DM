@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.361">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Este libro ofrece una guía práctica para el análisis de datos con el software estadístico R mediante la aplicación de la metodología Cross-Industry Standard Process for Data Mining (CRISP-DM).">
+
+<title>Introducción al análisis estadístico de datos con R - 1&nbsp; Introducción: las bases de un análisis de datos con R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<link href="./002-toolkit-ciencia-datos.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/lato" type="text/css">
+<link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/fira-code" type="text/css">
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./001-Introduccion.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción: las bases de un análisis de datos con **R**</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Introducción al análisis estadístico de datos con R</a> 
+    </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prologo</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./001-Introduccion.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción: las bases de un análisis de datos con <strong>R</strong></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./002-toolkit-ciencia-datos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title"><strong>R</strong> toolkit para la ciencia de datos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./003-crispdm-air-madrid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Análisis de datos de contaminación del aire en la ciudad de Madid</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00a-pre-curso.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Preparación del entorno de trabajo</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contenidos</h2>
+   
+  <ul class="collapse">
+  <li><a href="#qué-vas-a-apernder" id="toc-qué-vas-a-apernder" class="nav-link active" data-scroll-target="#qué-vas-a-apernder"><span class="header-section-number">1.1</span> ¿Qué vas a apernder?</a></li>
+  <li><a href="#qué-no-vas-a-aprender" id="toc-qué-no-vas-a-aprender" class="nav-link" data-scroll-target="#qué-no-vas-a-aprender"><span class="header-section-number">1.2</span> ¿Qué no vas a aprender?</a></li>
+  <li><a href="#qué-es-la-ciencia-de-datos" id="toc-qué-es-la-ciencia-de-datos" class="nav-link" data-scroll-target="#qué-es-la-ciencia-de-datos"><span class="header-section-number">1.3</span> ¿Qué es la ciencia de datos?</a></li>
+  <li><a href="#cuáles-son-las-herramientas-básicas-de-r-para-ciencia-de-datos" id="toc-cuáles-son-las-herramientas-básicas-de-r-para-ciencia-de-datos" class="nav-link" data-scroll-target="#cuáles-son-las-herramientas-básicas-de-r-para-ciencia-de-datos"><span class="header-section-number">1.4</span> ¿Cuáles son las herramientas básicas de <strong>R</strong> para ciencia de datos?</a></li>
+  <li><a href="#fundamentos" id="toc-fundamentos" class="nav-link" data-scroll-target="#fundamentos"><span class="header-section-number">1.5</span> Importancia de una metodología en ciencia de datos</a></li>
+  <li><a href="#caso-de-estudio-la-calidad-del-aire-en-la-ciudad-de-madrid" id="toc-caso-de-estudio-la-calidad-del-aire-en-la-ciudad-de-madrid" class="nav-link" data-scroll-target="#caso-de-estudio-la-calidad-del-aire-en-la-ciudad-de-madrid"><span class="header-section-number">1.6</span> Caso de estudio: la calidad del aire en la ciudad de Madrid</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="introduccion" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción: las bases de un análisis de datos con <strong>R</strong></span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="qué-vas-a-apernder" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="qué-vas-a-apernder"><span class="header-section-number">1.1</span> ¿Qué vas a apernder?</h2>
+<ul>
+<li><p>Los conceptos básicos para llevar a cabo un análisis en ciencia de datos.</p></li>
+<li><p>Un <em>overview</em> de las herramientas más importantes del software estadístico <strong>R</strong> y su potencial no solo para el análisis de datos.</p></li>
+<li><p>Una de las metodologías más utilizada en ciencia de datos: la metodología <em>Cross Industry Standard Process for Data Mining</em> (CRISP-DM por sus siglas en inglés).</p></li>
+<li><p>Cómo desarrollar un caso de uso en ciencia de datos aplicando la metodologías CRISP-DM a un problema actual de importante repercusión económica, sanitaria y social, el control de la calidad del aire.</p></li>
+</ul>
+</section>
+<section id="qué-no-vas-a-aprender" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="qué-no-vas-a-aprender"><span class="header-section-number">1.2</span> ¿Qué no vas a aprender?</h2>
+<ul>
+<li><p>Programación en <strong>R</strong></p></li>
+<li><p>Escritura en LaTeX.</p></li>
+<li><p>Contenidos teóricos de estadística y ciencia de datos.</p></li>
+</ul>
+</section>
+<section id="qué-es-la-ciencia-de-datos" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="qué-es-la-ciencia-de-datos"><span class="header-section-number">1.3</span> ¿Qué es la ciencia de datos?</h2>
+<p>La ciencia de datos es una disciplina emergente que ha sido etiquetada como la profesión más sexy del siglo XXI <span class="citation" data-cites="davenport2012data">(<a href="#ref-davenport2012data" role="doc-biblioref">Davenport and Patil 2012</a>)</span>. Mediante la combinación de modelos matemáticos y estadísticos, la programación computacional y el conocimiento del negocio o área de aplicación (véase <a href="#fig-ciencia-datos">Figure&nbsp;<span>1.1</span></a>), la ciencia de datos obtiene el máximo valor de los datos para apoyar los procesos de toma de decisiones. Es decir, transforma los datos en información y la información en conocimiento.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-ciencia-datos" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="img/01-ciencia-datos.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption class="figure-caption">Figura&nbsp;1.1: Diagrama de Venn de la ciencia de datos</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="cuáles-son-las-herramientas-básicas-de-r-para-ciencia-de-datos" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="cuáles-son-las-herramientas-básicas-de-r-para-ciencia-de-datos"><span class="header-section-number">1.4</span> ¿Cuáles son las herramientas básicas de <strong>R</strong> para ciencia de datos?</h2>
+<p><strong>R</strong> es una caja de herramientas en el sentido más amplio (tal y com ilustra la <a href="#fig-caja-herramientas">Figure&nbsp;<span>1.2</span></a>), pues permite llevar a cabo muchas aplicaciones y muy diferentes. Entre ellas, para hacer una idea al lector, con <strong>R</strong> es posible: sumar o restar, ejecutar modelos ya programados, desarrollar funciones nuevas, dibujar datos y resultados de forma estática y/o interactiva, crear informes y fomentar la reproducibilidad, diseñar y publicar blogs, páginas webs, dashboards, cuadros de mando, etc…</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-caja-herramientas" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="img/herramientas.jpg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figura&nbsp;1.2: La caja de herramientas de R</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>R</strong> tiene tres grandes pilares que son:</p>
+<ol type="1">
+<li><p><span style="color:red"><strong>Rstudio</strong></span>: un entorno de desarrollo integrado (IDE) para R (y Python) dedicado a la computación estadística y gráficos. Incluye (<a href="https://www.rstudio.com/">Rstudio</a>):</p>
+<ol type="1">
+<li><p>una consola,</p></li>
+<li><p>un editor sintaxis en color que apoya la ejecución de código,</p></li>
+<li><p>un entrono para las variables y</p></li>
+<li><p>un conjunto de utilidades.</p></li>
+</ol></li>
+<li><p><span style="color:red"><strong>Tidyverse</strong>:</span> una colección de paquetes coherentes, que comparten gramática, filosofía y estructura y están diseñados para realizar juntos como una canalización completa (<em>pipeline</em>). Todos se basan en la idea de <strong>tidy data</strong> propuesta por Hadley Wickham</p>
+<ol class="example" type="1">
+<li>y pueden instalarse con un único comando en <strong>R</strong>:</li>
+</ol></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Los paquetes que forman parte del <code>tidyverse</code> son:</p>
+<ul>
+<li><p><strong><code>readr</code></strong>: importación de datos.</p></li>
+<li><p><strong><code>dplyr</code></strong>: manipulación de datos.</p></li>
+<li><p><strong><code>tidyr</code></strong>: ordenación de datos.</p></li>
+<li><p><strong><code>ggplot2</code></strong> visualización de datos.</p></li>
+<li><p><strong><code>purrr</code></strong>: programación.</p></li>
+<li><p><strong><code>tibble</code></strong>: para <code>tibbles</code>, un nuevo formato de <code>data frames</code>.</p></li>
+<li><p><strong><code>stringr</code></strong>: para caracteres.</p></li>
+<li><p><strong><code>forcats</code></strong>: para factores.</p></li>
+</ul>
+<ol start="3" type="1">
+<li><span style="color:red"><strong>Quarto/Rmarkdown</strong>:</span> un marco de escritura para ciencia de datos, que combina código, resultados y comentarios. Los documentos de Quarto (*.qmd) y R Markdown (*.Rmd) son completamente reproducibles y soportan docenas de formatos de salida tales como PDFs, archivos de Word, presentaciones, artículos científicos,… Materiral de recomendable lectura <a href="https://rmarkdown.rstudio.com/">R Markdown Cookbook</a>, <a href="https://bookdown.org/yihui/rmarkdown-cookbook/">Rmarkdown</a> y el nuevo formato multiplataforma integrado de <a href="https://quarto.org/">Quarto</a></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Libro de referencia obligatoria: <a href="https://es.r4ds.hadley.nz/index.html"><strong>R for Data Science (en español)</strong></a></p>
+</div>
+</div>
+</section>
+<section id="fundamentos" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="fundamentos"><span class="header-section-number">1.5</span> Importancia de una metodología en ciencia de datos</h2>
+<p>La <strong>metodología</strong> en la ciencia de datos proporciona un camino para encontrar soluciones a un problema específico. Este es un proceso cíclico que sufre un comportamiento crítico y que guía a los analistas de negocios y científicos de datos a actuar en consecuencia.</p>
+<p><strong>CRISP-DM</strong> es un modelo estándar ampliamente utilizado en la minería de datos que proporciona un enfoque estructurado para llevar a cabo proyectos de análisis de datos (<span class="citation" data-cites="wirth2000crisp">Wirth and Hipp (<a href="#ref-wirth2000crisp" role="doc-biblioref">2000</a>)</span>). Este modelo se compone de seis fases interconectadas, que abarcan desde la comprensión del negocio hasta la implementación de los resultados del análisis. Las fases de CRISP-DM son:</p>
+<ol type="1">
+<li><p>Entendimiento del negocio.</p></li>
+<li><p>Comprensión de los datos.</p></li>
+<li><p>Preparación de los datos.</p></li>
+<li><p>Modelado.</p></li>
+<li><p>Evaluación.</p></li>
+<li><p>Despliegue.</p></li>
+</ol>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/02-Data-Science-LifeCycle.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption class="figure-caption">Ciclo de vida de un proceso de ciencia de datos</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="caso-de-estudio-la-calidad-del-aire-en-la-ciudad-de-madrid" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="caso-de-estudio-la-calidad-del-aire-en-la-ciudad-de-madrid"><span class="header-section-number">1.6</span> Caso de estudio: la calidad del aire en la ciudad de Madrid</h2>
+<p>La contaminación del aire exterior es uno de los principales problemas que afectan a la salud humana en las zonas urbanas de todo el mundo (<span class="citation" data-cites="sanchis2022extended">Sanchis-Marco, Montero, and Fernandez-Aviles (<a href="#ref-sanchis2022extended" role="doc-biblioref">2022</a>)</span>). Aunque las emisiones de la mayoría de los contaminantes del aire han disminuido sustancialmente en las últimas décadas, sus concentraciones aún superan los límites legales en la mayoría de los países, lo que indica que el control de la contaminación del aire sigue siendo un desafío para las sociedades modernas. Cada año, más de 4,2 millones de personas sufren una muerte prematura a causa de la contaminación del aire exterior (OMS, 2016). Los principales culpables son el ozono (O3), el dióxido de nitrógeno (NOx) y, sobre todo, las partículas finas o material particulado (PM) con un diámetro de 10 micrómetros o menos (PM10).</p>
+<p>Por otra parte, Madrid es la tercera ciudad más poblada de la Unión Europea después de Londres y Berlín y cuenta con una gran área metropolitana periférica con más de cinco millones de habitantes. Su potente actividad económica, incluso en tiempos de pandemia de la Covid-19, se traduce en niveles de PM10 y NO2 superiores a los deseados a causa del transporte —en concreto, del tráfico rodado— y de la actividad industrial, que son las principales fuentes de emisión de PM10 (véase <span class="citation" data-cites="montero2018functional">Montero and Fernández-Avilés (<a href="#ref-montero2018functional" role="doc-biblioref">2018</a>)</span> y <span class="citation" data-cites="montero2021local">Montero, Fernández-Avilés, and Laureti (<a href="#ref-montero2021local" role="doc-biblioref">2021</a>)</span>).</p>
+<p>En este contexto, el análisis de datos desempeña un papel crucial en la comprensión de la contaminación del aire y sus efectos en la salud humana y el medio ambiente. La disponibilidad de datos geoespaciales permite identificar patrones espaciales, detectar áreas de alta contaminación y evaluar el impacto de las emisiones en diferentes regiones. Resulta muy importante la fácil accesibilidad de los datos para la democratización de la información. Un ejemplo de ello es la página de <a href="https://datos.gob.es/es/">Datos abiertos del Gobierno de España</a>. Gracias a los datos públicos y el análisis adecuado se facilita la toma de decisiones informadas para abordar y mitigar los problemas de contaminación del aire.</p>
+<p>La mejor forma para comprender y entender nuevos desarrollos es viendo su utilidad a través de un caso de uso, y en este manual se ha escogido un tema tan importante como es la contaminación del aire en la ciudad de Madrid. Ello quedó de manifiesto los días 14-16 de marzo de 2022 cuando una gran calima cubrió no sólo a Madrid (<a href="#fig-cal-aire">Figure&nbsp;<span>1.3</span></a>) sino a España entera tiñiendo el país de polvo rojo.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-cal-aire" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="img/01-calima_la_razon.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption class="figure-caption">Figura&nbsp;1.3: Calidad del aire 15-Marzo-2022</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Además, el Ayuntamiento de Madrid dispone datos abiertos proporcionados a traves del<a href="https://datos.madrid.es/portal/site/egob/menuitem.c05c1f754a33a9fbe4b2e4b284f1a5a0/?vgnextoid=f3c0f7d512273410VgnVCM2000000c205a0aRCRD&amp;vgnextchannel=374512b9ace9f310VgnVCM100000171f5a0aRCRD&amp;vgnextfmt=default">Portal de datos abiertos del Ayuntamiento de Madrid</a> que permiten su análisis sin coste alguno.</p>
+<p>Concretamente, a través del Sistema Integral de la Calidad del Aire del Ayuntamiento de Madrid (véase <a href="#fig-ayto-madrid">Figure&nbsp;<span>1.4</span></a>), se pueden descargar los datos de los contaminantes registrados en las estaciones de monitoreo de la ciudad desde 2001 en distintos formatos.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-ayto-madrid" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="img/01-datos_ayto_madrid.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption class="figure-caption">Figura&nbsp;1.4: Web Ayuntamiento de Madrid</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Todo hace que quede más que justificado el interés del caso de estudio que se presenta.</p>
+<section id="los-datos" class="level3" data-number="1.6.1">
+<h3 data-number="1.6.1" class="anchored" data-anchor-id="los-datos"><span class="header-section-number">1.6.1</span> Los datos</h3>
+<p>De acuerdo con <span class="citation" data-cites="wickham2016r">Wickham and Grolemund (<a href="#ref-wickham2016r" role="doc-biblioref">2016</a>)</span>, el cual es considerada una referencia clave en el la ciencia de datos (Data Science with R), las herramientas necesarias para un proyecto típico de ciencia de datos sigue el siguiente esquema: importar, ordenar, transformar, visualizar, modelar y comunicar (véase <a href="#fig-proceso-cd">Figure&nbsp;<span>1.5</span></a>)</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-proceso-cd" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="img/proceso-cd.PNG" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption class="figure-caption">Figura&nbsp;1.5: Ciclo de vida de la ciencia de datos</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Partir con la ingesta y orden de los datos no sería optimo para llevar a cabo el objetivo de este manual, pues el 80% del tiempo es un proceso rutinario y aburrido y el 20% restante es extraño y frustrante.</p>
+</div>
+</div>
+<p>En el caso que nos ocupa, se recurre al repositorio de Github michal0091/aire_madrid de Kinel (2022a, 2022b) que trata los datos brutos de calidad del aire del Ayuntamiento de Madrid, los organiza y los codifica, facilitando así su uso (<a href="#fig-foto-michal">Figure&nbsp;<span>1.6</span></a>). La salida del conjunto de datos dt_daily_mean_2011.RDS que aquí se proporciona será la entrada para el análisis que se presenta.</p>
+<p>(TODO) descripción breve de lo que contienen estas carpetas, datos procesasdos, sin procear, diccionarios.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-foto-michal" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="img/01-git_aire_madrid.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption class="figure-caption">Figura&nbsp;1.6: Repositorio Github con el código</figcaption>
+</figure>
+</div>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-davenport2012data" class="csl-entry" role="listitem">
+Davenport, Thomas H, and DJ Patil. 2012. <span>“Data Scientist.”</span> <em>Harvard Business Review</em> 90 (5): 70–76.
+</div>
+<div id="ref-montero2018functional" class="csl-entry" role="listitem">
+Montero, José-Marı́a, and Gema Fernández-Avilés. 2018. <span>“Functional Kriging Prediction of Atmospheric Particulate Matter Concentrations in Madrid, Spain: Is the New Monitoring System Masking Potential Public Health Problems?”</span> <em>Journal of Cleaner Production</em> 175: 283–93.
+</div>
+<div id="ref-montero2021local" class="csl-entry" role="listitem">
+Montero, José-Marı́a, Gema Fernández-Avilés, and Tiziana Laureti. 2021. <span>“A Local Spatial STIRPAT Model for Outdoor NOx Concentrations in the Community of Madrid, Spain.”</span> <em>Mathematics</em> 9 (6): 677.
+</div>
+<div id="ref-sanchis2022extended" class="csl-entry" role="listitem">
+Sanchis-Marco, Lidia, José-Marı́a Montero, and Gema Fernandez-Aviles. 2022. <span>“An Extended CAViaR Model for Early-Warning of Exceedances of the Air Pollution Standards. The Case of PM10 in the City of Madrid.”</span> <em>Atmospheric Pollution Research</em> 13 (4): 101355.
+</div>
+<div id="ref-wickham2016r" class="csl-entry" role="listitem">
+Wickham, Hadley, and Garrett Grolemund. 2016. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. " O’Reilly Media, Inc.".
+</div>
+<div id="ref-wirth2000crisp" class="csl-entry" role="listitem">
+Wirth, Rüdiger, and Jochen Hipp. 2000. <span>“CRISP-DM: Towards a Standard Process Model for Data Mining.”</span> In <em>Proceedings of the 4th International Conference on the Practical Applications of Knowledge Discovery and Data Mining</em>, 1:29–39. Manchester.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Prologo</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./002-toolkit-ciencia-datos.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title"><strong>R</strong> toolkit para la ciencia de datos</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

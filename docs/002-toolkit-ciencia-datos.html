@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.361">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Este libro ofrece una guía práctica para el análisis de datos con el software estadístico R mediante la aplicación de la metodología Cross-Industry Standard Process for Data Mining (CRISP-DM).">
+
+<title>Introducción al análisis estadístico de datos con R - 2&nbsp; R toolkit para la ciencia de datos</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<link href="./003-crispdm-air-madrid.html" rel="next">
+<link href="./001-Introduccion.html" rel="prev">
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+<link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/lato" type="text/css">
+<link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/fira-code" type="text/css">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./002-toolkit-ciencia-datos.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">**R** toolkit para la ciencia de datos</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Introducción al análisis estadístico de datos con R</a> 
+    </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prologo</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./001-Introduccion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción: las bases de un análisis de datos con <strong>R</strong></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./002-toolkit-ciencia-datos.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title"><strong>R</strong> toolkit para la ciencia de datos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./003-crispdm-air-madrid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Análisis de datos de contaminación del aire en la ciudad de Madid</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00a-pre-curso.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Preparación del entorno de trabajo</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contenidos</h2>
+   
+  <ul class="collapse">
+  <li><a href="#r-y-rstudio" id="toc-r-y-rstudio" class="nav-link active" data-scroll-target="#r-y-rstudio"><span class="header-section-number">2.1</span> R y RStudio</a></li>
+  <li><a href="#tidy" id="toc-tidy" class="nav-link" data-scroll-target="#tidy"><span class="header-section-number">2.2</span> El ecosistema <code>tidyverse</code></a></li>
+  <li><a href="#quarto" id="toc-quarto" class="nav-link" data-scroll-target="#quarto"><span class="header-section-number">2.3</span> Informes reproducibles con Quarto/Rmarkdown</a></li>
+  <li><a href="#buscar-ayuda-en-r-o-sobre-r-funciones-paquetes-errores" id="toc-buscar-ayuda-en-r-o-sobre-r-funciones-paquetes-errores" class="nav-link" data-scroll-target="#buscar-ayuda-en-r-o-sobre-r-funciones-paquetes-errores"><span class="header-section-number">2.4</span> Buscar ayuda en <strong>R</strong> o sobre <strong>R</strong> (funciones, paquetes, errores)</a></li>
+  <li><a href="#git-y-github" id="toc-git-y-github" class="nav-link" data-scroll-target="#git-y-github"><span class="header-section-number">2.5</span> Git y GitHub</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="toolkit" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title"><strong>R</strong> toolkit para la ciencia de datos</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Objetivos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>Instalar el software <strong>R</strong> y su IDE (Entorno de Desarrollo Integrado) <strong>RStudio</strong>.</p></li>
+<li><p>Informes reproducibles con <strong><code>quarto</code></strong> y control de versiones con <strong><code>GitHub</code></strong>.</p></li>
+<li><p>Conocer los fundamentos del modelo <strong>CRISP-DM</strong>.</p></li>
+</ul>
+</div>
+</div>
+<section id="r-y-rstudio" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="r-y-rstudio"><span class="header-section-number">2.1</span> R y RStudio</h2>
+<section id="instal-r-rstudio" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="instal-r-rstudio"><span class="header-section-number">2.1.1</span> Instalación de R y RStudio</h3>
+<p><strong>R</strong> es un entorno de software libre para la computación estadística y los gráficos. Se compila y ejecuta en una amplia variedad de plataformas UNIX, Windows y MacOS. Las fuentes, los binarios y la documentación de R pueden obtenerse a través de CRAN<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Para descargar <strong>R</strong> elija su espejo CRAN preferido en <a href="https://www.r-project.org/">www.r-project.org</a>.</p>
+<p><strong>RStudio</strong> es un entorno de desarrollo integrado (IDE) para <strong>R</strong>. Incluye una consola, un editor que resalta la sintaxis y admite la ejecución directa del código, así como herramientas para el trazado, el historial, la depuración y la gestión del espacio de trabajo. RStudio está disponible en ediciones comerciales y de código abierto y se ejecuta en el escritorio (Windows, Mac y Linux) o en un navegador conectado a RStudio Server o RStudio Workbench (Debian/Ubuntu, Red Hat/CentOS y SUSE Linux), está disponible en <a href="https://www.rstudio.com/">www.rstudio.com</a>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El orden es importante:</p>
+<ol type="1">
+<li><p>Instale <strong>R</strong>.</p></li>
+<li><p>Instale <strong>RStudio</strong>.</p></li>
+</ol>
+</div>
+</div>
+<p>Compruebe que tiene instalados los iconos de la <a href="#fig-002-panrstudio2">Figure&nbsp;<span>2.1</span></a> y abra RStudio.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-002-panrstudio2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="img/02-open-rstudio.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption class="figure-caption">Figura&nbsp;2.1: Iconos de R y RStudio</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="interfaz-de-rstudio" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="interfaz-de-rstudio"><span class="header-section-number">2.1.2</span> Interfaz de RStudio</h3>
+<p>Al abrir el programa se observan cuatro paneles (véase <a href="#fig-002-panrstudio">Figure&nbsp;<span>2.2</span></a>).</p>
+<ul>
+<li><p><strong>Sripts</strong>: para escribir código.</p></li>
+<li><p><strong>Consola</strong>: contiene la Consola, Terminal y los Jobs.</p></li>
+<li><p><strong>Entorno</strong>: contiene el <em>Environment</em>, <em>History</em>, <em>conexiones</em> y <em>Git</em>, entre otros.</p></li>
+<li><p><strong>Files, Plots, Packages, Help y Viewer</strong></p></li>
+</ul>
+<p>La posición de los paneles se puede personalizar al gusto del usuario, al igual que la apariencia del IDE.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-002-panrstudio" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="img/02-rstudio-layout.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption class="figure-caption">Figura&nbsp;2.2: Paneles de RStudio</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La posición relativa y el contenido de cada panel pueden personalizarse desde el menú: Tools &gt; Global Options &gt; Pane Layout</p>
+</div>
+</div>
+</section>
+<section id="instalación-los-paquetes" class="level3" data-number="2.1.3">
+<h3 data-number="2.1.3" class="anchored" data-anchor-id="instalación-los-paquetes"><span class="header-section-number">2.1.3</span> Instalación los paquetes</h3>
+<p>Los paquetes son adiciones modulares al software <strong>R</strong> que añaden funcionalidad en forma de nuevas funciones, conjuntos de datos, documentación, etc. El repositorio estándar de paquetes <strong>R</strong> es “Comprehensive R Archive Network” (CRAN).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><a href="https://cran.r-project.org/web/views/"><strong>CRAN Task Views</strong></a>:</p>
+<p>Ofrecen un breve resumen de los paquetes incluidos.</p>
+</div>
+</div>
+<p>Los paquetes se instalan con la función base de <strong>R</strong> <code>install.packages()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Los paquetes se instalan una única vez y se leen cada vez que se utilizan.</p>
+</div>
+</div>
+<p>Alternativamente, se pueden instalar desde el panel de Paquetes en RStudio desde una interfaz gráfica.</p>
+</section>
+<section id="proyectos" class="level3" data-number="2.1.4">
+<h3 data-number="2.1.4" class="anchored" data-anchor-id="proyectos"><span class="header-section-number">2.1.4</span> Proyectos</h3>
+<p>Ser organizado desde el principio es uno de los mejores hábitos y en <strong>R</strong> esto se consigue trabajando con proyectos. Un proyecto de <strong>R</strong> agrupa todo los ficheros del trabajo en una carpeta de forma que se facilita su manejo, el trabajo colaborativo y su reproducibilidad.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>Crear un proyecto Quarto en R:</em></p>
+<p>Desde el menú: File &gt; New Project y luego elija:</p>
+<ul>
+<li><p><code>Nuevo Directorio</code></p></li>
+<li><p><code>Proyecto Vacío</code></p></li>
+<li><p>Elija un nombre para el directorio, por ejemplo, <code>mi_proyecto</code></p></li>
+<li><p>Haga clic en <code>Crear Proyecto</code>.</p></li>
+</ul>
+</div>
+</div>
+<ul>
+<li><p>📁 <strong>data</strong>: para los datos.</p></li>
+<li><p>📁 <strong>img</strong>: para las imágenes.</p></li>
+<li><p>📂 <strong>src</strong>: contiene los <em>scripts</em> de <strong>R</strong> para llevar a cabo las distintas tareas del análisis.</p></li>
+<li><p>📁 <strong>output</strong>: se guardarán los resultados finales de nuestro análisis.</p></li>
+<li><p><strong>README.md</strong> debe contener la información básica sobre el proyecto, la compatibilidad, los <em>inputs</em> que necesita, los <em>outputs</em> que genera y un resumen de flujo del trabajo. Ésto ayudará a cualquiera a comprender mejor cómo es nuestro proyecto.</p></li>
+</ul>
+<p>Una de las estructuras más comunes es la mostrada en la <a href="#fig-proyecto">Figure&nbsp;<span>2.3</span></a>:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-proyecto" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="img/02-estructura_proyecto.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figura&nbsp;2.3: Ejemplo de estructura de un proyecto en R.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Los distintos scripts se pueden ejecutar desde otros scripts. Para ello se utiliza la función <code>source()</code></p>
+</div>
+</div>
+</section>
+<section id="trabajar-con-un-script-de-r" class="level3" data-number="2.1.5">
+<h3 data-number="2.1.5" class="anchored" data-anchor-id="trabajar-con-un-script-de-r"><span class="header-section-number">2.1.5</span> Trabajar con un <em>script</em> de R</h3>
+<p>Para comenzar a escribir un <em>script</em> nuevo nos dirigimos a File &gt; New File. Los más utilizados actualmente son:</p>
+<ul>
+<li><p>📓 &gt; R Script.</p></li>
+<li><p>📖 &gt; Quarto document.</p></li>
+<li><p>📓 &gt; R Notebook.</p></li>
+<li><p>📝 &gt; R Markdown.</p></li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si se tiene creado un proyecto Quarto mejor trabajar con un un <code>quarto document</code> para luego renderizar todo el documento. Véase <span class="citation" data-cites="wickham2016r">Wickham and Grolemund (<a href="#ref-wickham2016r" role="doc-biblioref">2016</a>)</span> para un estudio profundo de proyectos.</p>
+</div>
+</div>
+<p>El editor es un editor de texto plano (sin negritas ni cursivas) pero ofrece un código de colores del texto dependiendo de lo que se escriba (resaltado de sintaxis).</p>
+<p>Es extremadamente útil comentar el <em>script</em> con información adicional para hacer más claro el proceso de programación. Para añadir un comentario, simplemente hay que poner <code>#</code> al comienzo de la linea y lo que esté a la derecha no será ejecutado.</p>
+<p>Finalmente, a la hora de escribir código en <strong>R</strong> lo más conveniente es usar las buenas prácticas diseñadas por programadores expertos. Para ello, lo mejor es aplicar una guía de estilo 📖, cuyo objetivo es hacer que nuestro código <strong>R</strong> sea más fácil de leer, compartir y verificar. Una de las mejores guías es <a href="https://style.tidyverse.org/index.html">The tidyverse style guide</a>.</p>
+</section>
+</section>
+<section id="tidy" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="tidy"><span class="header-section-number">2.2</span> El ecosistema <code>tidyverse</code></h2>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="img/02-logo-tityverse.png" class="img-fluid" style="width:20.0%"></p>
+</div>
+</div>
+<p>El <a href="https://www.tidyverse.org/">tidyverse</a> es una colección de <strong>paquetes de R para la ciencia de los datos</strong>. Todos los paquetes comparten una filosofía de diseño, una gramática y unas estructuras de datos subyacentes. Se basan en la idea <em>tidy</em> data propuesta por Hadley Wickham (Wickham et al.&nbsp;2014) y pueden instalarse con una única orden en <strong>R</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Una vez instalado, se cargan con la función <code>library</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Los paquétes más importantes en ciencia de datos se enumeran a continuación.</p>
+<div class="cell" data-layout-align="left">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="img/02-logo-readr.png" class="img-fluid figure-img" style="width:15.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="readr" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="readr"><span class="header-section-number">2.2.1</span> <code>readr</code></h3>
+<p>El paquete <code>readr</code> roporciona una forma rápida y amigable de leer datos rectangulares (como csv, tsv y fwf). Está diseñado para analizar de forma flexible muchos tipos de datos que se encuentran en la naturaleza, mientras que sigue fallando limpiamente cuando los datos cambian inesperadamente.</p>
+<p><code>readr</code> admite los siguientes formatos de archivo asociados a estas funciones <code>read_*()</code>:</p>
+<ul>
+<li><p><strong><code>read_csv()</code></strong>: valores separados por coma, ficheros (CSV).</p></li>
+<li><p><strong><code>read_tsv()</code></strong>: valores separados por tabulador, fichero (TSV).</p></li>
+<li><p><strong><code>read_delim()</code></strong>: fichro delimitados (CSV y TSV son casos especiales).</p></li>
+<li><p><strong><code>read_fwf()</code></strong>: archivos de ancho fijo.</p></li>
+<li><p><strong><code>read_table()</code></strong>: archivos separados por espacios en blanco</p></li>
+<li><p><strong><code>read_log()</code></strong>: archivos de logos web.</p></li>
+</ul>
+<div class="callout-exm">
+<p>Lea la base de datos de calidad del aire de la ciudad de Madrid , <code>air_mad.RDS</code>, contenida en la carpeta <code>data</code>.</p>
+</div>
+<p>(TODO): QUITAR LA FUNCIÓN HERE PORQUE A ESTE NIVEL SI NO SE EXPLICA PUEDE LIAR</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>air_mad <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_rds</span>(<span class="st">"data/air_mad.RDS"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="left">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="img/02-logo-dplyr.png" class="img-fluid figure-img" style="width:15.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="dplyr" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="dplyr"><span class="header-section-number">2.2.2</span> <code>dplyr</code></h3>
+<p>El paquete <a href="https://dplyr.tidyverse.org/articles/dplyr.html"><code>dplyr</code></a> Ofrece una gramática de la manipulación de datos, proporcionando un conjunto coherente de verbos que resuelven los problemas más comunes de manipulación de datos y que pueden ser organizado tres categorías basado en el dataset:</p>
+<ol type="1">
+<li><strong>Filas:</strong></li>
+</ol>
+<ul>
+<li><p><strong><code>filter()</code></strong>: elige filas en función de los valores de la columna.</p></li>
+<li><p><strong><code>slice()</code></strong>: elige filas en función de la ubicación.</p></li>
+<li><p><strong><code>arrange()</code></strong>: cambia el orden de las filas.</p></li>
+</ul>
+<ol start="2" type="1">
+<li><strong>Columnas:</strong></li>
+</ol>
+<ul>
+<li><p><strong><code>select()</code></strong>: indica cuando una columa es incluida o no.</p></li>
+<li><p><strong><code>rename()</code></strong>: cambia el nombre de la columna.</p></li>
+<li><p><strong><code>mutate()</code></strong>: cambia los valores de las columnas y crea nuevas columnas.</p></li>
+<li><p><strong><code>relocate()</code></strong>: cambia el orden de las columnas.</p></li>
+</ul>
+<ol start="3" type="1">
+<li><strong>Grupos de filas:</strong></li>
+</ol>
+<ul>
+<li><strong><code>summarise()</code></strong>: contrae un grupo en una sola fila.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+El operador pipe
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Canaliza la salida de una función a la entrada de otra función.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">segundo</span>(<span class="fu">primero</span>(datos))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>se traduce en:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>datos <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  primero <span class="sc">%&gt;%</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  segundo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Operador pipe de {maggrit}</strong> <code>%&gt;%</code> <strong>Operador pipe de R base</strong> <code>|&gt;</code></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Ejemplo. Medidas de posición por estación de monitoreo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Calcule las medidas de posición (mínimo, máximo, Q1, Q3, media y mediana) por estación de monitoreo , agrupando por <code>id_name</code> para Partículas &lt; 2.5 µm <code>nom_abv == "PM2.5"</code> utilizando las funciones de la libreria <code>dplyr</code>.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>air_mad <span class="sc">%&gt;%</span> <span class="co"># Summary por grupo usando dplyr </span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span> <span class="co"># omitimos los NAs para el análisis</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(nom_abv <span class="sc">==</span> <span class="st">"PM2.5"</span>) <span class="sc">%&gt;%</span> <span class="co"># filtramos por PM2.5</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(id_name) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">min =</span> <span class="fu">min</span>(valor),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">q1 =</span> <span class="fu">quantile</span>(valor, <span class="fl">0.25</span>),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">median =</span> <span class="fu">median</span>(valor),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean =</span> <span class="fu">mean</span>(valor),</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">q3 =</span> <span class="fu">quantile</span>(valor, <span class="fl">0.75</span>),</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">max =</span> <span class="fu">max</span>(valor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 7
+  id_name            min    q1 median  mean    q3   max
+  &lt;chr&gt;            &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 Casa de Campo        0     5      8  9.21    12   850
+2 Castellana           0     6      9  9.66    12   195
+3 Cuatro Caminos       0     6      9 10.2     13    59
+4 Escuelas Aguirre     0     7     10 11.1     14   137
+5 Méndez Álvaro        0     6      9 10.2     13    78
+6 Plaza Castilla       0     6      8  9.59    12   273
+7 Plaza Elíptica       0     7     10 11.0     14    61
+8 Sanchinarro          0     5      7  8.36    10    68</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="left">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="img/02-logo-tidyr.png" class="img-fluid figure-img" style="width:15.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="tidyr" class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="tidyr"><span class="header-section-number">2.2.3</span> <code>tidyr</code></h3>
+<p>El paquete <code>tidyr</code> proporciona un conjunto de funciones que le ayudan a obtener datos ordenados. Los datos ordenados son datos con una forma consistente. En resumen, cada variable va en una columna, y cada columna es una variable.</p>
+<p>Las funciones se agrupan en 5 grandes categorías:</p>
+<ol type="1">
+<li><p><strong>Pivotar</strong>. Convierte entre formas largas y anchas, <code>pivot_longer()</code> y <code>pivot_wider()</code></p></li>
+<li><p><strong>Rectangling</strong>. Convierte listas profundamente anidadas (a partir de JSON) en <code>tibbles</code> ordenados: <code>unnest_longer()</code>, <code>unnest_wider()</code>, <code>hoist()</code>.</p></li>
+<li><p><strong>Anidar</strong>. Convierte los datos agrupados en una forma en el que cada grupo se convierte en una sola fila que contiene un data frame anidado <code>nest()</code> y viceversa, <code>unnest()</code>.</p></li>
+<li><p><strong>Dividir y combinar columnas de caracteres</strong>. Funciones: <code>separate()</code>, <code>extract()</code> y <code>unite()</code></p></li>
+<li><p><strong>Valores perdidos</strong>. Funciones: <code>complete()</code>, <code>drop_na()</code>, <code>fill()</code>, <code>replace_na()</code></p></li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Ejemplo. ¿Cuál es el día con mayor y menor concentración de NOx de todo el periodo?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>air_mad <span class="sc">%&gt;%</span> <span class="co"># Summary por grupo usando dplyr </span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span> <span class="co"># omitimos los NAs para el análisis</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(nom_abv <span class="sc">==</span> <span class="st">"NOx"</span>) <span class="sc">%&gt;%</span> <span class="co"># filtramos por NOx</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(fecha) <span class="sc">%&gt;%</span> <span class="co"># agrupamos por fecha</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mad_mean =</span> <span class="fu">mean</span>(valor)) <span class="sc">%&gt;%</span> <span class="co"># promedio de las estaciones</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="fu">which.max</span>(mad_mean), <span class="fu">which.min</span>(mad_mean)) <span class="co">#seleccionamos el máximo y el mínimo </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  fecha      mad_mean
+  &lt;date&gt;        &lt;dbl&gt;
+1 2013-08-10  4086.  
+2 2020-05-10     6.38</code></pre>
+</div>
+</div>
+<p>El valor máximo, <strong>415 µg/m3 de NOx</strong>, se observa el 21 de diciembre de 2011 y el valor mínimo, <strong>6,32 µg/m3 de NOx</strong>, el 10 de mayo de 2020, en pleno estado de alarma.</p>
+<div class="cell" data-layout-align="left">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="img/02-logo-ggplot2.png" class="img-fluid figure-img" style="width:15.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="ggplot2" class="level3" data-number="2.2.4">
+<h3 data-number="2.2.4" class="anchored" data-anchor-id="ggplot2"><span class="header-section-number">2.2.4</span> <code>ggplot2</code></h3>
+<p>El paquete <code>ggplot2</code> es un sistema para crear gráficos de forma ordenada, basado en <em>The Grammar of Graphics</em>. Al proporcionar los datos, le dice a ggplot2 cómo asignar a las variables la estética y qué gráficas utilizar.</p>
+<p>El template básico para la función <code>ggplot()</code> es:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="sc">&lt;</span>DATA<span class="sc">&gt;</span>) <span class="sc">+</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="er">&lt;</span>GEOM_FUNCTION<span class="sc">&gt;</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="sc">&lt;</span>MAPPINGS<span class="sc">&gt;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Los argumentos más importantes para la representación de gráficos son:</p>
+<ul>
+<li><p><code>ggplot()</code>, crea un nuevo gráfico.</p></li>
+<li><p><code>aes()</code>, construye la estética el gráfico.</p></li>
+<li><p><code>+(&lt;gg&gt;)</code>, añade componentes al gráfico.</p></li>
+<li><p><code>ggsave()</code>, guarda el gráfico.</p></li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Ejemplo. Gráfico de violín.
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Represente, con un gráfico de violín, las concentraciones de NOx por año en el periodo estudiado.</p>
+</div>
+</div>
+<p>Una buena forma de ver los datos es por medio de un gráfico de violín:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>air_mad <span class="sc">%&gt;%</span> <span class="co"># Summary por grupo usando dplyr </span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span> <span class="co"># omitimos los NAs para el análisis</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(nom_abv <span class="sc">==</span> <span class="st">"NOx"</span>) <span class="sc">%&gt;%</span> <span class="co"># filtramos por NOx</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="at">year =</span> <span class="fu">format</span>(fecha, <span class="st">"%Y"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(valor)  <span class="sc">%&gt;%</span> </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">factor</span>(year), valor))<span class="sc">+</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>() <span class="sc">+</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">height =</span> <span class="dv">0</span>, <span class="at">width =</span> <span class="fl">0.01</span>) <span class="sc">+</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">factor</span>(year), <span class="at">y=</span>valor, <span class="at">fill=</span>year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="002-toolkit-ciencia-datos_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Libro de referencia obligatoria: <a href="https://ggplot2-book.org/index.html"><strong>ggplot2: elegant graphics for data analysis</strong></a>.</p>
+<p>Es interesante conocer las <a href="https://exts.ggplot2.tidyverse.org/gallery/"><strong>Extensiones de ggplot2</strong></a> así como las <a href="https://github.com/rstudio/cheatsheets/blob/main/data-visualization-2.1.pdf"><strong>ggplot2 Cheat sheet</strong></a> disponible.</p>
+</div>
+</div>
+<div class="cell" data-layout-align="left">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="img/02-logo-purrr.png" class="img-fluid figure-img" style="width:15.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="purrr" class="level3" data-number="2.2.5">
+<h3 data-number="2.2.5" class="anchored" data-anchor-id="purrr"><span class="header-section-number">2.2.5</span> <code>purrr</code></h3>
+<p>El paquete <code>purrr</code> mejora el conjunto de herramientas de programación funcional (PF) de R proporcionando un conjunto completo y coherente de herramientas para trabajar con funciones y vectores. Una vez que se dominan los conceptos básicos, <code>purrr</code> permite sustituir muchos bucles <code>for</code> por un código más fácil de escribir y más expresivo.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Consulte la <a href="https://github.com/rstudio/cheatsheets/blob/main/purrr.pdf"><strong>purrr Cheat sheet</strong></a> disponible para una descripcion de la librería.</p>
+</div>
+</div>
+<div class="cell" data-layout-align="left">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="img/02-logo-tibble.png" class="img-fluid figure-img" style="width:15.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="tibble" class="level3" data-number="2.2.6">
+<h3 data-number="2.2.6" class="anchored" data-anchor-id="tibble"><span class="header-section-number">2.2.6</span> <code>tibble</code></h3>
+<p>El paquete <code>tibble</code> es una reimaginación moderna del marco de datos, manteniendo lo que el tiempo ha demostrado que es eficaz, y desechando lo que no. Los Tibbles suelen conducir a un código más limpio y expresivo.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Consulte el capítulo 10 de <a href="https://es.r4ds.hadley.nz/tibbles.html"><strong>R for data science</strong></a> disponible online para una primera aproximación.</p>
+</div>
+</div>
+<div class="cell" data-layout-align="left">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="img/02-logo-stringr.png" class="img-fluid figure-img" style="width:10.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="stringr" class="level3" data-number="2.2.7">
+<h3 data-number="2.2.7" class="anchored" data-anchor-id="stringr"><span class="header-section-number">2.2.7</span> <code>stringr</code></h3>
+<p>El paquete <code>stringr</code> proporciona un conjunto cohesivo de funciones diseñadas para facilitar al máximo el trabajo con cadenas.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Consulte el capítulo 14 de <a href="https://es.r4ds.hadley.nz/cadenas-de-caracteres.html"><strong>R for data science</strong></a> disponible online para una primera aproximación.</p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="img/02-logo-forcats.png" class="img-fluid" style="width:15.0%"></p>
+</div>
+</div>
+</section>
+<section id="forcats" class="level3" data-number="2.2.8">
+<h3 data-number="2.2.8" class="anchored" data-anchor-id="forcats"><span class="header-section-number">2.2.8</span> <code>forcats</code></h3>
+<p>El paquete <code>forcats</code> proporciona un conjunto de herramientas útiles que resuelven problemas comunes con los factores. R utiliza factores para manejar variables categóricas, variables que tienen un conjunto fijo y conocido de valores posibles.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Consulte el capítulo 14 de <a href="https://es.r4ds.hadley.nz/factores.html"><strong>R for data science</strong></a> disponible online para una primera aproximación.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="quarto" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="quarto"><span class="header-section-number">2.3</span> Informes reproducibles con Quarto/Rmarkdown</h2>
+<p>Este es un documento <strong>R Quarto</strong>. Quarto es una sintaxis simple de formato para la creación de documentos HTML, PDF y MS Word. Para obtener más detalles sobre cómo usar R Quarto consulta <a href="https://quarto.org/" class="uri">https://quarto.org/</a>.</p>
+<p>RMarkdown (el antecesor de Quarto) y Quarto son herramientas permiten combinar texto formateado con código y resultados en un mismo documento. Quarto facilita la interoperabilidad entre <strong>R</strong>, <strong>Python</strong>, <strong>Julia</strong>.</p>
+<p>Los documentos Quarto constan principalmetne de 3 partes: + el YAML (o cabecera del documento),</p>
+<ul>
+<li><p>el texto (cuerpo escrito del documento),</p></li>
+<li><p>las chunks (tozos de código, en este caso, código <strong>R</strong>)</p></li>
+</ul>
+<p>A continuación se exponen, brevemente, las principales ideas para entender y trabajar sintaxis <code>quarto</code>.</p>
+<section id="introducción" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="introducción"><span class="header-section-number">2.3.1</span> Introducción</h3>
+<section id="markdown-un-lenguaje-de-marcado-ligero" class="level4" data-number="2.3.1.1">
+<h4 data-number="2.3.1.1" class="anchored" data-anchor-id="markdown-un-lenguaje-de-marcado-ligero"><span class="header-section-number">2.3.1.1</span> Markdown: un lenguaje de marcado ligero</h4>
+<p>Markdown es un lenguaje de marcado ligero y fácil de aprender que permite dar formato al texto de manera sencilla. Con <em>Markdown</em>, es posible aplicar negrita, cursiva, encabezados, listas y enlaces, entre otras opciones de formato, simplemente utilizando una sintaxis intuitiva. La facilidad de uso del lenguaje <em>Markdown</em> hace que sea ampliamente utilizado, sobre todo para la documentación.</p>
+</section>
+<section id="integración-de-código-y-resultados" class="level4" data-number="2.3.1.2">
+<h4 data-number="2.3.1.2" class="anchored" data-anchor-id="integración-de-código-y-resultados"><span class="header-section-number">2.3.1.2</span> Integración de código y resultados</h4>
+<p>Una de las características principales de Quarto/Rmarkdown es la capacidad de integrar código en el informe. Esto significa que se pueden incluir bloques de código o <em>chunks</em> en lenguajes como R, Python o Julia directamente en el documento. Estos bloques de código se ejecutan en tiempo real y los resultados, como tablas o gráficos, se incrustan automáticamente en el informe. Esto permite a los lectores ver tanto el código como los resultados generados, lo que promueve la transparencia y la reproducibilidad.</p>
+</section>
+<section id="generación-de-múltiples-formatos-de-salida" class="level4" data-number="2.3.1.3">
+<h4 data-number="2.3.1.3" class="anchored" data-anchor-id="generación-de-múltiples-formatos-de-salida"><span class="header-section-number">2.3.1.3</span> Generación de múltiples formatos de salida</h4>
+<p>Quarto ofrece la posibilidad de generar informes en diferentes formatos de salida, como por ejemplo: HTML, PDF, Word o presentaciones de diapositivas. Esto es especialmente útil cuando se necesita compartir el informe con diferentes audiencias o cuando se requiere una presentación visualmente atractiva. La conversión entre formatos se realiza de manera automática y se puede personalizar para que se adapte a las necesidades específicas de cada proyecto.</p>
+</section>
+<section id="facilidad-de-uso-y-colaboración" class="level4" data-number="2.3.1.4">
+<h4 data-number="2.3.1.4" class="anchored" data-anchor-id="facilidad-de-uso-y-colaboración"><span class="header-section-number">2.3.1.4</span> Facilidad de uso y colaboración</h4>
+<p>Quarto se integra con RStudio, lo que proporciona una experiencia de usuario fluida y amigable. Además, los archivos Rmarkdown son archivos de texto plano, lo que hace que sean fáciles para el control de versiones como Git. Esto facilita el trabajo en equipo y la colaboración en proyectos.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La mayoría de los paquetes tiene una amplia documentación y los llamados <em>Cheatsheets</em> (chuletas). Son un buen método para ampliar los conocimientos. Algunas de ellas son: - Documentación de <a href="https://quarto.org/docs/authoring/markdown-basics.html#callout-blocks">Quarto</a> - <em>Cheatsheet</em> de <a href="https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf">RMarkdown</a> - Colección de otros <em>cheatsheets</em> de <a href="https://posit.co/resources/cheatsheets/">RStudio</a></p>
+</div>
+</div>
+</section>
+</section>
+<section id="instalación" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="instalación"><span class="header-section-number">2.3.2</span> Instalación</h3>
+<p>Para poder utilizar Quarto/Rmarkdown en R y RStudio, es necesario realizar algunos pasos de instalación. A continuación, se detallan los pasos necesarios:</p>
+<ol type="1">
+<li>Instalar R (véase <span class="citation" data-cites="instal-r-rstudio">(<a href="#ref-instal-r-rstudio" role="doc-biblioref"><strong>instal-r-rstudio?</strong></a>)</span>).</li>
+<li>Instalar RStudio (véase <span class="citation" data-cites="instal-r-rstudio">(<a href="#ref-instal-r-rstudio" role="doc-biblioref"><strong>instal-r-rstudio?</strong></a>)</span>).</li>
+<li>Intalar Quarto: para ello hay que dirigirse a la página oficial de <a href="https://quarto.org/">Quarto</a>, acceder al apartado <a href="https://quarto.org/docs/get-started/">Get Started</a> y seleccionar la instalación acorde al sistema operativo. POsteriormente hay que seguir los pasos del instalador.</li>
+<li>Instalar el paquete Quarto: Una vez que R, RStudio y Quarto, se debe instalar la librería de Quarto para habilitar la funcionalidad de Quarto en R y RStudio. Para ello, se puede ejecutar el siguiente comando en la consola de RStudio: <code>install.packages("quarto")</code></li>
+</ol>
+<p>Después de la instalación, se debe configurar RStudio para utilizar Quarto como el motor de renderizado de Rmarkdown. Para ello, se debe abrir la pestaña <em>Tools</em> (Herramientas) en la barra de menú de RStudio y seleccionar <em>Global Options</em> (Opciones globales). En la ventana emergente, selecciona la pestaña <em>R Markdown</em> y asegúrate de que la opción <em>Quarto</em> esté seleccionada en la sección <em>Render</em>.</p>
+<p>Con estos pasos completados, ya se puede comenzar a utilizar Quarto en RStudio para crear informes reproducibles. Se puede crear un nuevo archivo Rmarkdown y comenzar a combinar texto y código en un solo documento.</p>
+</section>
+<section id="el-yaml" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="el-yaml"><span class="header-section-number">2.3.3</span> El YAML</h3>
+<p>La sintaxis básica de YAML utiliza pares clave-valor en el formato <code>clave: valor</code>. Otros campos YAML comúnmente encontrados en los encabezados de los documentos incluyen metadatos como <code>author</code> (autor), <code>subtitle</code> (subtítulo), <code>date</code> (fecha), así como opciones de personalización como <code>theme</code> (tema), <code>fontcolor</code> (color de la fuente), <code>fig-width</code> (ancho de la figura), etc. Se puede encontrar información sobre todos los campos YAML disponibles para documentos HTML en la página oficial de <a href="https://quarto.org/docs/reference/formats/html.html">Quarto</a>. Los campos YAML disponibles varían según el formato del documento, por ejemplo,los campos YAML para documentos <a href="https://quarto.org/docs/reference/formats/pdf.html">PDF</a> y para <a href="https://quarto.org/docs/reference/formats/docx.html">MS Word</a>.</p>
+<pre><code>---
+title: "My Document"
+author:
+    - Gema Fernández-Avilés
+    - Michal Kinel
+format: 
+  html:
+    toc: true
+    code-fold: true
+---
+</code></pre>
+</section>
+<section id="flujo-de-trabajo-y-el-concepto-renderizar" class="level3" data-number="2.3.4">
+<h3 data-number="2.3.4" class="anchored" data-anchor-id="flujo-de-trabajo-y-el-concepto-renderizar"><span class="header-section-number">2.3.4</span> Flujo de trabajo y el concepto renderizar</h3>
+<p>Un informe en Quarto/Rmarkdown se compone de bloques de texto y bloques de código. El texto se escribe en formato Markdown. Los bloques de código, <em>chunks</em> se delimitan con etiquetas especiales y pueden contener código en R, Python u otros lenguajes compatibles.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>renderizar</strong> en RMarkdown/Quarto se refiere al proceso de transformar un documento escrito en lenguaje Markdown, que combina texto y código, en un formato final legible y presentable, como un informe, un documento PDF o una página web interactiva.</p>
+<p>El proceso de renderizado se realiza mediante la ejecución de un motor de renderizado, como Quarto, que interpreta el documento RMarkdown y produce el resultado final en el formato deseado, como un archivo HTML, PDF, Word, entre otros. Durante el proceso de renderizado, el motor ejecuta el código R, genera los gráficos y tablas correspondientes, y aplica el formato y estilo definidos en el documento.</p>
+</div>
+</div>
+<p>La mejor manera de tejer un <code>html_document</code> es mediante el botón <code>Render</code> o la función <code>quarto::quarto_render()</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/02-quarto.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption class="figure-caption">Diagrama de transformación de un documento Quarto a HTML, PDF, etc.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<section id="trozos-de-código-chunks" class="level4" data-number="2.3.4.1">
+<h4 data-number="2.3.4.1" class="anchored" data-anchor-id="trozos-de-código-chunks"><span class="header-section-number">2.3.4.1</span> Trozos de código <em>chunks</em></h4>
+<p>Los bloques de código en Quarto/Rmarkdown se utilizan para incorporar código fuente en el informe. Estos bloques se delimitan mediante etiquetas especiales, como <code>{r}</code> para código en R o <code>{python}</code> para código en Python. Dentro de estos bloques, se puede escribir y ejecutar código de la misma manera que se haría en un entorno de programación normal.</p>
+<p>La ejecución del código se realiza en tiempo real, lo que significa que los resultados generados, como tablas, gráficos o textos formateados, se incrustan directamente en el informe cuando se renderiza. Esto permite a los lectores ver los resultados obtenidos y verificar la reproducibilidad del análisis.</p>
+<p>Se puede insertar rápidamente bloques de código con el comando Agregar Bloque en la barra de herramientas del editor o escribiendo los delimitadores de bloque:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">+</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+</div>
+<p>La salida de una chunk se puede personalizar con las opciones de knitr. Algunas de las más usadas son:</p>
+<ul>
+<li><code>|# include: false</code> evita que el código y los resultados aparezcan en el archivo final. R Markdown sigue ejecutando el código en el chunk, y los resultados pueden ser utilizados por otros chunks.</li>
+<li><code>|# echo : false</code> evita que el código, pero no los resultados, aparezcan en el archivo final. Es una forma útil de incrustar cifras.</li>
+<li><code>|# message : false</code> evita que los mensajes generados por el código aparezcan en el archivo final.</li>
+<li><code>|# warning : false</code> evita que las advertencias generadas por el código aparezcan en el acabado.</li>
+<li><code>|# fig.cap : "..."</code> añade una leyenda a los resultados gráficos.</li>
+</ul>
+<p>Más información sobre la opción de trozos de código: <a href="https://quarto.org/docs/reference/cells/cells-knitr.html">Quarto chunks</a>.</p>
+</section>
+<section id="formato-de-texto" class="level4" data-number="2.3.4.2">
+<h4 data-number="2.3.4.2" class="anchored" data-anchor-id="formato-de-texto"><span class="header-section-number">2.3.4.2</span> Formato de texto</h4>
+<p>El texto en formato Markdown se utiliza para proporcionar explicaciones, descripciones y contexto en el documento Escribir texto en Markdown es sencillo, ya que no requiere conocimientos avanzados de programación. Con Markdown, se pueden aplicar diferentes estilos de formato utilizando una sintaxis sencilla y legible.</p>
+<p>Se pueden añadir <a href="www.r-graph-gallery.com">enlaces</a>, escribir en <strong>negrita</strong> o <em>cursiva</em>. Consulta la hoja de trucos de Rstudio <a href="https://raw.githubusercontent.com/rstudio/cheatsheets/main/rmarkdown.pdf">descargar aquí</a>.</p>
+<blockquote class="blockquote">
+<p>Hacer citas</p>
+</blockquote>
+<p>bloque de línea</p>
+<p><strong>Otros formatos de texto:</strong></p>
+<ul>
+<li><u>subrayado</u></li>
+<li><del>tachar</del></li>
+<li><sup>superíndice</sup></li>
+<li><sub>subíndice</sub></li>
+<li><span class="smallcaps">versalitas</span></li>
+</ul>
+<p>La forma de añadir notas a pie de página es <code>[^number]</code><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p>También se puede añadir emojis increíbles como 😻 insertándolo en el editor visual markdown o mediante su código <code>:heart_eyes_cat:</code>.</p>
+<hr>
+<p>A veces es necesario separar el texto con una línea horizontal, para ello simplemente se introduce <code>***</code></p>
+<p><br><br><br><br></p>
+<p>o saltar una línea con código html <code>&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;</code>.</p>
+</section>
+<section id="añadir-una-imagen" class="level4" data-number="2.3.4.3">
+<h4 data-number="2.3.4.3" class="anchored" data-anchor-id="añadir-una-imagen"><span class="header-section-number">2.3.4.3</span> Añadir una imagen</h4>
+<p>Para añadir imágenes basta con escribir <code>![image_name](image_path)</code></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/02-Rlearners.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">R learners. Créditos: Allison Horst</figcaption>
+</figure>
+</div>
+<p>Si desea centrar la imagen, un poco de código htm le ayudará, sólo tiene que utilizar <code>&lt;center&gt; &lt;/center&gt;</code></p>
+<center>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://bookdown.org/oscar_teach/estadistica_aplicada_con_r/r-rstudio.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">R &amp; RStudio</figcaption>
+</figure>
+</div>
+</center>
+<p>Para ajustar las imágenes puedes usar <strong>r chunk</strong> añadiendo la imagen con una función <code>knitr::include_graphics</code></p>
+<div class="cell" data-layout-align="right">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"https://bookdown.org/oscar_teach/estadistica_aplicada_con_r/r-rstudio.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-right">
+<figure class="figure">
+<p><img src="https://bookdown.org/oscar_teach/estadistica_aplicada_con_r/r-rstudio.png" class="img-fluid figure-img" style="width:20.0%"></p>
+<figcaption class="figure-caption">Mi super foto</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cars)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pressure)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-plots" class="cell quarto-layout-panel">
+<figure class="figure">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-plots-1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="002-toolkit-ciencia-datos_files/figure-html/fig-plots-1.png" class="img-fluid figure-img" data-ref-parent="fig-plots" width="672"></p>
+<figcaption class="figure-caption">(a) Plot 1: eed and Stopping Distances of Cars</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-plots-2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="002-toolkit-ciencia-datos_files/figure-html/fig-plots-2.png" class="img-fluid figure-img" data-ref-parent="fig-plots" width="672"></p>
+<figcaption class="figure-caption">(b) Plot 2: por Pressure of Mercury as a Function of Temperature</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p></p><figcaption class="figure-caption">Figura&nbsp;2.4: Plots</figcaption><p></p>
+</figure>
+</div>
+</div>
+<p>Véanse ejemplos en <a href="#fig-plots">Figure&nbsp;<span>2.4</span></a>. En particular, <a href="#fig-plots-2">Figure&nbsp;<span>2.4 (b)</span></a>.</p>
+</section>
+<section id="ecuaciones" class="level4" data-number="2.3.4.4">
+<h4 data-number="2.3.4.4" class="anchored" data-anchor-id="ecuaciones"><span class="header-section-number">2.3.4.4</span> Ecuaciones</h4>
+<p>Insertar ecuaciones en un documento Quarteo es fácil utilizando la escritura Latex + en línea: <span class="math inline">\(A = (\pi * \lambda \times r^{4}) / \alpha\)</span></p>
+<ul>
+<li>centradas: <span class="math display">\[A = (\pi * \lambda \times r^{4}) / \alpha\]</span></li>
+</ul>
+</section>
+<section id="diagramas" class="level4" data-number="2.3.4.5">
+<h4 data-number="2.3.4.5" class="anchored" data-anchor-id="diagramas"><span class="header-section-number">2.3.4.5</span> Diagramas</h4>
+<p>Quarto tiene soporte nativo para incrustar diagramas <a href="https://mermaid-js.github.io/mermaid/#/">Mermaid</a> y <a href="https://graphviz.org/">Graphviz</a>. Esto te permite crear diagramas de flujo, diagramas de secuencia, diagramas de estado, diagramas gnatt, y más usando una sintaxis de texto plano inspirada en markdown.</p>
+<p>Por ejemplo, aquí se incrusta un diagrama de flujo creado con Mermaid:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  A[Hard edge] --&gt; B(Round edge)
+  B --&gt; C{Decision}
+  C --&gt; D[Result one]
+  C --&gt; E[Result two]
+</pre>
+</div>
+</div>
+</div>
+</div>
+<p>Gantt diagram:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<div>
+<pre class="mermaid mermaid-js">gantt
+dateFormat  YYYY-MM-DD
+title Adding GANTT diagram to mermaid
+excludes weekdays 2014-01-10
+
+section A section
+Completed task            :done,    des1, 2014-01-06,2014-01-08
+Active task               :active,  des2, 2014-01-09, 3d
+Future task               :         des3, after des2, 5d
+Future task2               :         des4, after des3, 5d
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="bloques-de-llamada" class="level4" data-number="2.3.4.6">
+<h4 data-number="2.3.4.6" class="anchored" data-anchor-id="bloques-de-llamada"><span class="header-section-number">2.3.4.6</span> Bloques de llamada</h4>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Tenga en cuenta que hay cinco tipos de llamadas, incluyendo: <code>note</code>, <code>tip</code>, <code>warning</code>, <code>caution</code>, and <code>important</code>.</p>
+</div>
+</div>
+</section>
+<section id="listas" class="level4" data-number="2.3.4.7">
+<h4 data-number="2.3.4.7" class="anchored" data-anchor-id="listas"><span class="header-section-number">2.3.4.7</span> Listas</h4>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<ul>
+<li>ítem X</li>
+<li>ítem Y</li>
+<li>ítem Z</li>
+</ul>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur gravida eu erat et fring. Morbi congue augue vel eros ullamcorper, eget convallis tortor sagittis. Fusce sodales viverra mauris a fringilla. Donec feugiat, justo eu blandit placerat, enim dui volutpat turpis, eu dictum lectus urna eu urna. Mauris sed massa ornare, interdum ipsum a, semper massa.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="apéndice" class="level4 appendix" data-number="2.3.4.8">
+<h4 class="appendix anchored" data-number="2.3.4.8" data-anchor-id="apéndice"><span class="header-section-number">2.3.4.8</span> Apéndice</h4>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+</section>
+<section id="citaciones" class="level4" data-number="2.3.4.9">
+<h4 data-number="2.3.4.9" class="anchored" data-anchor-id="citaciones"><span class="header-section-number">2.3.4.9</span> Citaciones</h4>
+<p>R Markdown The Definitive Guide <span class="citation" data-cites="xie2018r">(<a href="#ref-xie2018r" role="doc-biblioref">Xie, Allaire, and Grolemund 2018</a>)</span></p>
+</section>
+</section>
+<section id="renderizado" class="level3" data-number="2.3.5">
+<h3 data-number="2.3.5" class="anchored" data-anchor-id="renderizado"><span class="header-section-number">2.3.5</span> Renderizado</h3>
+<p>Utiliza el botón de <strong>Render</strong> en el entorno de desarrollo integrado (IDE) de RStudio para renderizar el archivo y previsualizar el resultado con un solo clic o combinación de teclas (⇧⌘K).</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"img/rstudio-render.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/rstudio-render.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Si se prefiere renderizar automáticamente cada vez que se guarda el documento, se puede activar la opción de Renderizar al Guardar (Render on Save) en la barra de herramientas del editor. La previsualización se actualizará cada vez que vuelvas a renderizar el documento. La vista de previsualización en paralelo funciona tanto para salidas en HTML como en PDF.</p>
+</section>
+</section>
+<section id="buscar-ayuda-en-r-o-sobre-r-funciones-paquetes-errores" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="buscar-ayuda-en-r-o-sobre-r-funciones-paquetes-errores"><span class="header-section-number">2.4</span> Buscar ayuda en <strong>R</strong> o sobre <strong>R</strong> (funciones, paquetes, errores)</h2>
+<p>Las funciones de distintos paquetes de R tienen su ayuda y es muy fácil acceder a ella desde la consola poniendo un signo de interrogación delante de la función, por ejemplo al ejecutar <code>?mean</code> en la consola se abrirá la ventana de <strong><em>Help</em></strong> con la descripción de la función, su uso, los argumentos y otros datos relevantes que nos permitirán entender mejor la función que ejecutamos. También, existe una amplia información online sobre las funciones y distintos paquetes disponible en <a href="https://rdocumentation.org/">Rdocumentation.org</a>.</p>
+<section id="haz-preguntas" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="haz-preguntas"><span class="header-section-number">2.4.1</span> Haz preguntas</h3>
+<p>Uno de los foros más amplio de búsqueda de preguntas y respuestas sobre la programación es <a href="https://stackoverflow.com/questions/tagged/r">StackOverflow</a>. En StackOverflow se registraron hasta el momento más 450.000 preguntas. Se puede navegar por los archivos de StackOverflow y ver qué respuestas han sido votadas por los usuarios, o puedes hacer tus propias preguntas relacionadas con R y esperar una respuesta.</p>
+<!-- ::: infobox -->
+<!-- **Cómo crear un ejemplo mínimo y reproducible** -->
+<!-- Cuando se hace una pregunta, la gente será más capaz de proporcionar ayuda si se -->
+<!-- proporciona un código que puedan entender fácilmente y utilizar para -->
+<!-- reproducir el problema. Los miembros de la comunidad se refieren a esto -->
+<!-- como la creación de un ejemplo mínimo y reproducible (reprex), un -->
+<!-- ejemplo mínimo, completo y verificable (mcve), o un ejemplo mínimo y -->
+<!-- viable (mwe). Independientemente de cómo se le comunique, se reduce a -->
+<!-- asegurar que su código que reproduce el problema sigue las siguientes -->
+<!-- directrices: -->
+<!-- Tus ejemplos de código deben ser... -->
+<!-- -   Mínimos - Utilizar la menor cantidad de código posible que siga -->
+<!--     produciendo el mismo problema -->
+<!-- -   Completos - Proporcionar todas las partes que alguien necesita para -->
+<!--     reproducir su problema en la propia pregunta -->
+<!-- -   Reproducible - Pruebe el código que va a proporcionar para -->
+<!--     asegurarse de que reproduce el problema -->
+<!-- ::: -->
+<!-- Si tienes una pregunta más relacionada con la metodología estadística, -->
+<!-- también hay muchos usuarios de R activos en la comunidad de preguntas y -->
+<!-- respuestas de [CrossValidated](https://stats.stackexchange.com/). -->
+<!-- Además se puede pedir ayuda a los usuarios de R y RStudio en -->
+<!-- [community.rstudio.com](https://community.rstudio.com/). -->
+</section>
+<section id="sigue-la-comunidad-de-r" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="sigue-la-comunidad-de-r"><span class="header-section-number">2.4.2</span> Sigue la comunidad de R</h3>
+<p>Existen diversas páginas web que contienen artículos sobre la programación en R, como por ejemplo:</p>
+<ul>
+<li><p><a href="https://www.r-bloggers.com/">R bloggers</a>: un agregador de blogs que vuelve a publicar artículos relacionados con R de toda la web. Un buen lugar para encontrar tutoriales de R,</p></li>
+<li><p><a href="https://rweekly.org/">RWeekly</a>: R Weekly se fundó el 20 de mayo de 2016. R está creciendo muy rápidamente, y hay un montón de grandes blogs, tutoriales y otros formatos de recursos que salen cada día. R Weekly quiere hacer un seguimiento de estas grandes cosas en la comunidad de R y hacerla más accesible para todos.</p></li>
+<li><p><a href="https://rpubs.com/">RPubs</a>: RStudio permite aprovechar el poder de R Markdown para crear documentos que entrelazan su escritura y la salida de su código R. En RPubs se puede publicar esos documentos en la web en un click.</p></li>
+<li><p><a href="https://medium.com/">Medium</a>: un sitio web de blogs donde se puede encontrar mucha temática sobre el Data Science.</p></li>
+</ul>
+</section>
+</section>
+<section id="git-y-github" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="git-y-github"><span class="header-section-number">2.5</span> Git y GitHub</h2>
+<p>¿Git y GitHub? En primer lugar, son dos cosas distintas:</p>
+<ul>
+<li><p><strong>Git</strong> es un software de código abierto para el control de versiones. Con Git puedes hacer cosas como ver todas las versiones anteriores del código que has creado en un proyecto.</p></li>
+<li><p><strong>GitHub</strong> es el servicio más popular (otros son GitLab y BitBucket) para colaborar en el código utilizando Git.</p></li>
+</ul>
+<section id="por-qué-debería-usar-git-y-github" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="por-qué-debería-usar-git-y-github"><span class="header-section-number">2.5.1</span> ¿Por qué debería usar Git y GitHub?</h3>
+<p>Las tres principales ventajas de utilizar Git y GitHub son:</p>
+<ol type="1">
+<li><p>El uso de Git y GitHub sirve como copia de seguridad. Dado que GitHub tiene una copia de todo el código que tienes localmente, si algo le ocurriera a tu ordenador, seguirías teniendo acceso a tu código.</p></li>
+<li><p>El uso de Git y GitHub te permite utilizar el control de versiones. ¿Alguna vez has tenido documentos llamados trabajo_final.pdf, trabajo_final_2.pdf o este_es_el_final.pdf? En lugar de hacer copias de los archivos por miedo a perder el trabajo, el control de versiones permite ver lo que se hizo en el pasado, todo ello manteniendo versiones únicas de los documentos.</p></li>
+<li><p>El uso de Git y GitHub hace posible trabajar en el mismo proyecto al mismo tiempo con distintos colaboradores. Se puede ver el autor de los cambios y se fuera necesario volver a la versión anterior.</p></li>
+</ol>
+<p>Para poner Git y GitHub a punto lo mejor es seguir la guía de <a href="https://happygitwithr.com/">Happy Git and GitHub for the useR</a> en la que se explica paso a paso como registrarse en GitHub e instalar Git, además de integrarlo en RStuidio.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-wickham2016r" class="csl-entry" role="listitem">
+Wickham, Hadley, and Garrett Grolemund. 2016. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. " O’Reilly Media, Inc.".
+</div>
+<div id="ref-xie2018r" class="csl-entry" role="listitem">
+Xie, Yihui, Joseph J Allaire, and Garrett Grolemund. 2018. <em>R Markdown: The Definitive Guide</em>. CRC Press.
+</div>
+</div>
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>La “Comprehensive R Archive Network” (CRAN) es una colección de sitios que contienen material idéntico, consistente en la(s) distribución(es) de R, las extensiones aportadas, la documentación para R y los binarios. El sitio principal de CRAN en la WU (Wirtschaftsuniversität Wien) en Austria puede encontrarse en la URL <a href="https://CRAN.R-project.org/" class="uri">https://CRAN.R-project.org/</a> y se refleja diariamente en muchos sitios de todo el mundo.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>la nota a pie de página<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./001-Introduccion.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción: las bases de un análisis de datos con <strong>R</strong></span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./003-crispdm-air-madrid.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Análisis de datos de contaminación del aire en la ciudad de Madid</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
