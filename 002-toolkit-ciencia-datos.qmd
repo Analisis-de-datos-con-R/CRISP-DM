@@ -356,7 +356,7 @@ por `id_name` para Partículas \< 2.5 µm `nom_abv == "PM2.5"` utilizando las fu
 ```{r}
 air_mad %>% # Summary por grupo usando dplyr 
   na.omit() %>% # omitimos los NAs para el análisis
-  filter(nom_abv == "PM2.5") %>% # filtramos por PM2.5
+  filter(V == "V" & nom_abv == "PM2.5") %>% # filtramos por PM2.5
   group_by(id_name) %>% 
   summarize(min = min(valor),
             q1 = quantile(valor, 0.25),
@@ -405,7 +405,7 @@ Las funciones se agrupan en 5 grandes categorías:
 ```{r}
 air_mad %>% # Summary por grupo usando dplyr 
   na.omit() %>% # omitimos los NAs para el análisis
-  filter(nom_abv == "NOx") %>% # filtramos por NOx
+  filter(V == "V" & nom_abv == "NOx") %>% # filtramos por NOx
   group_by(fecha) %>% # agrupamos por fecha
   summarize(mad_mean = mean(valor)) %>% # promedio de las estaciones
   slice(which.max(mad_mean), which.min(mad_mean)) #seleccionamos el máximo y el mínimo 
@@ -467,7 +467,7 @@ Una buena forma de ver los datos es por medio de un gráfico de violín:
 
 air_mad %>% # Summary por grupo usando dplyr 
   na.omit() %>% # omitimos los NAs para el análisis
-  filter(nom_abv == "NOx") %>% # filtramos por NOx
+  filter(V == "V" & nom_abv == "NOx") %>% # filtramos por NOx
   group_by(year = format(fecha, "%Y")) %>% 
   summarise(valor)  %>% 
   ggplot(aes(factor(year), valor))+

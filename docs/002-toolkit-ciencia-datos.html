@@ -368,10 +368,10 @@ Note
 </div>
 </div>
 <ul>
-<li><p>📁 <strong>data</strong>: para los datos.</p></li>
+<li><p>📂 <strong>data</strong>: para los datos.</p></li>
 <li><p>📁 <strong>img</strong>: para las imágenes.</p></li>
-<li><p>📂 <strong>src</strong>: contiene los <em>scripts</em> de <strong>R</strong> para llevar a cabo las distintas tareas del análisis.</p></li>
-<li><p>📁 <strong>output</strong>: se guardarán los resultados finales de nuestro análisis.</p></li>
+<li><p>📁 <strong>src</strong>: contiene los <em>scripts</em> de <strong>R</strong> para llevar a cabo las distintas tareas del análisis.</p></li>
+<li><p>📂 <strong>output</strong>: se guardarán los resultados finales de nuestro análisis.</p></li>
 <li><p><strong>README.md</strong> debe contener la información básica sobre el proyecto, la compatibilidad, los <em>inputs</em> que necesita, los <em>outputs</em> que genera y un resumen de flujo del trabajo. Ésto ayudará a cualquiera a comprender mejor cómo es nuestro proyecto.</p></li>
 </ul>
 <p>Una de las estructuras más comunes es la mostrada en la <a href="#fig-proyecto">Figure&nbsp;<span>2.3</span></a>:</p>
@@ -406,7 +406,7 @@ Note
 <li><p>📓 &gt; R Script.</p></li>
 <li><p>📖 &gt; Quarto document.</p></li>
 <li><p>📓 &gt; R Notebook.</p></li>
-<li><p>📝 &gt; R Markdown.</p></li>
+<li><p>📃 &gt; R Markdown.</p></li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -545,7 +545,7 @@ Ejemplo. Medidas de posición por estación de monitoreo
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>air_mad <span class="sc">%&gt;%</span> <span class="co"># Summary por grupo usando dplyr </span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span> <span class="co"># omitimos los NAs para el análisis</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(nom_abv <span class="sc">==</span> <span class="st">"PM2.5"</span>) <span class="sc">%&gt;%</span> <span class="co"># filtramos por PM2.5</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(V <span class="sc">==</span> <span class="st">"V"</span> <span class="sc">&amp;</span> nom_abv <span class="sc">==</span> <span class="st">"PM2.5"</span>) <span class="sc">%&gt;%</span> <span class="co"># filtramos por PM2.5</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(id_name) <span class="sc">%&gt;%</span> </span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">min =</span> <span class="fu">min</span>(valor),</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">q1 =</span> <span class="fu">quantile</span>(valor, <span class="fl">0.25</span>),</span>
@@ -557,14 +557,14 @@ Ejemplo. Medidas de posición por estación de monitoreo
 <pre><code># A tibble: 8 × 7
   id_name            min    q1 median  mean    q3   max
   &lt;chr&gt;            &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 Casa de Campo        0     5      8  9.21    12   850
-2 Castellana           0     6      9  9.66    12   195
-3 Cuatro Caminos       0     6      9 10.2     13    59
-4 Escuelas Aguirre     0     7     10 11.1     14   137
-5 Méndez Álvaro        0     6      9 10.2     13    78
-6 Plaza Castilla       0     6      8  9.59    12   273
-7 Plaza Elíptica       0     7     10 11.0     14    61
-8 Sanchinarro          0     5      7  8.36    10    68</code></pre>
+1 Casa de Campo        1     5      8  9.05    12    83
+2 Castellana           1     6      9  9.65    12    62
+3 Cuatro Caminos       1     6      9 10.1     13    59
+4 Escuelas Aguirre     2     7     10 10.9     14    84
+5 Méndez Álvaro        1     6      9 10.3     13    78
+6 Plaza Castilla       1     6      9  9.53    12    76
+7 Plaza Elíptica       1     7     10 10.9     14    61
+8 Sanchinarro          1     5      7  8.44    10    68</code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="left">
@@ -604,7 +604,7 @@ Ejemplo. ¿Cuál es el día con mayor y menor concentración de NOx de todo el p
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>air_mad <span class="sc">%&gt;%</span> <span class="co"># Summary por grupo usando dplyr </span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span> <span class="co"># omitimos los NAs para el análisis</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(nom_abv <span class="sc">==</span> <span class="st">"NOx"</span>) <span class="sc">%&gt;%</span> <span class="co"># filtramos por NOx</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(V <span class="sc">==</span> <span class="st">"V"</span> <span class="sc">&amp;</span> nom_abv <span class="sc">==</span> <span class="st">"NOx"</span>) <span class="sc">%&gt;%</span> <span class="co"># filtramos por NOx</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(fecha) <span class="sc">%&gt;%</span> <span class="co"># agrupamos por fecha</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mad_mean =</span> <span class="fu">mean</span>(valor)) <span class="sc">%&gt;%</span> <span class="co"># promedio de las estaciones</span></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="fu">which.max</span>(mad_mean), <span class="fu">which.min</span>(mad_mean)) <span class="co">#seleccionamos el máximo y el mínimo </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -612,7 +612,7 @@ Ejemplo. ¿Cuál es el día con mayor y menor concentración de NOx de todo el p
 <pre><code># A tibble: 2 × 2
   fecha      mad_mean
   &lt;date&gt;        &lt;dbl&gt;
-1 2013-08-10  4086.  
+1 2014-12-18   390.  
 2 2020-05-10     6.38</code></pre>
 </div>
 </div>
@@ -659,7 +659,7 @@ Ejemplo. Gráfico de violín.
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>air_mad <span class="sc">%&gt;%</span> <span class="co"># Summary por grupo usando dplyr </span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span> <span class="co"># omitimos los NAs para el análisis</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(nom_abv <span class="sc">==</span> <span class="st">"NOx"</span>) <span class="sc">%&gt;%</span> <span class="co"># filtramos por NOx</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(V <span class="sc">==</span> <span class="st">"V"</span> <span class="sc">&amp;</span> nom_abv <span class="sc">==</span> <span class="st">"NOx"</span>) <span class="sc">%&gt;%</span> <span class="co"># filtramos por NOx</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="at">year =</span> <span class="fu">format</span>(fecha, <span class="st">"%Y"</span>)) <span class="sc">%&gt;%</span> </span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(valor)  <span class="sc">%&gt;%</span> </span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">factor</span>(year), valor))<span class="sc">+</span></span>
