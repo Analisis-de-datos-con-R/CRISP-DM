@@ -22,6 +22,8 @@ Este libro ofrece una guía práctica para el análisis de datos con el software
 
 Asumo que has instalado R y Rstudio en su última versión.
 
+Para facilitar la obtención de los datos necesarios se adjunta el enlace para la carpeta [data](https://drive.google.com/file/d/1f9BbFlUfagPDCS5gSw_ZfriAM4LfDkgE/view?usp=sharing) del proyecto.
+
 ### :point_up: Antes de nada ...
 
 🙈 Disclaimer 🙈
