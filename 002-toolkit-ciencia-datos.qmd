@@ -34,9 +34,7 @@ su espejo CRAN preferido en
 **RStudio** es un entorno de desarrollo integrado (IDE) para **R**. Incluye
 una consola, un editor que resalta la sintaxis y admite la ejecución
 directa del código, así como herramientas para el trazado, el historial,
-la depuración y la gestión del espacio de trabajo.
-
-RStudio está disponible en ediciones comerciales y de código abierto y
+la depuración y la gestión del espacio de trabajo. RStudio está disponible en ediciones comerciales y de código abierto y
 se ejecuta en el escritorio (Windows, Mac y Linux) o en un navegador
 conectado a RStudio Server o RStudio Workbench (Debian/Ubuntu, Red
 Hat/CentOS y SUSE Linux), está disponible en
@@ -79,7 +77,7 @@ Al abrir el programa se observan cuatro paneles (véase @fig-002-panrstudio).
 La posición de los paneles se puede personalizar al gusto del
 usuario, al igual que la apariencia del IDE.
 
-```{r , echo=FALSE, out.width='60%', fig.align='center', fig.cap='Paneles de RStudio'}
+```{r , echo=FALSE, out.width='80%', fig.align='center', fig.cap='Paneles de RStudio'}
 #| label: fig-002-panrstudio
 knitr::include_graphics(here::here("img/02-rstudio-layout.png"))
 ```
@@ -145,14 +143,14 @@ Desde el menú: File \> New Project y luego elija:
 
 
 
-- **data**  `r emo::ji("folder")`: para los datos.
+- `r emo::ji("folder")` **data**: para los datos.
 
-- **img** `r emo::ji("folder")`: para las imágenes.
+- `r emo::ji("folder")` **img**: para las imágenes.
 
-- **src**:  contiene los *scripts* de **R** para llevar a cabo las
+- `r emo::ji("folder")` **src**: contiene los *scripts* de **R** para llevar a cabo las
 distintas tareas del análisis.
 
--  **output** `r emo::ji("folder")`: se guardarán los resultados
+-  `r emo::ji("folder")` **output**: se guardarán los resultados
 finales de nuestro análisis.
 
 -  **README.md** debe contener
@@ -164,6 +162,7 @@ Una de las estructuras más comunes es la mostrada en la @fig-proyecto:
 
 ```{r , echo=FALSE, fig.align='center'}
 #| label: fig-proyecto
+#| fig-cap: Ejemplo de estructura de un proyecto en R.
 knitr::include_graphics(here::here("img/02-estructura_proyecto.png"))
 ```
 
@@ -178,13 +177,13 @@ Para ello se utiliza la función `source()`
 Para comenzar a escribir un *script* nuevo nos dirigimos a File \> New
 File. Los más utilizados actualmente son:
 
-+ \> R Script. 
++ `r emo::ji("notebook")` \> R Script. 
 
-+ \> Quarto document. 
++ `r emo::ji("book")` \> Quarto document. 
 
-+ \> R Notebook.
++ `r emo::ji("notebook")` \> R Notebook.
 
-+ \> R Markdown.
++ `r emo::ji("document")` \> R Markdown.
 
 
 
@@ -206,7 +205,7 @@ que esté a la derecha no será ejecutado.
 
 Finalmente, a la hora de escribir código en **R** lo más conveniente es usar las
 buenas prácticas diseñadas por programadores expertos. Para ello, lo
-mejor es aplicar una guía de estilo, cuyo objetivo es hacer que nuestro
+mejor es aplicar una guía de estilo `r emo::ji("book")`, cuyo objetivo es hacer que nuestro
 código **R** sea más fácil de leer, compartir y verificar. Una de las
 mejores guías es [The tidyverse style
 guide](https://style.tidyverse.org/index.html).
@@ -222,15 +221,20 @@ knitr::include_graphics(here::here("img/02-logo-tityverse.png"))
 ```
 
 
-El [tidyverse](https://www.tidyverse.org/) es una colección de **paquetes de R para la ciencia de los datos**. Todos los paquetes comparten una filosofía de diseño, una gramática y unas estructuras de datos subyacentes. Se basan en la idea *tidy* data propuesta por Hadley Wickham (Wickham et al. 2014) y pueden instalarse con una única orden en R:
+El [tidyverse](https://www.tidyverse.org/) es una colección de **paquetes de R para la ciencia de los datos**. Todos los paquetes comparten una filosofía de diseño, una gramática y unas estructuras de datos subyacentes. Se basan en la idea *tidy* data propuesta por Hadley Wickham (Wickham et al. 2014) y pueden instalarse con una única orden en **R**:
 
+```{r , eval=FALSE}
+install.packages("tidyverse")
+```
+
+Una vez instalado, se cargan con la función `library`:
 
 ```{r , message=FALSE, warning=FALSE}
 library(tidyverse)
 ```
 
 
-
+Los paquétes más importantes en ciencia de datos se enumeran a continuación.
 
 
 
@@ -588,7 +592,15 @@ Este es un documento **R Quarto**. Quarto es una sintaxis simple de formato para
 
 RMarkdown (el antecesor de Quarto) y Quarto son herramientas permiten combinar texto formateado con código y resultados en un mismo documento. Quarto facilita la interoperabilidad entre **R**, **Python**, **Julia**.
 
-Los documentos Quarto constan principalmetne de 3 partes, el YAML (o cabecera del documento), el texto y las chunks.
+Los documentos Quarto constan principalmetne de 3 partes:
++ el YAML (o cabecera del documento), 
+
++ el texto (cuerpo escrito del documento),
+
++ las chunks (tozos de código, en este caso, código **R**)
+
+
+A continuación se exponen, brevemente, las principales ideas para entender y trabajar sintaxis `quarto`.
 
 ### Introducción
 
@@ -835,7 +847,7 @@ knitr::include_graphics("img/rstudio-render.png")
 ```
 Si se prefiere renderizar automáticamente cada vez que se guarda el documento, se puede activar la opción de Renderizar al Guardar (Render on Save) en la barra de herramientas del editor. La previsualización se actualizará cada vez que vuelvas a renderizar el documento. La vista de previsualización en paralelo funciona tanto para salidas en HTML como en PDF.
 
-## Buscar ayuda
+## Buscar ayuda en **R** o sobre **R** (funciones, paquetes, errores)
 
 Las funciones de distintos paquetes de R tienen su ayuda y es muy fácil
 acceder a ella desde la consola poniendo un signo de interrogación

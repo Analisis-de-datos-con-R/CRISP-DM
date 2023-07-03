@@ -21,6 +21,9 @@ book:
     - 00a-pre-curso.qmd
   search: false
 bibliography: references.bib
+crossref:
+  fig-title: Figura     # (default is "Figure")
+  tbl-title: Tabla     # (default is "Table")
 
 format:
   html:

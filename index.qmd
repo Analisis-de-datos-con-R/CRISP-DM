@@ -1,6 +1,6 @@
 # Prologo {#prologo .unnumbered}
 
-En los últimos años, la cantidad de datos generados en todo el mundo ha crecido exponencialmente, abriendo un mundo de posibilidades para extraer conocimientos y tomar decisiones con conocimiento de causa. En este contexto, la ciencia de datos se ha convertido en una disciplina fundamental para descubrir patrones, tendencias y relaciones ocultas en grandes conjuntos de datos.
+En los últimos años, la cantidad de datos generados en todo el mundo ha crecido exponencialmente, abriendo un mundo de posibilidades para la toma de decisiones en base información valiosa extraída de los datos. En este contexto, la ciencia de datos se ha convertido en una disciplina fundamental para descubrir patrones, tendencias y relaciones ocultas en grandes conjuntos de datos.
 
 ## Objetivos del libro
 
@@ -15,20 +15,20 @@ con datos de contaminación del aire en la ciudad de Madrid. El enfoque estará 
 
 ## Estructura del libro
 
-El libro se divide en los siguientes capítulos:
+El libro se divide en tres capítulos:
 
-  - Capítulo 1: Introducción al análisis estadístico de datos con **R**.
-  - Capítulo 2: *Toolkit* para la ciencia de datos con **R**.
-  - Capítulo 3: Análisis de datos de contaminación del aire en la ciudad de Madid.
+  - Introducción: las bases de un análisis de datos con **R**.
+  - *Toolkit* para la ciencia de datos con **R**.
+  - Análisis de datos de contaminación del aire en la ciudad de Madid.
   
 
 ## Enfoque del manual
 
 El enfoque teórico-práctico adoptado en este libro permitirá a los lectores adquirir los conocimientos fundamentales para aplicar eficazmente las técnicas de minería de datos en el contexto de la contaminación atmosférica. Desde la comprensión de los fundamentos de CRISP-DM hasta la aplicación de modelos predictivos y la validación de los resultados, cada paso del proceso se aborda de forma clara y concisa.
 
-Uno de los puntos fuertes de esta obra es su énfasis en la reproducibilidad y la gobernanza de los datos. Se ofrecen ejemplos prácticos en R y RStudio que permiten a los lectores aplicar los conceptos teóricos y seguir el proceso de análisis de forma rigurosa y transparente. Además, se aborda el despliegue de los resultados a través de diferentes enfoques, como el desarrollo de una ShinyApp o la generación de informes reproducibles.
+Uno de los puntos fuertes de esta obra es su énfasis en la reproducibilidad y la gobernanza de los datos. Se ofrecen ejemplos prácticos en **R** y RStudio que permiten a los lectores aplicar los conceptos teóricos y seguir el proceso de análisis de forma rigurosa y transparente. Además, se aborda el despliegue de los resultados a través de diferentes enfoques, como el desarrollo de una ShinyApp o la generación de informes reproducibles.
 
-En definitiva, este libro pretende ser una guía accesible y práctica para los interesados en la aplicación de CRISP-DM y la minería de datos espaciales en el contexto de la contaminación atmosférica. Esperamos que este libro proporcione las herramientas necesarias para comprender, analizar y abordar los retos de la calidad del aire, y que inspire a los lectores a seguir explorando nuevas aplicaciones y enfoques en este ámbito en constante evolución.
+<!-- En definitiva, este libro pretende ser una guía accesible y práctica para los interesados en la aplicación de CRISP-DM y la minería de datos espaciales en el contexto de la contaminación atmosférica. Esperamos que este libro proporcione las herramientas necesarias para comprender, analizar y abordar los retos de la calidad del aire, y que inspire a los lectores a seguir explorando nuevas aplicaciones y enfoques en este ámbito en constante evolución. -->
 
 ¡Bienvenidos a este apasionante viaje de descubrimiento y análisis de datos sobre contaminación atmosférica utilizando CRISP-DM y el potente lenguaje de programación **R**!
 
@@ -39,6 +39,6 @@ En definitiva, este libro pretende ser una guía accesible y práctica para los 
 
 ## Licencia y copyright
 
-Guía práctica para el análisis de datos con R mediante la aplicación de la metodología CRISP-DM en R© 2023 de [Gema Fernández-Avilés](https://blog.uclm.es/gemafaviles/) y [Michal Kinel](https://www.linkedin.com/in/michal-kinel/?originalSubdomain=es) está licenciado bajo una [licencia de Creative Commons Reconocimiento-NoComercial-CompartirIgual 4.0 Internacional](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+Guía práctica para el análisis de datos con R mediante la aplicación de la metodología CRISP-DM en **R** © 2023 de [Gema Fernández-Avilés](https://blog.uclm.es/gemafaviles/) y [Michal Kinel](https://www.linkedin.com/in/michal-kinel/?originalSubdomain=es) está licenciado bajo una [licencia de Creative Commons Reconocimiento-NoComercial-CompartirIgual 4.0 Internacional](https://creativecommons.org/licenses/by-nc-sa/4.0/).
 
 Todos los logotipos y marcas comerciales que puedan aparecer en este texto son propiedad de sus respectivos dueños y se incluyen en este texto únicamente con fines didácticos.

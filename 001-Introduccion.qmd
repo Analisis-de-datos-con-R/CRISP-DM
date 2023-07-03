@@ -16,9 +16,9 @@
 
 -   Programación en **R**
 
--   Escritura en \LaTeX.
+-   Escritura en LaTeX.
 
--   Contenidos teóricos de ciencia de datos.
+-   Contenidos teóricos de estadística y ciencia de datos.
 
 
 ## ¿Qué es la ciencia de datos?
@@ -26,7 +26,7 @@
 La ciencia de datos es una disciplina emergente que ha sido etiquetada como la profesión más sexy del siglo XXI [@davenport2012data]. Mediante la combinación de modelos matemáticos y estadísticos, la programación computacional y el conocimiento del negocio o área de aplicación (véase @fig-ciencia-datos), la ciencia de datos obtiene el máximo valor de los datos para apoyar los procesos de toma de decisiones. Es decir, transforma los datos en información y la información en conocimiento.
 
 
-```{r ciencia-datos, echo=FALSE, out.width='70%', fig.align='center', fig.cap='Diagrama de Venn de la ciencia de datos'}
+```{r , echo=FALSE, out.width='70%', fig.align='center', fig.cap='Diagrama de Venn de la ciencia de datos'}
 #| label: fig-ciencia-datos
 knitr::include_graphics(here::here("img/01-ciencia-datos.png"))
 ```
@@ -44,8 +44,12 @@ resultados de forma estática y/o interactiva, crear informes y fomentar
 la reproducibilidad, diseñar y publicar blogs, páginas webs, dashboards,
 cuadros de mando, etc...
 
-```{r , echo=FALSE, out.width='70%', fig.align='center'}
+```{r  }
 #| label: fig-caja-herramientas
+#| fig-cap: La caja de herramientas de R
+#| echo: false
+#| fig-align: center
+#| fig-width: 7
 knitr::include_graphics(here::here("img/herramientas.jpg"))
 ```
 
@@ -99,7 +103,7 @@ Los paquetes que forman parte del `tidyverse` son:
 
 
 3.  [**Quarto/Rmarkdown**:]{style="color:red"} un marco de escritura para ciencia de datos, que
-    combina código, resultados y comentarios. Los documentos de R
+    combina código, resultados y comentarios. Los documentos de Quarto (\*.qmd) y R
     Markdown (\*.Rmd) son completamente reproducibles y soportan docenas
     de formatos de salida tales como PDFs, archivos de Word,
     presentaciones, artículos científicos,... Materiral de recomendable
@@ -142,8 +146,11 @@ knitr::include_graphics(here::here("img/02-Data-Science-LifeCycle.png"))
 
 ## Caso de estudio: la calidad del aire en la ciudad de Madrid
 
+La contaminación del aire exterior es uno de los principales problemas que afectan a la salud humana en las zonas urbanas de todo el mundo (@sanchis2022extended). Aunque las emisiones de la mayoría de los contaminantes del aire han disminuido sustancialmente en las últimas décadas, sus concentraciones aún superan los límites legales en la mayoría de los países, lo que indica que el control de la contaminación del aire sigue siendo un desafío para las sociedades modernas. Cada año, más de 4,2 millones de personas sufren una muerte prematura a causa de la contaminación del aire exterior (OMS, 2016). Los principales culpables son el ozono (O3), el dióxido de nitrógeno (NOx) y, sobre todo, las partículas finas o material particulado (PM) con un diámetro de 10 micrómetros o menos (PM10). 
 
-El análisis de datos (espaciales o no) desempeña un papel crucial en la comprensión de la contaminación del aire y sus efectos en la salud humana y el medio ambiente. La disponibilidad de datos geoespaciales permite identificar patrones espaciales, detectar áreas de alta contaminación y evaluar el impacto de las emisiones en diferentes regiones. Resulta muy importante la fácil accesibilidad de los datos para la democratización de la información. Un ejemplo de ello es la página de [Datos abiertos del Gobierno de España](https://datos.gob.es/es/). Gracias a los datos públicos y el análisis adecuado se facilita la toma de decisiones informadas para abordar y mitigar los problemas de contaminación del aire.
+Por otra parte, Madrid es la tercera ciudad más poblada de la Unión Europea después de Londres y Berlín y cuenta con una gran área metropolitana periférica con más de cinco millones de habitantes. Su potente actividad económica, incluso en tiempos de pandemia de la Covid-19, se traduce en niveles de PM10 y NO2 superiores a los deseados a causa del transporte —en concreto, del tráfico rodado— y de la actividad industrial, que son las principales fuentes de emisión de PM10 (véase @montero2018functional y @montero2021local).
+
+En este contexto, el análisis de datos desempeña un papel crucial en la comprensión de la contaminación del aire y sus efectos en la salud humana y el medio ambiente. La disponibilidad de datos geoespaciales permite identificar patrones espaciales, detectar áreas de alta contaminación y evaluar el impacto de las emisiones en diferentes regiones. Resulta muy importante la fácil accesibilidad de los datos para la democratización de la información. Un ejemplo de ello es la página de [Datos abiertos del Gobierno de España](https://datos.gob.es/es/). Gracias a los datos públicos y el análisis adecuado se facilita la toma de decisiones informadas para abordar y mitigar los problemas de contaminación del aire.
 
 La mejor forma para comprender y entender nuevos desarrollos es viendo su utilidad
 a través de un caso de uso, y en este manual se ha escogido un tema tan importante
@@ -155,9 +162,7 @@ sino a España entera tiñiendo el país de polvo rojo.
 knitr::include_graphics(here::here("img/01-calima_la_razon.png"))
 ```
 
-De acuerdo con @sanchis2022extended, la contaminación del aire exterior es uno de los principales problemas que afectan a la salud humana en las zonas urbanas de todo el mundo. Por lo tanto, no sorprende que el control de la contaminación del aire sea actualmente una de las principales preocupaciones de los ciudadanos. Aunque las emisiones de la mayoría de los contaminantes del aire han disminuido sustancialmente en las últimas décadas, sus concentraciones aún superan los límites legales en la mayoría de los países, lo que indica que el control de la contaminación del aire sigue siendo un desafío para las sociedades modernas. Cada año, más de 4,2 millones de personas sufren una muerte prematura a causa de la contaminación del aire exterior (OMS, 2016). Los principales culpables son el ozono (O3), el dióxido de nitrógeno (NOx) y, sobre todo, las partículas finas o material particulado (PM) con un diámetro de 10 micrómetros o menos (PM10).
 
-Por otra parte, como apuntan @montero2018functional y @montero2021local, Madrid es la tercera ciudad más poblada de la Unión Europea después de Londres y Berlín y cuenta con una gran área metropolitana periférica con más de cinco millones de habitantes. Su potente actividad económica, incluso en tiempos de pandemia de la Covid-19, se traduce en niveles de PM10 superiores a los deseados a causa del transporte —en concreto, del tráfico rodado— y de la actividad industrial, que son las principales fuentes de emisión de PM10.
 
 Además, el Ayuntamiento de Madrid dispone datos abiertos proporcionados a traves del[Portal de datos abiertos del Ayuntamiento de Madrid](https://datos.madrid.es/portal/site/egob/menuitem.c05c1f754a33a9fbe4b2e4b284f1a5a0/?vgnextoid=f3c0f7d512273410VgnVCM2000000c205a0aRCRD&vgnextchannel=374512b9ace9f310VgnVCM100000171f5a0aRCRD&vgnextfmt=default) que permiten su análisis sin coste alguno.
 
@@ -177,7 +182,7 @@ se presenta.
 
 
 
-## Los datos
+### Los datos
 
 De acuerdo con @wickham2016r, el cual es considerada una referencia clave en el
 la ciencia de datos (Data Science with R), las herramientas necesarias para un proyecto típico de ciencia de datos sigue el siguiente esquema: importar, ordenar, 
@@ -196,7 +201,7 @@ Partir con la ingesta y orden de los datos no sería optimo para llevar a cabo
 el objetivo de este manual, pues el 80% del tiempo es un proceso rutinario y aburrido y el 20% restante es extraño y frustrante. 
 :::
 
-Por ello, se recurre al repositorio de 
+En el caso que nos ocupa, se recurre al repositorio de 
 Github  michal0091/aire_madrid de Kinel (2022a, 2022b) que trata los datos brutos
 de calidad del aire del Ayuntamiento de Madrid, los organiza y los codifica, 
 facilitando así su uso (@fig-foto-michal). La salida del conjunto de datos 

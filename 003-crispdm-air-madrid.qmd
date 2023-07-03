@@ -6,7 +6,7 @@ La aplicación de una metodología es fundamental en ciencia de datos, por ello,
 :::{.callout-warning}
 ### Objetivo {-}
 
-+ Analizar un caso de uso real en ciencia de datos con **R** utilizando la metodología CRISP-DM 
++ Analizar un caso de uso real en ciencia de datos con **R** utilizando la metodología CRISP-DM.
 
 :::
 
@@ -232,7 +232,7 @@ str(air_mad)
 
 
 :::{.callout-warning}
-Existen paquetes como \{DataExplorer\} y \{dlookr\} que generan informes automáticos con los principales descriptivos.
+Existen paquetes como `DataExplorer` y `dlookr` que generan informes automáticos con los principales descriptivos.
 
 :::
 
@@ -268,9 +268,7 @@ air_mad %>%
 ```
 
 
-De acuerdo con @montero2018functional, @montero2021local y @sanchis2022extended, la contaminación del aire exterior es un problema importante que afecta a la salud humana en las zonas urbanas de todo el mundo, entre ellas Madrid, la tercera ciudad más poblada de la Unión Europea después de Londres y Berlín. Por lo tanto, no es sorprendente que el control de la contaminación del aire sea una preocupación destacada para los ciudadanos en la actualidad. Aunque las emisiones de la mayoría de los contaminantes del aire han disminuido significativamente en las últimas décadas (véase @fig-lineas-madrid), sus concentraciones todavía superan los límites legales en la mayoría de los países, lo que indica que el control de la contaminación del aire sigue siendo un desafío para las sociedades modernas. Según la Organización Mundial de la Salud (OMS, 2016), más de 4,2 millones de personas mueren prematuramente cada año debido a la contaminación del aire exterior. Los principales responsables de esto son el ozono (O3), el dióxido de nitrógeno (NO2) y, especialmente, las partículas finas o material particulado (PM). 
-
-Este análisis se centra en el dióxido de nitrógeno (NO2) por sus implicaciones directas en la ciudad de Madrid además de por las siguienes razones de peso:
+Las emisiones de la mayoría de los contaminantes del aire han disminuido significativamente en las últimas décadas (véase @fig-lineas-madrid), sin embargo, sus concentraciones todavía superan los límites legales en la mayoría de los países, lo que indica que el control de la contaminación del aire sigue siendo un desafío para las sociedades modernas. Este análisis se centra en el dióxido de nitrógeno (NO2) por sus implicaciones directas en la ciudad de Madrid, además de por las siguientes razones de peso:
 
 1. **Impacto en la salud humana**: el dióxido de nitrógeno son un contaminante del aire asociado a diversos problemas de salud, especialmente afecciones respiratorias. La exposición prolongada al NO2 puede causar irritación en las vías respiratorias, exacerbación de enfermedades pulmonares como el asma y aumentar el riesgo de infecciones respiratorias.
 
@@ -280,7 +278,7 @@ Este análisis se centra en el dióxido de nitrógeno (NO2) por sus implicacione
 
 4. **Disponibilidad de datos**: existen sistemas de monitoreo de calidad del aire que recopilan datos precisos sobre la concentración de dióxido de nitrógeno en tiempo real. En el caso de Madrid, el Ayuntamiento dispone de datos abiertos proporcionados por su red de estaciones de monitoreo, lo que facilita el análisis y seguimiento de los niveles de NO2 en la ciudad.
 
-Teniendo en cuenta estas razones, el análisis de datos de contaminación se centrará en el dióxido de nitrógeno (NO2) para obtener información relevante sobre su impacto en la salud pública y evaluar el cumplimiento de los límites establecidos para este contaminante en la ciudad de Madrid.
+Teniendo en cuenta estas razones, el análisis de datos de contaminación se centrará en el dióxido de nitrógeno (NO2) para obtener información relevante sobre su impacto en la salud pública y evaluar el cumplimiento de los límites establecidos para este contaminante en la ciudad de Madrid (y concretamente, en la **zonas de calidad del aire** definidas por el ayuntamiento).
 
 ```{r}
 #| message: false
@@ -323,7 +321,7 @@ En esta sección, se explorarán las técnicas y métodos para limpiar los datos
   
   - Resolución de errores de medición, si los hubiera.
     
-- Ingeniería de variables: normalización, codificación de variables categóricas, agregación (pasar de frecuencia horaria a frecuencia diaria en la medición delos contaminantes).
+- **Ingeniería de variables**: normalización, codificación de variables categóricas, agregación (pasar de frecuencia horaria a frecuencia diaria en la medición delos contaminantes).
     
 :::
 
@@ -352,7 +350,7 @@ no2 %>%
 Hay un total de 819 datos **no válidos** y 90267 **válidos**. Se seleccionan solamente los datos válidos:
 
 ```{r}
-#| code-summary: Filtrado de los datos validados disponibles. Se "machaca" el objeto `no2` con el nuevo dataset.
+#| code-summary: Filtrado de los datos validados disponibles. Se sobrescribe el objeto `no2` con el nuevo dataset.
 no2 <- no2 %>% 
   filter(V == "V")
 ```
@@ -368,7 +366,7 @@ no2 %>%
 ```
 No se encuentran valores válidos con NA en el campo `valor`.
 
-Posteriormente se agrupan los datos por la variable `zona` y se genera la variable `valor_zona` que representa la media por zona y día. 
+Como parte del proceso de preparación de los datos, a continuación, se agrupan los datos según la variable `zona` y se genera la variable `valor_zona` que representa la media por zona y día. Se crea el objeto `no2_zona` para tal efecto.
 
 ```{r}
 #| message: false
@@ -381,7 +379,7 @@ no2_zona <- no2 %>%
 
 ### Valores atípicos (*outliers*)
 
-A modo de ejemplo, se ilustra como detectar valores atípicos en la zona Interior de la M30 con el criterio de 1,5 veces el rango intercuartílico.
+La detección de valores atípicos es fundamental en esta tercera fase. A modo de ejemplo, se ilustra como detectar valores atípicos en la zona Interior de la M30 con el criterio de 1,5 veces el rango intercuartílico.
 
 ```{r}
 #| message: false
@@ -429,10 +427,8 @@ no2_zona %>%
 
 ### Ingeniería de variables 
 
-Una vez se han realizado los ajustes en los datos se procede a creación de variables de interés. 
-De acuerdo con el [DECRETO 140/2017, de 21 de noviembre, del Consejo de Gobierno, por el que se aprueba el protocolo marco de actuación durante episodios de alta contaminación por dióxido de nitrógeno (NO2) en la Comunidad de Madrid](http://www.madrid.org/rlma_web/html/web/FichaNormativa.icm?ID=4141#), el objetivo de la media anual se fija en los 40 µg/m3 por ello se generala variable lógica:
-
- - `objetivo_anual`: tomará el valor `TRUE` cuando los valores son inferiores o iguales a 40 µg/m3 del objetivo anual.
+Una vez se han realizado los ajustes en los datos se procede a **creación de variables de interés**. 
+De acuerdo con el [DECRETO 140/2017, de 21 de noviembre, del Consejo de Gobierno, por el que se aprueba el protocolo marco de actuación durante episodios de alta contaminación por dióxido de nitrógeno (NO2) en la Comunidad de Madrid](http://www.madrid.org/rlma_web/html/web/FichaNormativa.icm?ID=4141#), el objetivo de la media anual se fija en los 40 µg/m3. En consecuencia, se genera la variable lógica `objetivo_anual`, que tomará el valor `TRUE` cuando los valores son inferiores o iguales a 40 µg/m3 del objetivo anual y `FALSE` en caso contrario.
 
 ```{r}
 #| message: false
@@ -455,7 +451,7 @@ no2_zona %>%
 
 ```
 
-A simple vista se observa que la zona que se encuentra más cerca del cumplimiento de los objetivos es la zona Noroeste, mientras la que se encuentra más alejada es la zona Suroeste. En General las zonas del Norte obtienen mejores resultados. 
+Se observa que la zona que se encuentra más cerca del cumplimiento de los objetivos es la zona Noroeste, mientras la que se encuentra más alejada es la zona Suroeste. En General las zonas del Norte obtienen mejores resultados. 
 
 
 Dado que se trata de un objetivo anual se aplica a cada zona una media móvil con ventana de un año para ver la evolución de los datos:
@@ -545,7 +541,7 @@ La inclusión de *lags* permite capturar la dependencia temporal en los datos. L
 
 La elección adecuada de los lags es importante. Dependerá de la naturaleza de la serie y de su periodicidad. Por ejemplo, en una serie de tiempo mensual, se pueden incluir lags correspondientes a los meses anteriores. En una serie de tiempo diaria, se pueden considerar lags que representen los días anteriores.
 
-En el caso de los modelos seleccionados se aplica lags de 1 al 14 por medio de la función `lag_transformer()` creada en el chunk inferior. 
+En el caso de los modelos seleccionados se aplica lags de 1 al 14 por medio de la función `lag_transformer()` creada en el chunk siguiente. 
 
 En definitiva inclusión de *lags* permite al modelo capturar patrones de autocorrelación y estacionalidad en la serie temporal. Además, puede ayudar a capturar cambios en la dinámica de la serie y a mejorar la precisión de las predicciones.
 
@@ -718,7 +714,7 @@ resamples_tscv %>%
 **Core Packages**
 + `tidyverse`
 + `lubridate`
-+ `timetk`  # validación cruzada
++ `timetk`  
 + `bonsai`
 
 
@@ -786,7 +782,7 @@ recipe_spec <- recipe(valor_zona ~ ., train_data)
 
 ### Modelos propuestos
 
-**Modelo 1: Generalized Linear Model with Elastic Net regularization (GLMNET)**: es una técnica de modelado que combina la regresión lineal generalizada con la regularización *elastic net*.
+`r emo::ji("metrics")` **Modelo 1: Generalized Linear Model with Elastic Net regularization (GLMNET)**: es una técnica de modelado que combina la regresión lineal generalizada con la regularización *elastic net*.
 
 GLMNET es útil cuando se trabaja con conjuntos de datos con un gran número de variables predictoras, ya que ayuda a seleccionar y ajustar las variables más relevantes. GLMNET utiliza una combinación de la regularización L1 (LASSO) y L2 (Ridge) para penalizar los coeficientes de las variables y controlar la complejidad del modelo. Esto permite seleccionar automáticamente las variables más relevantes y reducir la tendencia al sobreajuste. Por ejemplo, supongamos que se desea predecir el precio de la vivienda en función de múltiples variables, como el tamaño, el número de habitaciones, la ubicación, etc. Aplicando GLMNET, se identifican las variables más importantes para predecir el precio y ajustar el modelo de regresión lineal generalizada al mismo tiempo.
 
@@ -817,7 +813,7 @@ Nótese que cuando se determina el workflow del modelo se desestima la variable 
 Esto es debido a que el modelo no soporta variables en formato de fecha (`Date`).
 :::
 
-**Modelo 2:  Multivariate Adaptive Regression Splines (MARS)**. es una técnica de modelado que utiliza funciones de base para aproximar relaciones no lineales entre variables predictoras y una variable objetivo. Se adapta a los datos mediante la construcción de una red de segmentos de regresión que capturan cambios en la relación entre las variables.
+`r emo::ji("metrics")` **Modelo 2:  Multivariate Adaptive Regression Splines (MARS)**. es una técnica de modelado que utiliza funciones de base para aproximar relaciones no lineales entre variables predictoras y una variable objetivo. Se adapta a los datos mediante la construcción de una red de segmentos de regresión que capturan cambios en la relación entre las variables.
 
 Por ejemplo, supongamos que queremos predecir el precio de una vivienda en función de variables como el tamaño, el número de habitaciones y la ubicación. Al aplicar el modelo MARS, éste identificará los segmentos de regresión óptimos para cada variable y construirá un modelo no lineal que se ajuste mejor a los datos. Esto permite capturar relaciones complejas y no lineales entre las variables predictoras y la variable objetivo.
 
@@ -844,7 +840,7 @@ workflow_fit_mars <- workflow() %>%
 ```
 
 
-**Modelo 3: LightGBM**: es un modelo de aprendizaje automático basado en árboles de decisión que se destaca por su eficiencia y velocidad en el procesamiento de grandes volúmenes de datos. Utiliza el algoritmo de refuerzo (*boosting*) para construir una serie de árboles de decisión que se combinan para mejorar la precisión de las predicciones.
+`r emo::ji("metrics")` **Modelo 3: LightGBM**: es un modelo de aprendizaje automático basado en árboles de decisión que se destaca por su eficiencia y velocidad en el procesamiento de grandes volúmenes de datos. Utiliza el algoritmo de refuerzo (*boosting*) para construir una serie de árboles de decisión que se combinan para mejorar la precisión de las predicciones.
 
 Una de las principales características de LightGBM es su capacidad para manejar datos con alta dimensionalidad y realizar una selección automática de características importantes. También utiliza un enfoque de partición de datos basado en hojas, lo que permite una mayor eficiencia en el proceso de entrenamiento.
 
@@ -881,7 +877,7 @@ Nótese que cuando se determina el workflow del modelo se desestima la variable 
 Esto es debido a que el modelo no soporta variables en formato de fecha (`Date`).
 :::
 
-**Modelo 4: Prophet boost con crecimiento logarítmico**: es una herramienta de predicción de series temporales desarrollada por Facebook. Al especificar un crecimiento logarítmico en Prophet, se asume que la tasa de crecimiento de la serie temporal disminuye con el tiempo. Esto es útil cuando los datos muestran un crecimiento inicial rápido seguido de una desaceleración.
+`r emo::ji("metrics")` **Modelo 4: Prophet boost con crecimiento logarítmico**: es una herramienta de predicción de series temporales desarrollada por Facebook. Al especificar un crecimiento logarítmico en Prophet, se asume que la tasa de crecimiento de la serie temporal disminuye con el tiempo. Esto es útil cuando los datos muestran un crecimiento inicial rápido seguido de una desaceleración.
 
 Por ejemplo, supongamos que deseamos predecir las ventas de un producto a lo largo del tiempo. Si aplicamos el modelo Prophet con crecimiento logarítmico, capturará la tendencia de crecimiento inicial acelerado y luego la desaceleración esperada. Esto puede ser útil para ajustar mejor la serie temporal y realizar pronósticos más precisos.
 
@@ -976,7 +972,7 @@ resamples_fitted
 :::
 
 
-En el campo de la ciencia de datos, la evaluación de modelos de aprendizaje automático es fundamental para garantizar la calidad y el rendimiento de los modelos utilizados. A medida que los datos se vuelven cada vez más complejos y abundantes, los modelos de machine learning se han convertido en una herramienta poderosa para extraer información y tomar decisiones basadas en datos.
+En el campo de la ciencia de datos, la **evaluación de modelos** es fundamental para garantizar la calidad y el rendimiento de los modelos utilizados. A medida que los datos se vuelven cada vez más complejos y abundantes, los modelos de machine learning se han convertido en una herramienta poderosa para extraer información y tomar decisiones basadas en datos.
 
 La evaluación de modelos de machine learning permite determinar la precisión, la eficacia y la capacidad de generalización de un modelo en función de los datos utilizados. Es crucial evaluar los modelos de forma adecuada para evitar problemas como el sobreajuste (overfitting) o el subajuste (underfitting) y para identificar cualquier sesgo o error en los resultados.
 
@@ -1056,7 +1052,7 @@ Presentación de los resultados del análisis de manera clara y comprensible.
 :::
 
 
-Ejemplo de creación de una ShinyApp en R:
+Ejemplo de creación de una `r emo::ji("television")` ShinyApp en **R**:
 
 ```r
 # Carga de la librería shiny
