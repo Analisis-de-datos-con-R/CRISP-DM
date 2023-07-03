@@ -1,2 +1,2 @@
 # mad_air_quality
-modelo CRISP-DM para analizar datos espaciales sobre la contaminación del aire
+Análisis de datos con R utilizando la metodología CRISP-DM. Caso de estudio: la contaminación del aire en la ciudad de Madrid.
