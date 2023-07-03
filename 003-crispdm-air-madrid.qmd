@@ -157,7 +157,7 @@ data <- data %>%
   mutate(across(all_of(cols_to_numeric), as.numeric))
 
 # Guardar datos brutos
-write_rds(data, "data_raw.RDS")
+write_rds(data, "data/data_raw.RDS")
 
 # Transformar de datos transversales a longitudinales
 air_mad <- data %>%

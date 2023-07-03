@@ -269,7 +269,7 @@ analizar de forma flexible muchos tipos de datos que se encuentran en la natural
 
 :::{.callout-exm}
 
-Lea la base de datos de calidad del aire de la ciudad de Madrid , `dt_daily_mean_2011.RDS`, 
+Lea la base de datos de calidad del aire de la ciudad de Madrid , `air_mad.RDS`, 
 contenida en la carpeta `data`.
 :::
 
@@ -277,7 +277,7 @@ contenida en la carpeta `data`.
 (TODO): QUITAR LA FUNCIÓN HERE PORQUE A ESTE NIVEL SI NO SE EXPLICA PUEDE LIAR
 
 ```{r}
-air_mad <- readr::read_rds("data/dt_daily_mean_2011.RDS")
+air_mad <- readr::read_rds("data/air_mad.RDS")
 ```
 
 
@@ -358,12 +358,12 @@ air_mad %>% # Summary por grupo usando dplyr
   na.omit() %>% # omitimos los NAs para el análisis
   filter(nom_abv == "PM2.5") %>% # filtramos por PM2.5
   group_by(id_name) %>% 
-  summarize(min = min(daily_mean),
-            q1 = quantile(daily_mean, 0.25),
-            median = median(daily_mean),
-            mean = mean(daily_mean),
-            q3 = quantile(daily_mean, 0.75),
-            max = max(daily_mean))
+  summarize(min = min(valor),
+            q1 = quantile(valor, 0.25),
+            median = median(valor),
+            mean = mean(valor),
+            q3 = quantile(valor, 0.75),
+            max = max(valor))
 
 ```
 
@@ -407,7 +407,7 @@ air_mad %>% # Summary por grupo usando dplyr
   na.omit() %>% # omitimos los NAs para el análisis
   filter(nom_abv == "NOx") %>% # filtramos por NOx
   group_by(fecha) %>% # agrupamos por fecha
-  summarize(mad_mean = mean(daily_mean)) %>% # promedio de las estaciones
+  summarize(mad_mean = mean(valor)) %>% # promedio de las estaciones
   slice(which.max(mad_mean), which.min(mad_mean)) #seleccionamos el máximo y el mínimo 
 ```
 
@@ -469,11 +469,11 @@ air_mad %>% # Summary por grupo usando dplyr
   na.omit() %>% # omitimos los NAs para el análisis
   filter(nom_abv == "NOx") %>% # filtramos por NOx
   group_by(year = format(fecha, "%Y")) %>% 
-  summarise(daily_mean)  %>% 
-  ggplot(aes(factor(year), daily_mean))+
+  summarise(valor)  %>% 
+  ggplot(aes(factor(year), valor))+
   geom_violin() +
   geom_jitter(height = 0, width = 0.01) +
-  aes(x=factor(year), y=daily_mean, fill=year)
+  aes(x=factor(year), y=valor, fill=year)
 
 
 ```
