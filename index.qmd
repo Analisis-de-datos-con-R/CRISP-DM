@@ -1,4 +1,4 @@
-# Pólogo {#prologo .unnumbered}
+# Prólogo {#prologo .unnumbered}
 
 En los últimos años, la cantidad de datos generados en todo el mundo ha crecido exponencialmente, abriendo un mundo de posibilidades para la toma de decisiones en base información valiosa extraída de los datos. En este contexto, la ciencia de datos se ha convertido en una disciplina fundamental para descubrir patrones, tendencias y relaciones ocultas en grandes conjuntos de datos.
 
