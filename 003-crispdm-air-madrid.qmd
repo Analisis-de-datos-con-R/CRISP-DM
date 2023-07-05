@@ -1,4 +1,4 @@
-# Análisis de datos de contaminación del aire en la ciudad de Madid
+# Análisis de datos de contaminación del aire en la ciudad de Madrid
 
 
 La aplicación de una metodología es fundamental en ciencia de datos, por ello, a continuación, se realiza un análisis estadístico de datos aplicando las seis fases de la metodología **CRISP-DM**.
@@ -50,12 +50,12 @@ Es importante tener en cuenta que los objetivos deben ser específicos, medibles
     - Realizar resúmenes estadísticos y análisis exploratorios, como la identificación de valores atípicos y la
     distribución de los datos.
   
-  - Visualización de los datos espaciales:
-    - Crear gráficos y mapas para visualizar la distribución espacial de la contaminación del aire.
-    - Utilizar técnicas de visualización interactiva, como la creación de mapas interactivos y paneles de control.
+  - Visualización de los datos temporales:
+    - Crear gráficos y mapas para visualizar la evolución temporal de la contaminación del aire.
+    - Utilizar técnicas de visualización interactiva, como la creación de gráficos interactivos.
   
   - Evaluación de la calidad de los datos:
-    - Evaluar la calidad de los datos, como la integridad espacial, la consistencia y la completitud.
+    - Evaluar la calidad de los datos, la consistencia y la completitud.
     - Tratar los valores faltantes y los valores atípicos de manera apropiada.
     
 :::
